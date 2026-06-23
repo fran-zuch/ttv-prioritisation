@@ -195,9 +195,10 @@ function renderTopTargets(data) {
 // ---------------- TABLE ----------------
 function renderTable(data) {
     if (!data || data.length === 0) {
-    document.getElementById("table").innerHTML = "<p>No data available</p>";
-    return;
-}
+        document.getElementById("table").innerHTML = "<p>No data available</p>";
+        return;
+    }
+
     let table = document.getElementById("table");
     table.innerHTML = "";
 
@@ -209,8 +210,15 @@ function renderTable(data) {
 
     header += "</tr>";
     table.innerHTML += header;
+ 
+    const MAX_ROWS = 100;   // ✅ adjust if needed
+    
+    const sorted = [...data]
+        .filter(d => !isNaN(d.final_score))
+        .sort((a,b)=>b.final_score - a.final_score);
+    
+    sorted.slice(0, MAX_ROWS).forEach(row=>{
 
-    data.forEach(row=>{
         let cls = row.final_score>0.75?"high":row.final_score>0.6?"medium":"";
 
         let tooltip = getTooltipText(row);
@@ -283,12 +291,15 @@ function updateDashboard() {
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
     let minObs = parseFloat(document.getElementById("obsFilter").value);
 
+    
     filteredData = globalData.filter(row => {
-        return (!isNaN(row.final_score) && row.final_score >= minScore) &&
+        return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
                (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
                (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime);
     });
 
+    console.log("filteredData after scoring:", filteredData.length);
+    
     console.log("filteredData:", filteredData.length, filteredData);
 
     renderTable(filteredData);
