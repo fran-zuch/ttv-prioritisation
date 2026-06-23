@@ -3,6 +3,13 @@
 <head>
     <title>TTV Target Dashboard</title>
 
+    function safe(val, digits=2) {
+    if (val === null || val === undefined || isNaN(val)) {
+        return "–";
+    }
+    return Number(val).toFixed(digits);
+}
+
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
@@ -111,6 +118,14 @@
 let globalData = [];
 let filteredData = [];
 
+function safe(val, digits=2) {
+    if (val === null || val === undefined || isNaN(val)) {
+        return "–";
+    }
+    return Number(val).toFixed(digits);
+}
+
+    
 // ---------------- BADGE ----------------
 function getBadge(row) {
     if (row.pred_sigma_min > 15 && row.time_since_last_obs_days > 60) {
@@ -126,9 +141,9 @@ function getBadge(row) {
 function getTooltipText(row) {
     let lines = [];
 
-    lines.push(`Ephemeris: σ=${row.pred_sigma_min.toFixed(1)} min, last obs=${row.time_since_last_obs_days}`);
+    lines.push(`Ephemeris: σ=${safe(row.pred_sigma_min, 1)} min, last obs=${row.time_since_last_obs_days}`);
     lines.push(`TTV: ${row.current_oc_min} min`);
-    lines.push(`Observability: ${row.obs_frac.toFixed(2)}, window=${row.time_to_window_days}`);
+    lines.push(`Observability: ${safe(row.obs_frac, 2)}, window=${row.time_to_window_days}`);
     lines.push(`Instrument: mag=${row.mag_V}, depth=${row.depth_mmag}`);
 
     if (row.pred_sigma_min > 15) {
@@ -181,7 +196,7 @@ function renderTopTargets(data) {
         <tr title="${getTooltipText(t)}">
             <td>${getBadge(t)}</td>
             <td>${t.name}</td>
-            <td>${t.final_score.toFixed(3)}</td>
+            <td>${safe(t.final_score, 3)}</td>
         </tr>`;
     });
 
