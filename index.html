@@ -228,7 +228,13 @@ function renderTable(data) {
     }
 
     let table = document.getElementById("table");
-   
+       
+    let table = document.getElementById("table");
+    
+    // ✅ Reset table each time
+    table.innerHTML = "";
+    
+    // ✅ Now add summary
     table.innerHTML += `
     <p><b>Showing first ${Math.min(data.length, 100)} of ${data.length} targets</b></p>
     `;
@@ -244,9 +250,6 @@ function renderTable(data) {
         <th>Observability</th>
     </tr>
     `;
-
-    table.innerHTML += header;
-
     
     table.innerHTML += header;
  
