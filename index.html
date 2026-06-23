@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TTV Target Dashboard</title>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        h1, h2 { margin-bottom: 10px; }
+
+        .controls {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f4f4f4;
+            border-radius: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .high { background-color: #d4f7d4; }
+        .medium { background-color: #fff3cd; }
+
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 280px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            padding: 8px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: pre-line;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🔭 TTV Target Prioritisation Dashboard</h1>
+
+<p>Live ExoClock-based prioritisation with ephemeris urgency and scheduling awareness.</p>
+
+<!-- Filters -->
+<div class="controls">
+    Min Score:
+    <input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
+    <span id="scoreValue">0.5</span>
+
+    | Max Time to Window:
+    <input type="range" id="timeFilter" min="0" max="10" step="0.5" value="5">
+    <span id="timeValue">5</span>
+
+    | Min Observability:
+    <input type="range" id="obsFilter" min="0" max="1" step="0.05" value="0">
+    <span id="obsValue">0</span>
+</div>
+
+<!-- Summary -->
+<h2>📊 Why These Targets Are Ranked Highest</h2>
+<div id="summaryText"></div>
+
+<h2>⭐ Top 5 Targets This Week</h2>
+<div id="topTargets"></div>
+
+<button onclick="downloadCSV()">⬇ Download Filtered Data (CSV)</button>
+
+<!-- Plots -->
+<div id="plot1" style="height:400px;"></div>
+<div id="plot2" style="height:400px;"></div>
+
+<!-- Table -->
+<table id="table"></table>
+
+<script>
+
+let globalData = [];
+let filteredData = [];
+
+// ---------------- BADGE ----------------
+function getBadge(row) {
+    if (row.pred_sigma_min > 15 && row.time_since_last_obs_days > 60) {
+        return "🔴 URGENT";
+    }
+    if (row.obs_frac > 0.75 && row.time_to_window_days < 1.5) {
+        return "🟢 IDEAL";
+    }
+    return "";
+}
+
+// ---------------- TOOLTIP ----------------
+function getTooltipText(row) {
+    let lines = [];
+
+    lines.push(`Ephemeris: σ=${row.pred_sigma_min.toFixed(1)} min, last obs=${row.time_since_last_obs_days}`);
+    lines.push(`TTV: ${row.current_oc_min} min`);
+    lines.push(`Observability: ${row.obs_frac.toFixed(2)}, window=${row.time_to_window_days}`);
+    lines.push(`Instrument: mag=${row.mag_V}, depth=${row.depth_mmag}`);
+
+    if (row.pred_sigma_min > 15) {
+        lines.push("→ Driven by ephemeris uncertainty");
+    } else if (row.obs_frac > 0.75) {
+        lines.push("→ Driven by observability");
+    } else {
+        lines.push("→ Balanced factors");
+    }
+
+    return lines.join("\n");
+}
+
+
+// ---------------- SUMMARY ----------------
+function generateSummary(data) {
+    if (data.length === 0) return "No targets.";
+
+    const top = [...data].sort((a,b)=>b.final_score-a.final_score).slice(0,5);
+
+    let highSigma = top.filter(t=>t.pred_sigma_min>15).length;
+    let nearWindow = top.filter(t=>t.time_to_window_days<2).length;
+    let highObs = top.filter(t=>t.obs_frac>0.75).length;
+
+    let text = "Top targets reflect a balance of ephemeris uncertainty, observability, and timing opportunity. ";
+
+    if (highSigma>1)
+        text += `${highSigma} show high ephemeris drift risk. `;
+
+    if (nearWindow>1)
+        text += `${nearWindow} have imminent observing windows. `;
+
+    if (highObs>1)
+        text += `Several are highly observable from the site. `;
+
+    let names = top.map(t=>t.name).join(", ");
+    text += `Key targets include: ${names}.`;
+
+    return text;
+}
+
+// ---------------- TOP TARGETS ----------------
+function renderTopTargets(data) {
+    const top = [...data].sort((a,b)=>b.final_score-a.final_score).slice(0,5);
+
+    let html = "<table><tr><th>Indicator</th><th>Name</th><th>Score</th></tr>";
+
+    top.forEach(t=>{
+        html += `
+        <tr title="${getTooltipText(t)}">
+            <td>${getBadge(t)}</td>
+            <td>${t.name}</td>
+            <td>${t.final_score.toFixed(3)}</td>
+        </tr>`;
+    });
+
+    html += "</table>";
+    document.getElementById("topTargets").innerHTML = html;
+}
+
+// ---------------- TABLE ----------------
+function renderTable(data) {
+    let table = document.getElementById("table");
+    table.innerHTML = "";
+
+    let header = "<tr><th>Indicator</th>";
+
+    Object.keys(data[0]).forEach(col=>{
+        header += `<th>${col}</th>`;
+    });
+
+    header += "</tr>";
+    table.innerHTML += header;
+
+    data.forEach(row=>{
+        let cls = row.final_score>0.75?"high":row.final_score>0.6?"medium":"";
+
+        let tooltip = getTooltipText(row);
+
+        let tr = `<tr class="${cls} tooltip">`;
+
+        tr += `<td>${getBadge(row)}<span class="tooltiptext">${tooltip}</span></td>`;
+
+        Object.values(row).forEach(val=>{
+            tr += `<td>${val}</td>`;
+        });
+
+        tr += "</tr>";
+        table.innerHTML += tr;
+    });
+}
+
+// ---------------- PLOTS ----------------
+function renderPlots(data) {
+    Plotly.newPlot('plot1', [{
+        x: data.map(d=>d.time_to_window_days),
+        y: data.map(d=>d.final_score),
+        mode: 'markers',
+        text: data.map(d=>d.name)
+    }], {
+        title: "Score vs Time to Window"
+    });
+
+    Plotly.newPlot('plot2', [{
+        x: data.map(d=>d.pred_sigma_min),
+        y: data.map(d=>d.final_score),
+        marker: { color: data.map(d=>d.time_since_last_obs_days) }
+    }], {
+        title: "Score vs Ephemeris"
+    });
+}
+
+// ---------------- CSV DOWNLOAD ----------------
+function downloadCSV() {
+    let csv = Object.keys(filteredData[0]).join(",") + "\n";
+
+    filteredData.forEach(r=>{
+        csv += Object.values(r).join(",") + "\n";
+    });
+
+    let blob = new Blob([csv]);
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "targets.csv";
+    link.click();
+}
+
+// ---------------- UPDATE ----------------
+function updateDashboard() {
+    let minScore = parseFloat(document.getElementById("scoreFilter").value);
+    let maxTime = parseFloat(document.getElementById("timeFilter").value);
+    let minObs = parseFloat(document.getElementById("obsFilter").value);
+
+    filteredData = globalData.filter(row=>{
+        return row.final_score>=minScore &&
+               row.obs_frac>=minObs &&
+               (row.time_to_window_days===null || row.time_to_window_days<=maxTime);
+    });
+
+    renderTable(filteredData);
+    renderPlots(filteredData);
+    renderTopTargets(filteredData);
+
+    document.getElementById("summaryText").innerText =
+        generateSummary(filteredData);
+}
+
+// ---------------- LOAD CSV ----------------
+Papa.parse("outputs.csv", {
+    download:true,
+    header:true,
+    dynamicTyping:true,
+    complete:function(results){
+        globalData = results.data.filter(r=>r.name);
+        updateDashboard();
+    }
+});
+
+// ---------------- FILTER HANDLERS ----------------
+document.querySelectorAll("input").forEach(input=>{
+    input.addEventListener("input",()=>{
+        scoreValue.textContent = scoreFilter.value;
+        timeValue.textContent = timeFilter.value;
+        obsValue.textContent = obsFilter.value;
+
+        updateDashboard();
+    });
+});
+
+</script>
+
+</body>
+</html>
