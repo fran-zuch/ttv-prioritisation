@@ -6,6 +6,7 @@
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc"></script>
 
     <style>
         body { font-family: Arial; margin: 20px; }
@@ -111,7 +112,10 @@
 <table id="table"></table>
 
 <script>
-
+const OBS_LAT = 28.3;
+const OBS_LON = -16.6;   // ✅ Teide Observatory
+const NIGHT_BUFFER_MIN = 30;
+``
 let globalData = [];
 let filteredData = [];
 
@@ -341,10 +345,37 @@ function updateDashboard() {
     const now = new Date();
     const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
+    const now = new Date();
+
     filteredData = globalData.filter(row => {
 
-    let tmid = new Date(row.Tmid_utc);
+        let tmid = new Date(row.Tmid_utc);
 
+        // ✅ Compute transit start / end
+        let durationMs = row.duration_hr * 60 * 60 * 1000;
+        let transitStart = new Date(tmid.getTime() - durationMs / 2);
+        let transitEnd   = new Date(tmid.getTime() + durationMs / 2);
+    
+        // ✅ Get night times for Teide
+        let times = SunCalc.getTimes(tmid, OBS_LAT, OBS_LON);
+    
+        let bufferMs = NIGHT_BUFFER_MIN * 60 * 1000;
+    
+        let nightStart = new Date(times.night.getTime() + bufferMs);
+        let nightEnd   = new Date(times.nightEnd.getTime() - bufferMs);
+    
+        // ✅ Check full transit is inside night window
+        let inNight =
+            transitStart >= nightStart &&
+            transitEnd   <= nightEnd;
+
+        return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
+               (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
+               (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime) &&
+               (!isNaN(tmid) && tmid >= now) &&
+               inNight;
+});
+    
     return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
            (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
            (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime) &&
