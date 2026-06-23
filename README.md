@@ -1,2 +1,15 @@
-# ttv-prioritisation
-MSc project that builds a transparent, instrument-aware scoring framework to prioritise exoplanet targets for follow-up using ExoClock data, with the aim of supporting ARIEL ephemeris maintenance and observation planning. Reproducible, decision‑support approach for high‑value targets based on timing uncertainty, feasibility, and scientific impact.
+# TTV Prioritisation Pipeline
+
+## Overview
+Modular pipeline for ExoClock-based transit prioritisation.
+
+## Features
+- Ephemeris uncertainty propagation
+- Time since last observation (S1 enhancement)
+- Time-to-next-window observability
+
+## Run
+python src/main.py
+
+## Output
+CSV of ranked targets
