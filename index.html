@@ -3,13 +3,6 @@
 <head>
     <title>TTV Target Dashboard</title>
 
-    function safe(val, digits=2) {
-    if (val === null || val === undefined || isNaN(val)) {
-        return "–";
-    }
-    return Number(val).toFixed(digits);
-}
-
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
