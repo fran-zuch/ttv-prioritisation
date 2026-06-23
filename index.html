@@ -310,9 +310,20 @@ Papa.parse("outputs.csv", {
 
         console.log("CSV loaded:", results);  
         
-        globalData = results.data.filter(r =>
-            r && r.name
-        );
+        globalData = results.data
+            .filter(r => r !== null && Object.keys(r).length > 0)
+            .map(r => {
+                return {
+                    ...r,
+                    name: r.name || r["name"],   // ensure name access
+                    final_score: Number(r.final_score),
+                    obs_frac: Number(r.obs_frac),
+                    pred_sigma_min: Number(r.pred_sigma_min),
+                    time_to_window_days: Number(r.time_to_window_days),
+                    time_since_last_obs_days: Number(r.time_since_last_obs_days)
+                };
+            })
+            .filter(r => r.name);  // ✅ filter AFTER cleaning
 
         globalData.forEach(r => {
             r.final_score = Number(r.final_score);
