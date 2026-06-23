@@ -124,7 +124,7 @@ function getBadge(row) {
     if (row.pred_sigma_min > 15 && row.time_since_last_obs_days > 60) {
         return "🔴 URGENT";
     }
-    if (row.obs_frac > 0.75 && row.time_to_window_days < 1.5) {
+    if (row.obs_frac > 0.75 && !isNaN(row.time_to_window_days) && row.time_to_window_days < 1.5) {
         return "🟢 IDEAL";
     }
     return "";
