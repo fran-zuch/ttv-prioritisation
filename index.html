@@ -143,8 +143,11 @@ function getTooltipText(row) {
 // ---------------- SUMMARY ----------------
 function generateSummary(data) {
     if (data.length === 0) return "No targets.";
-
-    const top = [...data].sort((a,b)=>b.final_score-a.final_score).slice(0,5);
+  
+    const top = [...data]
+        .filter(d => !isNaN(d.final_score))
+        .sort((a,b)=>b.final_score - a.final_score)
+        .slice(0,5);
 
     let highSigma = top.filter(t=>t.pred_sigma_min>15).length;
     let nearWindow = top.filter(t=>t.time_to_window_days<2).length;
@@ -234,12 +237,13 @@ function renderPlots(data) {
     });
 
     Plotly.newPlot('plot2', [{
-        x: data.map(d=>d.pred_sigma_min),
-        y: data.map(d=>d.final_score),
-        marker: { color: data.map(d=>d.time_since_last_obs_days) }
+        x: data.map(d => d.pred_sigma_min || 0),
+        y: data.map(d => d.final_score || 0),
+        marker: { color: data.map(d => d.time_since_last_obs_days || 0) }
     }], {
         title: "Score vs Ephemeris"
     });
+
 }
 
 // ---------------- CSV DOWNLOAD ----------------
@@ -259,6 +263,12 @@ function downloadCSV() {
 }
 
 // ---------------- UPDATE ----------------
+
+if (!globalData || globalData.length === 0) {
+    console.warn("No data available");
+    return;
+}
+
 function updateDashboard() {
     let minScore = parseFloat(document.getElementById("scoreFilter").value);
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
