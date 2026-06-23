@@ -107,6 +107,9 @@
 <!-- Plots -->
 <div id="plot1" style="height:400px;"></div>
 <div id="plot2" style="height:400px;"></div>
+<div id="plot3" style="height:400px;"></div>
+<div id="plot4" style="height:400px;"></div>
+
 
 <!-- Table -->
 <table id="table"></table>
@@ -288,24 +291,115 @@ function renderTable(data) {
 
 // ---------------- PLOTS ----------------
 function renderPlots(data) {
-    Plotly.newPlot('plot1', [{
-        x: data.map(d => d.time_to_window_days || 0),
-        y: data.map(d => d.final_score || 0),
-        mode: 'markers',
-        text: data.map(d=>d.name)
-    }], {
-        title: "Score vs Time to Window"
+
+    // ✅ LIMIT points for performance
+    const MAX_PLOT_POINTS = 300;
+
+    const plotData = [...data]
+        .filter(d => !isNaN(d.final_score))
+        .sort((a,b)=>b.final_score - a.final_score)
+        .slice(0, MAX_PLOT_POINTS);
+
+    const topTargets = plotData.slice(0, 10);
+
+    // -------------------------------
+    // PLOT 1: Score vs Time to Window
+    // -------------------------------
+    Plotly.newPlot('plot1', [
+        {
+            x: plotData.map(d => d.time_to_window_days),
+            y: plotData.map(d => d.final_score),
+            mode: 'markers',
+            text: plotData.map(d => d.name),
+            marker: {
+                size: 6,
+                color: plotData.map(d => d.visible_fraction || 0),
+                colorscale: 'Viridis',
+                showscale: true,
+                colorbar: { title: "Visible Fraction" }
+            },
+            name: "Targets"
+        },
+        {
+            x: topTargets.map(d => d.time_to_window_days),
+            y: topTargets.map(d => d.final_score),
+            mode: 'markers',
+            marker: { color: 'red', size: 10 },
+            text: topTargets.map(d => d.name),
+            name: "Top Targets"
+        }
+    ], {
+        title: "Score vs Time to Window",
+        xaxis: { title: "Days to Observation Window" },
+        yaxis: { title: "Score" }
     });
 
-    Plotly.newPlot('plot2', [{
-        x: data.map(d => d.pred_sigma_min || 0),
-        y: data.map(d => d.final_score || 0),
-        marker: { color: data.map(d => d.time_since_last_obs_days || 0) }
-    }], {
-        title: "Score vs Ephemeris"
-    });
 
+    // -------------------------------
+    // PLOT 2: Score vs Ephemeris
+    // -------------------------------
+    Plotly.newPlot('plot2', [
+        {
+            x: plotData.map(d => d.pred_sigma_min),
+            y: plotData.map(d => d.final_score),
+            mode: 'markers',
+            text: plotData.map(d => d.name),
+            marker: {
+                size: 6,
+                color: plotData.map(d => d.visible_fraction || 0),
+                colorscale: 'Plasma',
+                showscale: true,
+                colorbar: { title: "Visible Fraction" }
+            },
+            name: "Targets"
+        },
+        {
+            x: topTargets.map(d => d.pred_sigma_min),
+            y: topTargets.map(d => d.final_score),
+            mode: 'markers',
+            marker: { color: 'red', size: 10 },
+            text: topTargets.map(d => d.name),
+            name: "Top Targets"
+        }
+    ], {
+        title: "Score vs Ephemeris Uncertainty",
+        xaxis: { title: "Predicted Sigma (min)" },
+        yaxis: { title: "Score" }
+    });
 }
+
+    // -------------------------------
+    // PLOT 3: Observability vs Sigma
+    // -------------------------------
+    Plotly.newPlot('plot3', [{
+        x: plotData.map(d => d.obs_frac),
+        y: plotData.map(d => d.pred_sigma_min),
+        mode: 'markers',
+        text: plotData.map(d => d.name),
+        marker: {
+            size: 6,
+            color: plotData.map(d => d.visible_fraction || 0),
+            colorscale: 'Viridis',
+            showscale: true,
+            colorbar: { title: "Visible Fraction" }
+        }
+    }], {
+        title: "Observability vs Ephemeris Uncertainty",
+        xaxis: { title: "Observability Fraction" },
+        yaxis: { title: "Ephemeris Uncertainty (min)" }
+    });
+
+    // -------------------------------
+    // PLOT 4: Score Distribution
+    // -------------------------------
+    Plotly.newPlot('plot4', [{
+        x: plotData.map(d => d.final_score),
+        type: 'histogram'
+    }], {
+        title: "Score Distribution",
+        xaxis: { title: "Score" },
+        yaxis: { title: "Count" }
+    });
 
 // ---------------- CSV DOWNLOAD ----------------
 function downloadCSV() {
@@ -365,9 +459,26 @@ function updateDashboard() {
         let nightStart = new Date(times.night.getTime() + bufferMs);
         let nightEnd   = new Date(times.nightEnd.getTime() - bufferMs);
     
-        let inNight =
-            transitStart >= nightStart &&
-            transitEnd   <= nightEnd;
+        // ✅ Compute overlap window
+        let overlapStart = new Date(Math.max(transitStart, nightStart));
+        let overlapEnd   = new Date(Math.min(transitEnd, nightEnd));
+        
+        // ✅ Overlap duration
+        let overlapMs = overlapEnd - overlapStart;
+        
+        // ✅ Total duration
+        let totalDuration = transitEnd - transitStart;
+        
+        // ✅ Visible fraction (0 → 1)
+        let visible_fraction = Math.max(0, overlapMs) / totalDuration;
+        
+        // ✅ Attach to row (IMPORTANT)
+        row.visible_fraction = visible_fraction;
+        
+        // ✅ Minimum requirement: at least 30 min observable
+        let MIN_OBSERVATION_MS = 30 * 60 * 1000;
+
+        let inNight = overlapMs >= MIN_OBSERVATION_MS;
     
         return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
                (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
