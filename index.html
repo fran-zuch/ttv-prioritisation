@@ -6,7 +6,7 @@
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/suncalc"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
 
     <style>
         body { font-family: Arial; margin: 20px; }
@@ -359,6 +359,9 @@ function updateDashboard() {
     
         let bufferMs = NIGHT_BUFFER_MIN * 60 * 1000;
     
+
+        if (!times.night || !times.nightEnd) return false;
+        
         let nightStart = new Date(times.night.getTime() + bufferMs);
         let nightEnd   = new Date(times.nightEnd.getTime() - bufferMs);
     
