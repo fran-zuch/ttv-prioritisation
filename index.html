@@ -269,11 +269,15 @@ function downloadCSV() {
 console.log("Final dataset before dashboard:", globalData);
     
 function updateDashboard() {
+
+    console.log("Running updateDashboard");
         
     if (!globalData || globalData.length === 0) {
         console.warn("No data available");
         return;
     }
+
+    console.log("globalData:", globalData.length, globalData);
 
     let minScore = parseFloat(document.getElementById("scoreFilter").value);
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
@@ -284,6 +288,8 @@ function updateDashboard() {
                (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
                (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime);
     });
+
+    console.log("filteredData:", filteredData.length, filteredData);
 
     renderTable(filteredData);
     renderPlots(filteredData);
