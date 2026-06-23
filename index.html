@@ -195,6 +195,10 @@ function renderTopTargets(data) {
 
 // ---------------- TABLE ----------------
 function renderTable(data) {
+    if (!data || data.length === 0) {
+    document.getElementById("table").innerHTML = "<p>No data available</p>";
+    return;
+}
     let table = document.getElementById("table");
     table.innerHTML = "";
 
@@ -228,8 +232,8 @@ function renderTable(data) {
 // ---------------- PLOTS ----------------
 function renderPlots(data) {
     Plotly.newPlot('plot1', [{
-        x: data.map(d=>d.time_to_window_days),
-        y: data.map(d=>d.final_score),
+        x: data.map(d => d.time_to_window_days || 0),
+        y: data.map(d => d.final_score || 0),
         mode: 'markers',
         text: data.map(d=>d.name)
     }], {
@@ -290,11 +294,18 @@ Papa.parse("outputs.csv", {
     dynamicTyping: true,
     complete: function(results) {
 
-        console.log("CSV loaded:", results);
-
+        console.log("CSV loaded:", results);  
+        
         globalData = results.data.filter(r =>
-            r && r.name && r.final_score !== undefined && !isNaN(r.final_score)
+            r && r.name
         );
+
+        globalData.forEach(r => {
+            r.final_score = Number(r.final_score);
+            r.obs_frac = Number(r.obs_frac);
+            r.pred_sigma_min = Number(r.pred_sigma_min);
+        });
+
 
         console.log("Filtered data:", globalData);
 
