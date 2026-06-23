@@ -263,13 +263,15 @@ function downloadCSV() {
 }
 
 // ---------------- UPDATE ----------------
-
-if (!globalData || globalData.length === 0) {
-    console.warn("No data available");
-    return;
-}
-
 function updateDashboard() {
+    
+    
+    if (!globalData || globalData.length === 0) {
+        console.warn("No data available");
+        return;
+    }
+
+    
     let minScore = parseFloat(document.getElementById("scoreFilter").value);
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
     let minObs = parseFloat(document.getElementById("obsFilter").value);
