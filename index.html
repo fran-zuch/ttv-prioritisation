@@ -278,13 +278,32 @@ function updateDashboard() {
 }
 
 // ---------------- LOAD CSV ----------------
+console.log("Starting CSV load...");
+
 Papa.parse("outputs.csv", {
-    download:true,
-    header:true,
-    dynamicTyping:true,
-    complete:function(results){
-        globalData = results.data.filter(r=>r.name);
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function(results) {
+
+        console.log("CSV loaded:", results);
+
+        globalData = results.data.filter(r =>
+            r && r.name && r.final_score !== undefined && !isNaN(r.final_score)
+        );
+
+        console.log("Filtered data:", globalData);
+
+        if (globalData.length === 0) {
+            document.body.innerHTML += "<p>❌ No valid data rows found</p>";
+        } else {
+            document.body.innerHTML += "<p>✅ Data loaded successfully</p>";
+        }
+
         updateDashboard();
+    },
+    error: function(err) {
+        console.error("CSV load error:", err);
     }
 });
 
