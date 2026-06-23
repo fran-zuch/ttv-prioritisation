@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>TTV Target Dashboard</title>
-    <p><i>All times shown in UTC</i></p>
-
+    
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
@@ -73,10 +72,10 @@
 <body>
 
 <h1>🔭 TTV Target Prioritisation Dashboard</h1>
-
 <p>Live ExoClock-based prioritisation with ephemeris urgency and scheduling awareness.</p>
+<p><i>All times shown in UTC</i></p>
 
-<!-- Filters -->
+    <!-- Filters -->
 <div class="controls">
     Min Score:
     <input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
@@ -228,8 +227,6 @@ function renderTable(data) {
     }
 
     let table = document.getElementById("table");
-       
-    let table = document.getElementById("table");
     
     // ✅ Reset table each time
     table.innerHTML = "";
@@ -239,7 +236,6 @@ function renderTable(data) {
     <p><b>Showing first ${Math.min(data.length, 100)} of ${data.length} targets</b></p>
     `;
 
-    
     let header = `
     <tr>
         <th>Indicator</th>
@@ -376,6 +372,13 @@ function updateDashboard() {
     });
     
     filteredData = Object.values(uniqueTargets);
+    
+    if (document.getElementById("tonightToggle").checked) {
+        filteredData = filteredData.filter(row => {
+            let tmid = new Date(row.Tmid_utc);
+            return !isNaN(tmid) && tmid >= now && tmid <= tomorrow;
+        });
+    }
 
     console.log("filteredData after scoring:", filteredData.length);
     
@@ -392,13 +395,6 @@ function updateDashboard() {
     
     document.getElementById("summaryText").innerHTML =
         label + generateSummary(filteredData);
-    }
-    
-    if (document.getElementById("tonightToggle").checked) {
-        filteredData = filteredData.filter(row => {
-            let tmid = new Date(row.Tmid_utc);
-            return !isNaN(tmid) && tmid >= now && tmid <= tomorrow;
-        });
     }
 
 // ---------------- LOAD CSV ----------------
