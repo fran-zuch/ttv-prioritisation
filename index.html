@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>TTV Target Dashboard</title>
+    <p><i>All times shown in UTC</i></p>
 
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
@@ -88,6 +89,10 @@
     | Min Observability:
     <input type="range" id="obsFilter" min="0" max="1" step="0.05" value="0">
     <span id="obsValue">0</span>
+    
+    | Tonight only:
+    <input type="checkbox" id="tonightToggle">
+
 </div>
 
 <!-- Summary -->
@@ -118,6 +123,14 @@ function safe(val, digits=2) {
     return Number(val).toFixed(digits);
 }
 
+function formatUTC(timeString) {
+    if (!timeString) return "–";
+
+    let d = new Date(timeString);
+    if (isNaN(d)) return "–";
+
+    return d.toUTCString().replace("GMT", "UTC");
+}
     
 // ---------------- BADGE ----------------
 function getBadge(row) {
@@ -172,19 +185,34 @@ function generateSummary(data) {
 
 // ---------------- TOP TARGETS ----------------
 function renderTopTargets(data) {
+
     const top = [...data]
         .filter(d => !isNaN(d.final_score))
-        .sort((a,b)=>b.final_score - a.final_score)
+        .sort((a,b) => b.final_score - a.final_score)
         .slice(0,5);
 
-    let html = "<table><tr><th>Indicator</th><th>Name</th><th>Score</th></tr>";
+    let html = `
+        <table>
+            <tr>
+                <th>Indicator</th>
+                <th>Target</th>
+                <th>Score</th>
+                <th>Next Observation (UTC)</th>
+                <th>Duration</th>
+            </tr>
+    `;
 
-    top.forEach(t=>{
+    top.forEach(t => {
         html += `
         <tr title="${getTooltipText(t)}">
             <td>${getBadge(t)}</td>
             <td>${t.name}</td>
             <td>${safe(t.final_score, 3)}</td>
+            <td>
+                ${formatUTC(t.Tmid_utc)}<br>
+                <small>in ${safe(t.time_to_window_days, 1)} days</small>
+            </td>
+            <td>${safe(t.duration_hr, 2)} hr</td>
         </tr>`;
     });
 
@@ -200,15 +228,26 @@ function renderTable(data) {
     }
 
     let table = document.getElementById("table");
-    table.innerHTML = "";
+   
+    table.innerHTML += `
+    <p><b>Showing first ${Math.min(data.length, 100)} of ${data.length} targets</b></p>
+    `;
 
-    let header = "<tr><th>Indicator</th>";
+    
+    let header = `
+    <tr>
+        <th>Indicator</th>
+        <th>Target</th>
+        <th>Score</th>
+        <th>Next Observation (UTC)</th>
+        <th>Duration (hr)</th>
+        <th>Observability</th>
+    </tr>
+    `;
 
-    Object.keys(data[0]).forEach(col=>{
-        header += `<th>${col}</th>`;
-    });
+    table.innerHTML += header;
 
-    header += "</tr>";
+    
     table.innerHTML += header;
  
     const MAX_ROWS = 100;   // ✅ adjust if needed
@@ -227,11 +266,19 @@ function renderTable(data) {
 
         tr += `<td>${getBadge(row)}<span class="tooltiptext">${tooltip}</span></td>`;
 
-        Object.values(row).forEach(val=>{
-            tr += `<td>${val}</td>`;
-        });
+        tr += `<td>${row.name}</td>`;
+        tr += `<td>${safe(row.final_score, 2)}</td>`;
+        
+        tr += `<td>
+            ${formatUTC(row.Tmid_utc)}<br>
+            <small>in ${safe(row.time_to_window_days, 1)} days</small>
+        </td>`;
+        
+        tr += `<td>${safe(row.duration_hr * 60, 0)} min</td>`;       
+        tr += `<td>${safe(row.obs_frac, 2)}</td>`;
 
         tr += "</tr>";
+        
         table.innerHTML += tr;
     });
 }
@@ -292,11 +339,40 @@ function updateDashboard() {
     let minObs = parseFloat(document.getElementById("obsFilter").value);
 
     
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
     filteredData = globalData.filter(row => {
-        return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
-               (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
-               (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime);
+
+    let tmid = new Date(row.Tmid_utc);
+
+    return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
+           (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
+           (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime) &&
+
+           // ✅ Only future targets
+           (!isNaN(tmid) && tmid >= now);
     });
+
+    let uniqueTargets = {};
+    
+    filteredData.forEach(row => {
+        if (!uniqueTargets[row.name]) {
+            uniqueTargets[row.name] = row;
+        } else {
+            if (
+                row.final_score > uniqueTargets[row.name].final_score ||
+                (
+                    row.final_score === uniqueTargets[row.name].final_score &&
+                    row.time_to_window_days < uniqueTargets[row.name].time_to_window_days
+                )
+            ) {
+                uniqueTargets[row.name] = row;
+            }
+        }
+    });
+    
+    filteredData = Object.values(uniqueTargets);
 
     console.log("filteredData after scoring:", filteredData.length);
     
@@ -306,9 +382,21 @@ function updateDashboard() {
     renderPlots(filteredData);
     renderTopTargets(filteredData);
 
-    document.getElementById("summaryText").innerText =
-        generateSummary(filteredData);
-}
+
+    let label = document.getElementById("tonightToggle").checked
+        ? "<b>Showing tonight’s observable targets (times in UTC)</b><br>"
+        : "<b>Showing future observable targets (times in UTC)</b><br>";
+    
+    document.getElementById("summaryText").innerHTML =
+        label + generateSummary(filteredData);
+    }
+    
+    if (document.getElementById("tonightToggle").checked) {
+        filteredData = filteredData.filter(row => {
+            let tmid = new Date(row.Tmid_utc);
+            return !isNaN(tmid) && tmid >= now && tmid <= tomorrow;
+        });
+    }
 
 // ---------------- LOAD CSV ----------------
 console.log("Starting CSV load...");
