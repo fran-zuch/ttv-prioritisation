@@ -172,7 +172,10 @@ function generateSummary(data) {
 
 // ---------------- TOP TARGETS ----------------
 function renderTopTargets(data) {
-    const top = [...data].sort((a,b)=>b.final_score-a.final_score).slice(0,5);
+    const top = [...data]
+        .filter(d => !isNaN(d.final_score))
+        .sort((a,b)=>b.final_score - a.final_score)
+        .slice(0,5);
 
     let html = "<table><tr><th>Indicator</th><th>Name</th><th>Score</th></tr>";
 
@@ -264,14 +267,12 @@ function downloadCSV() {
 
 // ---------------- UPDATE ----------------
 function updateDashboard() {
-    
-    
+        
     if (!globalData || globalData.length === 0) {
         console.warn("No data available");
         return;
     }
 
-    
     let minScore = parseFloat(document.getElementById("scoreFilter").value);
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
     let minObs = parseFloat(document.getElementById("obsFilter").value);
