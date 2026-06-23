@@ -139,24 +139,13 @@ function getBadge(row) {
 
 // ---------------- TOOLTIP ----------------
 function getTooltipText(row) {
-    let lines = [];
-
-    lines.push(`Ephemeris: σ=${safe(row.pred_sigma_min, 1)} min, last obs=${row.time_since_last_obs_days}`);
-    lines.push(`TTV: ${row.current_oc_min} min`);
-    lines.push(`Observability: ${safe(row.obs_frac, 2)}, window=${row.time_to_window_days}`);
-    lines.push(`Instrument: mag=${row.mag_V}, depth=${row.depth_mmag}`);
-
-    if (row.pred_sigma_min > 15) {
-        lines.push("→ Driven by ephemeris uncertainty");
-    } else if (row.obs_frac > 0.75) {
-        lines.push("→ Driven by observability");
-    } else {
-        lines.push("→ Balanced factors");
-    }
-
-    return lines.join("\n");
+    return [
+        `Ephemeris: σ=${safe(row.pred_sigma_min,1)} min, last obs=${safe(row.time_since_last_obs_days,0)}`,
+        `TTV: ${safe(row.current_oc_min,1)} min`,
+        `Observability: ${safe(row.obs_frac,2)}, window=${safe(row.time_to_window_days,2)}`,
+        `Instrument: mag=${safe(row.mag_V)}, depth=${safe(row.depth_mmag)}`
+    ].join("\n");
 }
-
 
 // ---------------- SUMMARY ----------------
 function generateSummary(data) {
