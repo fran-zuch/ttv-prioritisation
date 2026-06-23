@@ -279,10 +279,10 @@ function updateDashboard() {
     let maxTime = parseFloat(document.getElementById("timeFilter").value);
     let minObs = parseFloat(document.getElementById("obsFilter").value);
 
-    filteredData = globalData.filter(row=>{
-        return row.final_score>=minScore &&
-               row.obs_frac>=minObs &&
-               (row.time_to_window_days===null || row.time_to_window_days<=maxTime);
+    filteredData = globalData.filter(row => {
+        return (!isNaN(row.final_score) && row.final_score >= minScore) &&
+               (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
+               (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime);
     });
 
     renderTable(filteredData);
