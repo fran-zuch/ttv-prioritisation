@@ -1,4 +1,4 @@
-from .bins import bin_science
+from scoring.bins import bin_science
 
 def compute_s5_science(df):
 
