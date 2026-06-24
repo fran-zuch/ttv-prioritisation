@@ -220,7 +220,7 @@ function renderTopTargets(data) {
                 <small>in ${safe(t.time_to_window_days, 1)} days</small>
             </td>
             <td>${safe(t.duration_hr, 2)} hr</td>
-            <td>${safe(row.visible_fraction * 100, 0)}%</td>
+            <td>${safe((t.visible_fraction || 0) * 100, 0)}%</td>
         </tr>`;
     });
 
@@ -267,7 +267,10 @@ function renderTable(data) {
     
     sorted.slice(0, MAX_ROWS).forEach(row=>{
 
-        let cls = row.final_score>0.75?"high":row.final_score>0.6?"medium":"";
+        let cls = 
+            (row.visible_fraction > 0.7 && row.final_score > 0.7) ? "high" :
+            (row.visible_fraction > 0.4) ? "medium" :
+            "";
 
         let tooltip = getTooltipText(row);
 
@@ -285,7 +288,7 @@ function renderTable(data) {
         
         tr += `<td>${safe(row.duration_hr * 60, 0)} min</td>`;       
         tr += `<td>${safe(row.obs_frac, 2)}</td>`;
-        tr ++ '<td>${safe(row.visible_fraction * 100, 0)}%</td>';
+        tr += `<td>${safe(row.visible_fraction || 0) * 100, 0)}%</td>`;
 
         tr += "</tr>";
         
