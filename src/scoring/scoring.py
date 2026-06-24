@@ -22,8 +22,13 @@ def compute_scores(df):
     # ✅ S4 — Observability
     df['S4'] = df['obs_frac'].apply(bin_observability)
 
-    # ✅ S3, S5, S6 are already computed in processing layer
-    # (do NOT call compute_* functions here anymore)
+    # ✅ S5 — Science score
+    df['S5'] = df['science_priority_numeric']
+    
+    # ✅ Boost for recent research / activity
+    df.loc[df['recent_activity_flag'] == True, 'S5'] += 1
+    
+    df['S5'] = df['S5'].clip(upper=5)
 
     # ✅ Final weighted score
     df['final_score'] = (
