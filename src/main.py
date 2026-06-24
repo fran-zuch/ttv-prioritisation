@@ -5,7 +5,7 @@ from processing.catalog import prepare_catalog
 from processing.ephemeris import expand_events
 from processing.observability import compute_observability
 
-from processing.ttv import compute_s2_ttv
+from processing.ttv import compute_ttv_features
 from processing.instrument import compute_s3_instrument
 from processing.science import compute_s5_science
 from processing.synergy import compute_s6_synergy
@@ -34,7 +34,7 @@ def run():
     events = compute_observability(events)
 
     # ✅ Feature scoring (S2–S6)
-    events = compute_s2_ttv(events)
+    events = compute_ttv_features(events)
     events = compute_s3_instrument(events)
     events = compute_s5_science(events)
     events = compute_s6_synergy(events)
