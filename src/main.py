@@ -8,7 +8,7 @@ from processing.observability import compute_observability
 from processing.ttv import compute_ttv_features
 from processing.instrument import compute_s3_instrument
 from processing.science import compute_science_features
-from processing.synergy import compute_s6_synergy
+from processing.synergy import compute_synergy_features
 
 from scoring.scoring import compute_scores
 
@@ -37,7 +37,7 @@ def run():
     events = compute_ttv_features(events)
     events = compute_s3_instrument(events)
     events = compute_science_features(events)
-    events = compute_s6_synergy(events)
+    events = compute_synergy_features(events)
 
     # ✅ Final scoring
     events = compute_scores(events)
