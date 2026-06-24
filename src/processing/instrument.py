@@ -1,4 +1,4 @@
-from .bins import bin_instrument
+from scoring.bins import bin_instrument
 
 def compute_s3_instrument(df, telescope="PIRATE"):
 
