@@ -12,15 +12,6 @@ def bin_instrument(mag, depth):
     depth_score = 5 if depth > 10 else 4 if depth > 5 else 3 if depth > 2 else 2 if depth > 1 else 1
     return int((mag_score + depth_score) / 2)
 
-def bin_science(status):
-    if status == "high":
-        return 5
-    elif status == "medium":
-        return 3
-    elif status == "low":
-        return 1
-    return 2
-
 def bin_synergy(events, network):
     base = 5 if events and events > 5 else 3
     if network:
