@@ -455,20 +455,22 @@ function updateDashboard() {
         let transitStart = new Date(tmid.getTime() - durationMs / 2);
         let transitEnd   = new Date(tmid.getTime() + durationMs / 2);
     
-        // ✅ Night constraints (Teide)
-        let times = SunCalc.getTimes(tmid, OBS_LAT, OBS_LON);
-    
+        // ✅ Night constraints (Teide) 
+        // ✅ Use midday to avoid date boundary issues
+        let noon = new Date(tmid);
+        noon.setUTCHours(12, 0, 0, 0);
+        let times = SunCalc.getTimes(noon, OBS_LAT, OBS_LON);
+   
         let bufferMs = NIGHT_BUFFER_MIN * 60 * 1000;
-    
-
+   
         if (!times.night || !times.nightEnd) return false;
         
         let nightStart = new Date(times.night.getTime() + bufferMs);
         let nightEnd   = new Date(times.nightEnd.getTime() - bufferMs);
     
         // ✅ Compute overlap window
-        let overlapStart = new Date(Math.max(transitStart, nightStart));
-        let overlapEnd   = new Date(Math.min(transitEnd, nightEnd));
+        let overlapStart = new Date(Math.max(transitStart.getTime(), nightStart.getTime()));
+        let overlapEnd   = new Date(Math.min(transitEnd.getTime(), nightEnd.getTime()));
         
         // ✅ Overlap duration
         let overlapMs = overlapEnd - overlapStart;
