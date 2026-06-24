@@ -1,13 +1,9 @@
 import pandas as pd
 from .bins import *
-from processing.ttv import compute_s2_ttv
-from processing.instrument import compute_s3_instrument
-from processing.science import compute_s5_science
-from processing.synergy import compute_s6_synergy
 
 def compute_scores(df):
 
-    # ✅ S1 (existing logic)
+    # ✅ S1 — Ephemeris urgency
     def urgency(r):
         s = r['pred_sigma_min']
         t = r['time_since_last_obs_days']
@@ -15,16 +11,21 @@ def compute_scores(df):
 
     df['S1'] = df.apply(urgency, axis=1).apply(bin_ephemeris)
 
-    # ✅ S4 (existing)
+    # ✅ S2 — TTV scoring (NEW clean implementation)
+    df['S2'] = df['ttv_amplitude_min'].apply(bin_ttv)
+
+    # ✅ Boost if ExoClock flagged
+    df.loc[df['ttv_flag_numeric'] == 1, 'S2'] += 1
+
+    df['S2'] = df['S2'].clip(upper=5)
+
+    # ✅ S4 — Observability
     df['S4'] = df['obs_frac'].apply(bin_observability)
 
-    # ✅ NEW components
-    df = compute_s2_ttv(df)
-    df = compute_s3_instrument(df)
-    df = compute_s5_science(df)
-    df = compute_s6_synergy(df)
+    # ✅ S3, S5, S6 are already computed in processing layer
+    # (do NOT call compute_* functions here anymore)
 
-    # ✅ FINAL weighted score (planner.yaml)
+    # ✅ Final weighted score
     df['final_score'] = (
         0.25 * df['S1'] +
         0.20 * df['S2'] +
@@ -35,4 +36,3 @@ def compute_scores(df):
     )
 
     return df.sort_values('final_score', ascending=False)
-
