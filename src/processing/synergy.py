@@ -1,4 +1,4 @@
-from .bins import bin_synergy
+from scoring.bins import bin_synergy
 
 def compute_s6_synergy(df):
 
