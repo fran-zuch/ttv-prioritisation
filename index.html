@@ -288,7 +288,7 @@ function renderTable(data) {
         
         tr += `<td>${safe(row.duration_hr * 60, 0)} min</td>`;       
         tr += `<td>${safe(row.obs_frac, 2)}</td>`;
-        tr += `<td>${safe(row.visible_fraction || 0) * 100, 0)}%</td>`;
+        tr += `<td>${safe((row.visible_fraction || 0) * 100, 0)}%</td>`;
 
         tr += "</tr>";
         
