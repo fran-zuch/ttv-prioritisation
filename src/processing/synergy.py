@@ -2,15 +2,21 @@ import numpy as np
 
 def compute_synergy_features(df):
 
-    # ✅ Ensure fields exist
-    df['events_per_month'] = df.get('events_per_month', 0)
-    df['network_needed'] = df.get('network_needed', False).astype(bool)
+    # ✅ Ensure columns exist safely
+    if 'events_per_month' not in df.columns:
+        df['events_per_month'] = 0
 
-    # ✅ Campaign indicator (explicit flag if provided)
-    df['campaign_flag'] = df.get('campaign_flag', False).astype(bool)
+    if 'network_needed' not in df.columns:
+        df['network_needed'] = False
+    else:
+        df['network_needed'] = df['network_needed'].astype(bool)
 
-    # ✅ Derived: how "intensive" the coordination need is
-    # (higher = more benefit from multi-observer campaign)
+    if 'campaign_flag' not in df.columns:
+        df['campaign_flag'] = False
+    else:
+        df['campaign_flag'] = df['campaign_flag'].astype(bool)
+
+    # ✅ Derived metric: coordination intensity
     def campaign_intensity(r):
 
         events = r.get('events_per_month') or 0
@@ -19,25 +25,31 @@ def compute_synergy_features(df):
 
         score = 0
 
-        # Frequent events → coordination more useful
-        if events > 8:
+        # ✅ Event frequency (improved gradient)
+        if events > 10:
+            score += 3
+        elif events > 7:
             score += 2
-        elif events > 5:
+        elif events > 4:
             score += 1
 
-        # Cross-longitude / network needed
+        # ✅ Network coordination needed (major driver)
         if network:
             score += 2
 
-        # Explicit campaign flag
+        # ✅ Explicit campaign (strong signal)
         if campaign:
             score += 2
+
+        # ✅ OPTIONAL (future): visibility-based coordination need
+        # if r.get('visible_fraction', 1.0) < 0.5:
+        #     score += 1
 
         return score
 
     df['campaign_intensity'] = df.apply(campaign_intensity, axis=1)
 
-    # ✅ Normalised version (optional but useful for plotting)
+    # ✅ Normalised version (useful for plots)
     df['campaign_intensity_norm'] = np.clip(df['campaign_intensity'] / 5, 0, 1)
 
     return df
