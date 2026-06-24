@@ -485,7 +485,8 @@ function updateDashboard() {
         // ✅ Minimum requirement: at least 30 min observable
         let MIN_OBSERVATION_MS = 30 * 60 * 1000;
 
-        let inNight = overlapMs >= MIN_OBSERVATION_MS;
+        let inNight = true; 
+            //overlapMs >= MIN_OBSERVATION_MS
     
         return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
                (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
