@@ -1,4 +1,4 @@
-#from .bins import bin_ttv
+from scoring.bins import bin_ttv
 
 def compute_s2_ttv(df):
 
