@@ -205,6 +205,7 @@ function renderTopTargets(data) {
                 <th>Score</th>
                 <th>Next Observation (UTC)</th>
                 <th>Duration</th>
+                <th>Visible Fraction</th>
             </tr>
     `;
 
@@ -219,6 +220,7 @@ function renderTopTargets(data) {
                 <small>in ${safe(t.time_to_window_days, 1)} days</small>
             </td>
             <td>${safe(t.duration_hr, 2)} hr</td>
+            <td>${safe(row.visible_fraction * 100, 0)}%</td>
         </tr>`;
     });
 
@@ -251,6 +253,7 @@ function renderTable(data) {
         <th>Next Observation (UTC)</th>
         <th>Duration (hr)</th>
         <th>Observability</th>
+        <th>Visible Fraction</th>
     </tr>
     `;
     
@@ -282,6 +285,7 @@ function renderTable(data) {
         
         tr += `<td>${safe(row.duration_hr * 60, 0)} min</td>`;       
         tr += `<td>${safe(row.obs_frac, 2)}</td>`;
+        tr ++ '<td>${safe(row.visible_fraction * 100, 0)}%</td>';
 
         tr += "</tr>";
         
@@ -366,7 +370,6 @@ function renderPlots(data) {
         xaxis: { title: "Predicted Sigma (min)" },
         yaxis: { title: "Score" }
     });
-}
 
     // -------------------------------
     // PLOT 3: Observability vs Sigma
@@ -400,6 +403,7 @@ function renderPlots(data) {
         xaxis: { title: "Score" },
         yaxis: { title: "Count" }
     });
+}
 
 // ---------------- CSV DOWNLOAD ----------------
 function downloadCSV() {
