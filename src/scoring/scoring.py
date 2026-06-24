@@ -30,6 +30,14 @@ def compute_scores(df):
     
     df['S5'] = df['S5'].clip(upper=5)
 
+    # ✅ S6 — Synergy / campaign need
+    df['S6'] = df['campaign_intensity'].apply(bin_synergy)
+
+    # ✅ Optional: slight boost for explicit campaigns
+    df.loc[df['campaign_flag'] == True, 'S6'] += 1
+    
+    df['S6'] = df['S6'].clip(upper=5)
+
     # ✅ Final weighted score
     df['final_score'] = (
         0.25 * df['S1'] +
