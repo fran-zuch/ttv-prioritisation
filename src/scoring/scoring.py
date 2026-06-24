@@ -1,9 +1,9 @@
 import pandas as pd
 from .bins import *
-from .ttv import compute_s2_ttv
-from .instrument import compute_s3_instrument
-from .science import compute_s5_science
-from .synergy import compute_s6_synergy
+from processing.ttv import compute_s2_ttv
+from processing.instrument import compute_s3_instrument
+from processing.science import compute_s5_science
+from processing.synergy import compute_s6_synergy
 
 def compute_scores(df):
 
@@ -35,3 +35,4 @@ def compute_scores(df):
     )
 
     return df.sort_values('final_score', ascending=False)
+
