@@ -1,16 +1,19 @@
-from scoring.bins import bin_science
+def compute_science_features(df):
 
-def compute_s5_science(df):
+    # ✅ Map ExoClock priority → numeric
+    def map_priority(status):
+        if status == "high":
+            return 5
+        elif status == "medium":
+            return 3
+        elif status == "low":
+            return 1
+        return 2  # unknown / default
 
-    def science_score(r):
+    df['science_priority_numeric'] = df.get('exoclock_priority', None).apply(map_priority)
 
-        base = bin_science(r.get('exoclock_priority'))
+    # ✅ Literature / activity flag (pre-computed externally)
+    if 'recent_activity_flag' not in df.columns:
+        df['recent_activity_flag'] = False
 
-        # ✅ literature / activity boost
-        if r.get('recent_activity_flag'):
-            base += 1
-
-        return min(base, 5)
-
-    df['S5'] = df.apply(science_score, axis=1)
     return df
