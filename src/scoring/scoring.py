@@ -18,6 +18,9 @@ def compute_scores(df):
     df.loc[df['ttv_flag_numeric'] == 1, 'S2'] += 1
 
     df['S2'] = df['S2'].clip(upper=5)
+    
+    # ✅ S3 — Instrument feasibility
+    df['S3'] = df['instrument_difficulty'].apply(bin_instrument)
 
     # ✅ S4 — Observability
     df['S4'] = df['obs_frac'].apply(bin_observability)
