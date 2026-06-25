@@ -42,7 +42,7 @@ def compute_scores(df):
     df['S6'] = df['S6'].clip(upper=5)
 
     # ✅ Final weighted score
-    df['final_score'] = (
+    df['base_score'] = (
         0.25 * df['S1'] +
         0.20 * df['S2'] +
         0.15 * df['S3'] +
@@ -50,5 +50,20 @@ def compute_scores(df):
         0.15 * df['S5'] +
         0.10 * df['S6']
     )
+    
+    # ✅ Apply instrument feasibility penalty
+    df['final_score'] = df['base_score'] * df['instrument_penalty']
 
-    return df.sort_values('final_score', ascending=False)
+   # ✅ Group by feasibility first (optional but recommended)
+    priority_map = {
+        "OK": 0,
+        "Marginal": 1,
+        "Not suitable": 2
+    }
+    
+    df["priority_group"] = df["instrument_flag"].map(priority_map)
+    
+    return df.sort_values(
+        ["priority_group", "final_score"],
+        ascending=[True, False]
+    )
