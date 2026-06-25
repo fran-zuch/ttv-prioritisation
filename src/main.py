@@ -6,7 +6,12 @@ from processing.ephemeris import expand_events
 from processing.observability import compute_observability
 
 from processing.ttv import compute_ttv_features
-from processing.instrument import compute_instrument_features
+
+from processing.instrument import (
+    compute_instrument_features,
+    add_instrument_constraints,
+    add_instrument_penalty
+)
 from processing.science import compute_science_features
 from processing.synergy import compute_synergy_features
 
@@ -30,13 +35,23 @@ def run():
     # ✅ Expand events
     events = expand_events(df, start_str, end_str)
 
-    # ✅ Observability
+    # ✅ Observability (S4)
     events = compute_observability(events)
 
-    # ✅ Feature scoring (S2–S6)
+    # ✅ TTV marker (S2)
     events = compute_ttv_features(events)
+
+    # ✅ Existing instrument scoring (difficulty → S3)
     events = compute_instrument_features(events)
+    
+    # ✅ NEW: physical feasibility layer
+    events = add_instrument_constraints(events, telescope_aperture=24.0)
+    events = add_instrument_penalty(events, alpha=2.0)
+
+    # ✅ Scientific impact (S5)
     events = compute_science_features(events)
+
+    # ✅ Network and community impact (S6)
     events = compute_synergy_features(events)
 
     # ✅ Final scoring
