@@ -2,7 +2,7 @@ name: Update and Deploy TTV Dashboard
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # daily at 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -13,35 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Step 1: Checkout repo
-      - name: Checkout repository
+      # ✅ 1. Get latest code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      # ✅ Step 2: Setup Python
-      - name: Setup Python
+      # ✅ 2. Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # ✅ Step 3: Install dependencies
+      # ✅ 3. Install dependencies
       - name: Install dependencies
         run: |
-          pip install pandas numpy astropy
+          pip install -r requirements.txt
 
-      # ✅ Step 4: Run your pipeline
+      # ✅ 4. Run YOUR pipeline
       - name: Run pipeline
         run: |
-          python src/main.py
+          python main.py
 
-      # ✅ Step 5: Commit updated data
-      - name: Commit updated outputs
+      # ✅ 5. Commit updated outputs
+      - name: Commit outputs
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add outputs.csv
-
-          # Only commit if changes exist
-          git diff --cached --quiet || git commit -m "Auto update TTV dashboard data"
-
+          git commit -m "Update outputs" || echo "No changes"
           git push
