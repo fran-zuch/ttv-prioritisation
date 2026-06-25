@@ -31,7 +31,7 @@ jobs:
       # ✅ 4. Run YOUR pipeline
       - name: Run pipeline
         run: |
-          python main.py
+          PYTHONPATH=src python src/main.py
 
       # ✅ 5. Commit updated outputs
       - name: Commit outputs
