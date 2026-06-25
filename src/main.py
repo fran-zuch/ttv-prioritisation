@@ -65,3 +65,5 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+print("RUNNING UPDATED PIPELINE - VERSION 2")
