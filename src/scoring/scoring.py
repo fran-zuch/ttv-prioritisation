@@ -58,8 +58,10 @@ def compute_scores(df):
     priority_map = {
         "OK": 0,
         "Marginal": 1,
-        "Not suitable": 2
+        "Unknown": 2,
+        "Not suitable": 3
     }
+
     
     df["priority_group"] = df["instrument_flag"].map(priority_map)
     
