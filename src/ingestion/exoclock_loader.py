@@ -50,6 +50,13 @@ def fetch_exoclock():
         "period_days": "period_days",
         "period_unc": "period_unc",
         "last_observed_midpoint": "last_obs_jd",
+        "min_telescope_inches": "min_telescope_inches", 
+        "priority": "exoclock_priority",
+        "total_observations": "n_obs_total",
+        "recent_observations": "n_obs_recent",
+        "ra_j2000": "ra_deg",
+        "dec_j2000": "dec_deg",
+        "r_mag": "r_mag",
     }
     df = df.rename(columns=rename_map)
 
@@ -70,6 +77,7 @@ def fetch_exoclock():
         "last_obs_jd",
         "ttv_flag",
         "literature_midtimes_recent",
+        "literature_midtimes",
         "expected_transit_snr_tess",
         "ra_deg",
         "dec_deg",
