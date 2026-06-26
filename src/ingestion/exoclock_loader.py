@@ -3,7 +3,7 @@ import urllib.request
 import pandas as pd
 import numpy as np
 
-EXOCLOCK_URL = "[exoclock.space](https://www.exoclock.space/database/planets_json)"
+EXOCLOCK_URL = "https://www.exoclock.space/database/planets_json"
 
 def fetch_exoclock():
     with urllib.request.urlopen(EXOCLOCK_URL, timeout=30) as f:
