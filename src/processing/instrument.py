@@ -3,18 +3,15 @@ import numpy as np
 def compute_instrument_features(df, telescope="PIRATE"):
 
     def instrument_difficulty(r):
-
         mag = r.get('mag_V')
         depth = r.get('depth_mmag')
         duration = r.get('duration_hr')
 
-        # ✅ Handle missing data
         if mag is None or depth is None or np.isnan(mag) or np.isnan(depth):
-            return 0  # lowest quality
+            return 0
 
         score = 0
 
-        # ✅ Magnitude (brightness)
         if mag < 10:
             score += 3
         elif mag < 12:
@@ -22,7 +19,6 @@ def compute_instrument_features(df, telescope="PIRATE"):
         elif mag < 13:
             score += 1
 
-        # ✅ Transit depth (signal strength)
         if depth > 10:
             score += 3
         elif depth > 5:
@@ -30,11 +26,9 @@ def compute_instrument_features(df, telescope="PIRATE"):
         elif depth > 2:
             score += 1
 
-        # ✅ Duration (very long → harder to cover)
-        if duration and duration > 3:
+        if duration is not None and not np.isnan(duration) and duration > 3:
             score -= 1
 
-        # ✅ Telescope-specific adjustment
         if telescope == "PIRATE":
             if mag > 13:
                 score -= 1
@@ -44,40 +38,29 @@ def compute_instrument_features(df, telescope="PIRATE"):
         return max(0, score)
 
     df['instrument_difficulty'] = df.apply(instrument_difficulty, axis=1)
-
-    # ✅ Optional normalised version (useful for plots)
     df['instrument_difficulty_norm'] = np.clip(df['instrument_difficulty'] / 6, 0, 1)
 
     return df
 
-# ============================================================
-# NEW: Instrument feasibility (aperture-based)
-# ============================================================
 
 def estimate_required_aperture(mag_V, depth_mmag):
-    """
-    Approximate required telescope aperture (inches).
-    
-    Heuristic:
-    - fainter stars → larger aperture
-    - shallower transits → larger aperture
-    """
     if mag_V is None or depth_mmag is None or np.isnan(mag_V) or np.isnan(depth_mmag):
-        return 40.0  # treat as difficult
-    
-    depth = max(depth_mmag / 1000.0, 1e-4)
+        return np.nan
+
+    if depth_mmag <= 0:
+        return np.nan
 
     mag_term = 10 ** (0.2 * (mag_V - 10))
-    depth_term = 1.0 / depth
+    depth_term = np.sqrt(10.0 / depth_mmag)
 
-    aperture = 4.0 * mag_term * depth_term
+    aperture = 4.5 * mag_term * depth_term
 
     return np.clip(aperture, 4.0, 40.0)
+
 
 def add_instrument_constraints(df, telescope_aperture=24.0):
     df = df.copy()
 
-    # Required aperture per target
     df["required_aperture"] = df.apply(
         lambda r: estimate_required_aperture(
             r.get("mag_V"),
@@ -86,30 +69,33 @@ def add_instrument_constraints(df, telescope_aperture=24.0):
         axis=1
     )
 
-    # Aperture ratio
     df["aperture_ratio"] = telescope_aperture / df["required_aperture"]
 
-    # Feasibility flags
     df["instrument_flag"] = np.select(
         [
+            df["required_aperture"].isna(),
             df["aperture_ratio"] >= 1.0,
             df["aperture_ratio"] >= 0.75,
         ],
         [
+            "Unknown",
             "OK",
             "Marginal"
         ],
         default="Not suitable"
     )
 
-    df["instrument_feasible"] = df["aperture_ratio"] >= 0.75
+    df["instrument_feasible"] = df["instrument_flag"].isin(["OK", "Marginal"])
 
     return df
+
 
 def add_instrument_penalty(df, alpha=2.0):
     df = df.copy()
 
     def penalty(r):
+        if r is None or np.isnan(r):
+            return 1.0
         if r >= 1:
             return 1.0
         return np.exp(-alpha * (1 - r))
