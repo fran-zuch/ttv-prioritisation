@@ -9,7 +9,7 @@ def compute_instrument_features(df, telescope="PIRATE"):
         duration = r.get('duration_hr')
 
         # ✅ Handle missing data
-        if mag is None or depth is None:
+        if mag is None or depth is None or np.isnan(mag) or np.isnan(depth):
             return 0  # lowest quality
 
         score = 0
@@ -62,7 +62,7 @@ def estimate_required_aperture(mag_V, depth_mmag):
     - fainter stars → larger aperture
     - shallower transits → larger aperture
     """
-    if mag_V is None or depth_mmag is None:
+    if mag_V is None or depth_mmag is None or np.isnan(mag_V) or np.isnan(depth_mmag):
         return 40.0  # treat as difficult
     
     depth = max(depth_mmag / 1000.0, 1e-4)
