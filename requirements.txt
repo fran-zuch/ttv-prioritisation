@@ -1,5 +1,3 @@
 pandas
 numpy
 astropy
-urllib.request
-json
