@@ -2,35 +2,64 @@ import numpy as np
 from astropy.time import Time
 import pandas as pd
 
-def propagate_uncertainty(T0,P,T0_sig,P_sig,Tmid):
-    epochs=(Tmid-T0)/P
-    return np.sqrt(T0_sig**2 + (epochs*P_sig)**2)
+
+def propagate_uncertainty(T0, P, T0_sig, P_sig, Tmid):
+    epochs = (Tmid - T0) / P
+    return np.sqrt(T0_sig**2 + (epochs * P_sig)**2)
+
 
 def compute_time_since_last_obs(last_obs_jd):
-    if last_obs_jd is None or not np.isfinite(last_obs_jd): return None
+    if last_obs_jd is None or not np.isfinite(last_obs_jd):
+        return None
     return Time.now().tdb.jd - last_obs_jd
 
-def expand_events(df,start_utc,end_utc):
-    start=Time(start_utc); end=Time(end_utc)
-    events=[]
-    for _,r in df.iterrows():
-        T0,P=r['T0'],r['P']
-        if not np.isfinite(T0) or not np.isfinite(P): continue
-        N=int((start.tdb.jd-T0)/P)-1
+
+def expand_events(df, start_utc, end_utc):
+    start = Time(start_utc)
+    end = Time(end_utc)
+    events = []
+
+    for _, r in df.iterrows():
+        T0, P = r["T0"], r["P"]
+        if not np.isfinite(T0) or not np.isfinite(P):
+            continue
+
+        T0_sig = r.get("T0_unc_days", 0) or 0
+        P_sig = r.get("P_unc_days", 0) or 0
+
+        N = int((start.tdb.jd - T0) / P) - 1
+
         while True:
-            tmid=T0+N*P
-            if tmid>end.tdb.jd: break
-            if tmid>=start.tdb.jd:
-                sigma=propagate_uncertainty(T0,P,r['T0_unc_days'] or 0,r['P_unc_days'] or 0,tmid)*1440
+            tmid = T0 + N * P
+            if tmid > end.tdb.jd:
+                break
+
+            if tmid >= start.tdb.jd:
+                sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
+
                 events.append({
-                    'name':r.get('name'),
-                    'Tmid_utc':Time(tmid,format='jd',scale='tdb').utc.isot,
-                    'duration_hr':r.get('duration_hours'),
-                    'mag_V':r.get('v_mag'),
-                    'depth_mmag':r.get('depth_r_mmag'),
-                    'current_oc_min':r.get('current_oc_min'),
-                    'pred_sigma_min':sigma,
-                    'time_since_last_obs_days':compute_time_since_last_obs(r.get('last_obs_jd'))
+                    # Event-level fields
+                    "name": r.get("name"),
+                    "Tmid_utc": Time(tmid, format="jd", scale="tdb").utc.isot,
+                    "pred_sigma_min": sigma,
+                    "time_since_last_obs_days": compute_time_since_last_obs(r.get("last_obs_jd")),
+
+                    # Core observing fields
+                    "duration_hr": r.get("duration_hr"),
+                    "mag_V": r.get("mag_V"),
+                    "depth_mmag": r.get("depth_mmag"),
+                    "current_oc_min": r.get("current_oc_min"),
+
+                    # Metadata needed downstream
+                    "exoclock_priority": r.get("exoclock_priority"),
+                    "recent_activity_flag": r.get("recent_activity_flag"),
+                    "events_per_month": r.get("events_per_month"),
+                    "network_needed": r.get("network_needed"),
+                    "campaign_flag": r.get("campaign_flag"),
+                    "ttv_flag": r.get("ttv_flag", 0),
+                    "snr_proxy": r.get("snr_proxy"),
+                    "last_obs_jd": r.get("last_obs_jd"),
                 })
-            N+=1
+            N += 1
+
     return pd.DataFrame(events)
