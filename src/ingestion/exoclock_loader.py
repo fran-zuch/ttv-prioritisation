@@ -71,6 +71,10 @@ def fetch_exoclock():
         "ttv_flag",
         "literature_midtimes_recent",
         "expected_transit_snr_tess",
+        "ra_deg",
+        "dec_deg",
+        "r_mag",
+        "min_teselcope_inches"
     ]
 
     for col in required_cols:
