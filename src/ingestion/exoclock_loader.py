@@ -5,6 +5,21 @@ import numpy as np
 
 EXOCLOCK_URL = "[exoclock.space](https://www.exoclock.space/database/planets_json)"
 
+def fetch_exoclock():
+    with urllib.request.urlopen(EXOCLOCK_URL, timeout=30) as f:
+        data = json.loads(f.read().decode("utf-8"))
+
+    rows = []
+    for k, v in data.items():
+        row = {"name": k}
+        if isinstance(v, dict):
+            row.update(v)
+        rows.append(row)
+
+    df = pd.DataFrame(rows)
+    return df
+
+
 
 def fetch_exoclock():
     # Fetch raw JSON
