@@ -119,7 +119,7 @@ def compute_observability(df, config):
                 dec=row["dec"] * u.deg
             )
     
-            mid_time = Time(row["Tmid_utc"].to_pydatetime()
+            mid_time = Time(row["Tmid_utc"].to_pydatetime())
     
             times = build_time_grid(mid_time)
     
