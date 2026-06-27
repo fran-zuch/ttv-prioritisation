@@ -41,7 +41,7 @@ def fetch_exoclock():
         "min_telescope_inches": "min_telescope_inches",
         "priority": "exoclock_priority",
         "total_observations": "n_obs_total",
-        "recent_observations": "n_obs_recent",
+        "total_observations_recent": "n_obs_recent",
         "ra_j2000": "ra",
         "dec_j2000": "dec",
     }
