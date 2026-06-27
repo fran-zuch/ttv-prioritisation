@@ -62,8 +62,8 @@ def prepare_catalog(df):
     # --- Canonical coordinates (ensure present) ---
     df["ra"] = df.get("ra_deg", np.nan)
     df["dec"] = df.get("dec_deg", np.nan)
-
-        required = ["ra", "dec", "mid_transit_bjd", "duration_hours"]
+    
+    required = ["ra", "dec", "mid_transit_bjd", "duration_hours"]
     missing = [c for c in required if df[c].isna().all()]
     
     if missing:
