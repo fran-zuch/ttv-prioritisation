@@ -32,12 +32,19 @@ jobs:
       - name: Run pipeline
         run: |
           PYTHONPATH=src python src/main.py
-
+      
       # ✅ 5. Commit updated outputs
       - name: Commit outputs
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add outputs.csv
+          git add output/*.csv
           git commit -m "Update outputs" || echo "No changes"
           git push
+
+      # ✅ 6. Upload output CSVs as artifacts
+      - name: Upload output CSVs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ttv-outputs
+          path: output/*.csv
