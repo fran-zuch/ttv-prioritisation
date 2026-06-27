@@ -15,6 +15,19 @@ body { font-family: Arial; margin:20px;}
     border-radius:8px;
 }
 
+.dashboard {
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+}
+
+.panel {
+    border:2px solid #444;
+    padding:10px;
+    margin-top:20px;
+    flex:1;
+}
+
 table {
     width:100%;
     border-collapse:collapse;
@@ -28,16 +41,15 @@ th,td {
 
 th { background:#eee; }
 
-.panel {
-    border:2px solid #444;
-    padding:10px;
-    margin-top:20px;
-}
-
 /* score colouring */
 .high { color:green; font-weight:bold; }
 .medium { color:#d48800; }
 .low { color:#888; }
+
+/* urgency banner */
+.urgent { background:#ffcccc; padding:5px; }
+.soon { background:#ffe599; padding:5px; }
+.relaxed { background:#d9ead3; padding:5px; }
 </style>
 </head>
 
@@ -49,17 +61,35 @@ th { background:#eee; }
 <div class="controls">
 Min Score <input type="range" id="scoreFilter" min="0" max="5" step="0.01" value="3.5">
 <input type="checkbox" id="pirateToggle"> PIRATE only
+<input type="checkbox" id="next5Toggle"> Next 5 days only
 </div>
 
 <button onclick="downloadScheduler()">📡 Scheduler CSV</button>
+<button onclick="generateEmail()">✉ OU Email</button>
 
-<!-- ✅ TOP TARGETS -->
+<!-- ✅ EXPLAINER -->
+<div class="panel">
+<h2>ℹ️ How to Use This Dashboard</h2>
+
+<p><b>Top Targets:</b> Shows the next observable transits, prioritised by time and feasibility.</p>
+<p><b>Table:</b> One row per target with key science and observability metrics. Click a row for details.</p>
+<p><b>Target Detail:</b> Explains why the target is ranked (score breakdown S1–S6).</p>
+
+</div>
+
+<div class="dashboard">
+
 <div class="panel">
 <h2>⭐ Top Targets (Next Observations)</h2>
 <ul id="topTargets"></ul>
 </div>
 
+<div class="panel">
+<h2>📊 Score Overview</h2>
 <div id="plot_breakdown"></div>
+</div>
+
+</div>
 
 <table id="table"></table>
 
@@ -72,12 +102,18 @@ Min Score <input type="range" id="scoreFilter" min="0" max="5" step="0.01" value
 
 let globalData=[];
 let filteredData=[];
+let limitTo5Days=false;
+
+next5Toggle.addEventListener("change", ()=>{
+    limitTo5Days = next5Toggle.checked;
+    updateDashboard();
+});
 
 function safe(x,d=2){
     return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d);
 }
 
-/* ✅ load correct CSV */
+/* ✅ load CSV */
 const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
 
 Papa.parse(`output/outputs_${today}.csv`,{
@@ -95,7 +131,6 @@ function getBestPerTarget(data){
     const best={};
     data.forEach(r=>{
         if(!r.name) return;
-
         if(!best[r.name] || r.final_score > best[r.name].final_score){
             best[r.name]=r;
         }
@@ -103,7 +138,7 @@ function getBestPerTarget(data){
     return Object.values(best);
 }
 
-/* ✅ observability classification */
+/* ✅ observability */
 function getObsClass(r){
     if(r.obs_frac > 0.7 && r.obs_max_alt > 60) return "🌟 Excellent";
     if(r.obs_frac > 0.4 && r.obs_max_alt > 30) return "✅ Good";
@@ -118,7 +153,15 @@ function getScoreClass(score){
     return "low";
 }
 
-/* ✅ main update */
+/* ✅ urgency function */
+function getUrgency(r){
+    let days = r.time_to_window_days;
+    if(days < 1) return {label:"🔥 URGENT", class:"urgent"};
+    if(days < 3) return {label:"⚠️ Soon", class:"soon"};
+    return {label:"✅ Planned", class:"relaxed"};
+}
+
+/* ✅ MAIN UPDATE */
 function updateDashboard(){
 
 let minScore=parseFloat(scoreFilter.value);
@@ -140,25 +183,34 @@ renderTable(filteredData);
 renderPlots(filteredData);
 }
 
-/* ✅ top targets */
+/* ✅ TOP TARGETS (time-based + urgency) */
 function renderTopTargets(data){
 
-let top = [...data]
-    .sort((a,b)=>b.final_score - a.final_score)
+let now = new Date();
+let cutoff = new Date(now.getTime() + 5*24*3600*1000);
+
+let top = data
+    .filter(d => new Date(d.Tmid_utc) >= now)
+    .filter(d => !limitTo5Days || new Date(d.Tmid_utc) <= cutoff)
+    .sort((a,b)=> new Date(a.Tmid_utc) - new Date(b.Tmid_utc))
     .slice(0,5);
 
 let html="";
 
 top.forEach(t=>{
-    let mid=new Date(t.Tmid_utc);
-    let dur=t.duration_hours*3600*1000;
-    
-    let start = new Date(mid.getTime() - dur/2);
-    let end   = new Date(mid.getTime() + dur/2);
 
-    html+=`
-<li>
-<b>${t.name}</b> (Score: ${safe(t.final_score)})
+let mid=new Date(t.Tmid_utc);
+let dur=t.duration_hours*3600*1000;
+
+let start = new Date(mid.getTime() - dur/2);
+let end   = new Date(mid.getTime() + dur/2);
+
+let urgency = getUrgency(t);
+
+html+=`
+<li class="${urgency.class}">
+<b>${t.name}</b> (${urgency.label})
+<br>Score: ${safe(t.final_score)}
 <br>🕒 ${start.toLocaleString()} → ${end.toLocaleString()}
 <br>⛰ Alt: ${safe(t.obs_max_alt)}° | Obs: ${safe(t.obs_frac)}
 <br>📊 ${getObsClass(t)}
@@ -168,7 +220,7 @@ top.forEach(t=>{
 document.getElementById("topTargets").innerHTML=html;
 }
 
-/* ✅ upgraded table */
+/* ✅ TABLE */
 function renderTable(data){
 
 let html=`
@@ -177,16 +229,15 @@ let html=`
 <th>Score</th>
 <th>Obs %</th>
 <th>Max Alt</th>
-<th>σ (min)</th>
-<th>Duration (h)</th>
-<th>Next Transit</th>
-<th>Obs Class</th>
+<th>σ</th>
+<th>Duration</th>
+<th>Transit</th>
+<th>Class</th>
 <th>PIRATE</th>
 </tr>`;
 
 data.sort((a,b)=>b.final_score - a.final_score)
-    .slice(0,30)
-    .forEach(r=>{
+.forEach(r=>{
 
 let pirate = (r.obs_max_alt >= 40 && r.obs_frac > 0.5) ? "✅" : "❌";
 
@@ -209,30 +260,77 @@ html+=`
 table.innerHTML=html;
 }
 
-/* ✅ detail panel */
+/* ✅ DETAILS (enhanced) */
 function showDetails(name){
 
 let r = filteredData.find(d=>d.name===name);
 
 detailPanel.innerHTML=`
 <h3>${r.name}</h3>
-<p><b>Score:</b> ${safe(r.final_score)}</p>
-<p><b>Obs:</b> ${safe(r.obs_frac)} | Max Alt ${safe(r.obs_max_alt)}</p>
-<p><b>σ:</b> ${safe(r.pred_sigma_min)} min</p>
-<p><b>Duration:</b> ${safe(r.duration_hours)} hr</p>
-<p><b>${getObsClass(r)}</p>
+
+<p><b>Final Score:</b> ${safe(r.final_score)}</p>
+
+<h4>📊 Score Breakdown</h4>
+<ul>
+<li>S1 Ephemeris: ${safe(r.S1)}</li>
+<li>S2 TTV Signal: ${safe(r.S2)}</li>
+<li>S3 Instrument: ${safe(r.S3)}</li>
+<li>S4 Observability: ${safe(r.S4)}</li>
+<li>S5 Science: ${safe(r.S5)}</li>
+<li>S6 Synergy: ${safe(r.S6)}</li>
+</ul>
+
+<h4>🔭 Observability</h4>
+<ul>
+<li>Visible fraction: ${safe(r.obs_frac)}</li>
+<li>Max altitude: ${safe(r.obs_max_alt)}</li>
+<li>Duration: ${safe(r.duration_hours)}</li>
+<li>${getObsClass(r)}</li>
+</ul>
+
+<h4>📡 Scheduling</h4>
+<ul>
+<li>Tmid: ${r.Tmid_utc}</li>
+<li>Uncertainty: ${safe(r.pred_sigma_min)} min</li>
+<li>Time to window: ${safe(r.time_to_window_days)} days</li>
+</ul>
+
+<p><b>Interpretation:</b> Balanced trade-off between observability and timing urgency.</p>
 `;
 }
 
-/* ✅ simple plot */
+/* ✅ EMAIL */
+function generateEmail(){
+let top = filteredData.slice(0,3);
+
+let text="Subject: S841 Observing Request\n\n";
+
+top.forEach((t,i)=>{
+
+let mid=new Date(t.Tmid_utc);
+let dur=t.duration_hours*3600*1000;
+
+let s=new Date(mid.getTime()-dur/2);
+let e=new Date(mid.getTime()+dur/2);
+
+text+=`
+Target ${i+1}
+${t.name}
+Start: ${s.toISOString()}
+End: ${e.toISOString()}
+`;
+});
+
+prompt("Copy email:", text);
+}
+
+/* ✅ plot */
 function renderPlots(data){
 Plotly.newPlot("plot_breakdown", [{
     x:data.slice(0,10).map(d=>d.name),
     y:data.slice(0,10).map(d=>d.final_score),
     type:'bar'
-}],{
-    title:"Top Scores"
-});
+}],{title:"Top Scores"});
 }
 
 /* ✅ scheduler */
@@ -242,10 +340,9 @@ let csv="Name,RA,Dec,Start,End\n";
 filteredData.slice(0,5).forEach(r=>{
     let mid=new Date(r.Tmid_utc);
     let dur=r.duration_hours*3600*1000;
-    
+
     let s=new Date(mid.getTime()-dur/2).toISOString();
     let e=new Date(mid.getTime()+dur/2).toISOString();
-
 
     csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
 });
