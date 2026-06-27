@@ -167,7 +167,7 @@ def compute_observability(df, config):
                 "obs_peak_time_jd": times[np.argmax(alt)].jd
             })
             
-            except Exception as e:
-                print("ERROR:", e)
+        except Exception as e:
+            print("ERROR:", e)
             
     return df.join(pd.DataFrame(results))
