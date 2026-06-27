@@ -117,7 +117,7 @@ def compute_observability(df, config):
             good = altitude_ok & sun_ok & moon_ok
 
             results.append({
-                "obs_fraction": np.sum(good) / len(good),
+                "obs_frac": np.sum(good) / len(good),
                 "obs_max_alt": alt.max().value,
                 "obs_min_alt": alt.min().value,
                 "obs_mean_airmass": np.mean(airmass).value,
@@ -130,7 +130,7 @@ def compute_observability(df, config):
         except Exception:
             # Keep pipeline robust
             results.append({
-                "obs_fraction": 0,
+                "obs_frac": 0,
                 "obs_max_alt": np.nan,
                 "obs_min_alt": np.nan,
                 "obs_mean_airmass": np.nan,
