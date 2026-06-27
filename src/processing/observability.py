@@ -67,13 +67,15 @@ def build_time_grid(mid_time, window_hours=4, cadence_min=2):
     half_window = (window_hours / 2) * u.hour
     cadence = cadence_min * u.min
 
-    times = mid_time + np.arange(
-        -half_window.value,
-        half_window.value,
+    offsets = np.arange(
+        -half_window.to(u.hour).value,
+        half_window.to(u.hour).value,
         cadence.to(u.hour).value
     ) * u.hour
 
-    return Time(times)
+    return mid_time + offsets   # ✅ DO NOT wrap with Time()
+    
+    print("Time grid sample:", times[:3])
 
 
 # -----------------------------------------------------------------------------
@@ -124,7 +126,7 @@ def compute_observability(df, config):
                 dec=row["dec"] * u.deg
             )
     
-            mid_time =Time(pd.to_datetime(row["Tmid_utc"]).to_pydatetime())
+            mid_time = Time(row["Tmid_utc"].to_pydatetime())
             
             print("mid_time:", row["Tmid_utc"], type(row["Tmid_utc"]))
     
