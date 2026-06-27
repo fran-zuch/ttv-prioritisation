@@ -105,6 +105,8 @@ def run():
     
     events.to_csv(filename, index=False)
 
+    print("Saving to:", filename)
+
     
     # ✅ ALSO write latest pointer file
     # events.to_csv("outputs.csv", index=False)
