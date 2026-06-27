@@ -5,6 +5,21 @@ import numpy as np
 
 EXOCLOCK_URL = "https://www.exoclock.space/database/planets_json"
 
+
+def hms_to_deg(hms):
+    if pd.isna(hms):
+        return np.nan
+    h, m, s = [float(x) for x in hms.split(":")]
+    return 15 * (h + m/60 + s/3600)
+
+def dms_to_deg(dms):
+    if pd.isna(dms):
+        return np.nan
+    sign = -1 if dms.strip().startswith("-") else 1
+    d, m, s = [float(x) for x in dms.replace("+","").replace("-","").split(":")]
+    return sign * (d + m/60 + s/3600)
+
+
 def fetch_exoclock():
     with urllib.request.urlopen(EXOCLOCK_URL, timeout=30) as f:
         data = json.loads(f.read().decode("utf-8"))
@@ -33,9 +48,16 @@ def fetch_exoclock():
 
     df = df.rename(columns=rename_map)
 
-    # Ensure numeric coords
-    df["ra"] = pd.to_numeric(df.get("ra"), errors="coerce")
-    df["dec"] = pd.to_numeric(df.get("dec"), errors="coerce")
+    # Convert RA/DEC from sexagesimal to degrees
+    df["ra"] = df["ra"].apply(hms_to_deg)
+    df["dec"] = df["dec"].apply(dms_to_deg)
+
+    
+    print(df[["name", "ra", "dec"]].head())
+    
+    assert df["ra"].notna().any(), "RA conversion failed"
+    assert df["dec"].notna().any(), "DEC conversion failed"
+
 
     # Ensure required columns exist
     required_cols = [...]
