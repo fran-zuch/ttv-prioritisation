@@ -41,6 +41,10 @@ def run():
         print("No observable events found in window.")
         return
 
+    print(events[["Tmid_utc"]].head())
+    print(type(events["Tmid_utc"].iloc[0]))
+
+    
     # --- Observability ---
     obs_config = {
         "lat": 28.3,
@@ -52,6 +56,8 @@ def run():
     }
 
     events = compute_observability(events, obs_config)
+
+    print(events[["obs_frac", "obs_max_alt"]].head(
 
     # --- TTV ---
     events = compute_ttv_features(events)
