@@ -91,17 +91,23 @@ def run():
     events = compute_scores(events)
 
     # --- Output ---
-    output_dir = os.path.join(os.path.dirname(__file__), "..", "output")
-    os.makedirs(output_dir, exist_ok=True)
+    # Path to the repo root (one level above src/)
+    ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    
+    # Path to the output folder
+    OUTPUT_DIR = os.path.join(ROOT, "output")
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     
     filename = os.path.join(
-        output_dir,
-        f"outputs_{start.strftime('%Y%m%d')}.csv")
-
+        OUTPUT_DIR,
+        f"outputs_{start.strftime('%Y%m%d')}.csv"
+    )
+    
     events.to_csv(filename, index=False)
+
     
     # ✅ ALSO write latest pointer file
-    events.to_csv("outputs.csv", index=False)
+    # events.to_csv("outputs.csv", index=False)
 
 
     print(events[['name','S1','S2','S3','S4','S5','S6','final_score']].head())
