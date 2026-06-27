@@ -15,6 +15,7 @@ NOT used directly in scoring to maintain model transparency.
 
 import numpy as np
 
+print("✅ LOADING UPDATED INSTRUMENT MODULE V2")
 
 # -----------------------------------------------------------------------------
 # Difficulty heuristic (optional / legacy)
