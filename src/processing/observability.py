@@ -155,4 +155,4 @@ for _, row in df.iterrows():
         
         missing_coords += 1
         
-    return df.join(pd.DataFrame(results))
+        return df.join(pd.DataFrame(results))
