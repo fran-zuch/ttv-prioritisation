@@ -1,138 +1,211 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TTV Target Selection</title>
+<title>TTV Target Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
 
 <style>
-body { font-family: Arial; margin: 20px; }
-.controls { background:#f4f4f4;padding:10px;border-radius:8px;}
-table { width:100%; border-collapse:collapse; }
-th,td{ border:1px solid #ddd;padding:6px;text-align:center;}
+body { font-family: Arial; margin:20px;}
+.controls{background:#f4f4f4;padding:10px;border-radius:8px;}
+table{width:100%;border-collapse:collapse;}
+th,td{border:1px solid #ddd;padding:6px;text-align:center;}
 th{background:#eee;}
+.panel{border:2px solid #444;padding:10px;margin-top:20px;}
 </style>
 </head>
 
 <body>
 
-<h1>🔭 PIRATE Scheduling</h1>
-<p><b>Instrument-aware prioritisation for exoplanet transits.</b></p>
+<h1>🔭 Prioritisation and Scoring Pipeline</h1>
+<h2>Instrument aware: PIRATE Telescope</h2>
 
 <div class="controls">
-Min Score:
-<input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
-<span id="scoreValue">0.5</span>
-
-| PIRATE Ready:
-<input type="checkbox" id="pirateToggle">
-
-| Tonight:
-<input type="checkbox" id="tonightToggle">
+Min Score <input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
+<input type="checkbox" id="pirateToggle"> PIRATE only
 </div>
 
-<button onclick="downloadScheduler()">📡 Export Scheduler CSV</button>
-<button onclick="generateEmail()">✉️ Generate OU Email</button>
+<button onclick="downloadScheduler()">📡 Scheduler CSV</button>
+<button onclick="generateEmail()">✉ OU Email</button>
 
-<h2>⚙️ Scoring Model</h2>
-<p>Weighted prioritisation combining ephemeris, TTV, instrument, observability, science, and synergy.</p>
-
-<div id="plot1"></div>
+<div id="plot_breakdown"></div>
+<div id="plot_tradeoff"></div>
+<div id="plot_pirate"></div>
+<div id="plot_science"></div>
+<div id="plot_visibility"></div>
+<div id="plot_hist"></div>
 
 <table id="table"></table>
 
+<div id="detailPanel" class="panel">
+<h2>📊 Target Detail</h2>
+<p>Select a target to view details</p>
+</div>
+
 <script>
 
-let globalData = [];
-let filteredData = [];
+let globalData=[];
+let filteredData=[];
 
-function safe(x,d=2){ return (!x||isNaN(x)) ? "-" : Number(x).toFixed(d); }
+function safe(x,d=2){return (!x||isNaN(x))?"-":Number(x).toFixed(d);}
 
-// ✅ LOAD CSV (dated)
-const today = new Date().toISOString().slice(0,10).replace(/-/g,"");
+// LOAD CSV
+const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
 
-Papa.parse(`outputs_${today}.csv`, {
-    download:true,
-    header:true,
-    dynamicTyping:true,
-    complete: function(r){
-        globalData = r.data;
-        updateDashboard();
-    }
+Papa.parse(`outputs_${today}.csv`,{
+download:true,header:true,dynamicTyping:true,
+complete:r=>{
+globalData=r.data;
+updateDashboard();
+}
 });
 
 function updateDashboard(){
 
-    let minScore = parseFloat(document.getElementById("scoreFilter").value);
+let minScore=parseFloat(scoreFilter.value);
 
-    filteredData = globalData.filter(r=>r.final_score>=minScore);
+filteredData=globalData.filter(r=>r.final_score>=minScore);
 
-    // ✅ PIRATE filter
-    if(document.getElementById("pirateToggle").checked){
-        filteredData = filteredData.filter(r =>
-            r.obs_max_alt >= 40 &&
-            r.obs_frac > 0.5 &&
-            r.duration_hours <= 4
-        );
-    }
+if(pirateToggle.checked){
+filteredData=filteredData.filter(r=>
+r.obs_max_alt>=40 &&
+r.obs_frac>0.5 &&
+r.duration_hours<=4);
+}
 
-    renderTable(filteredData);
+renderTable(filteredData);
+renderPlots(filteredData);
 }
 
 function renderTable(data){
-    let html = "<tr><th>Target</th><th>Score</th><th>Time</th></tr>";
-    data.slice(0,20).forEach(r=>{
-        html+=`<tr>
-        <td>${r.name}</td>
-        <td>${safe(r.final_score)}</td>
-        <td>${r.Tmid_utc}</td>
-        </tr>`;
-    });
-    document.getElementById("table").innerHTML = html;
+let html="<tr><th>Target</th><th>Score</th></tr>";
+data.slice(0,20).forEach(r=>{
+html+=`<tr onclick="showDetails('${r.name}')">
+<td>${r.name}</td>
+<td>${safe(r.final_score)}</td>
+</tr>`;
+});
+table.innerHTML=html;
 }
 
-// ✅ SCHEDULER EXPORT
+function showDetails(name){
+let r = filteredData.find(d=>d.name===name);
+
+detailPanel.innerHTML = `
+<h3>${r.name}</h3>
+<p><b>Final Score:</b> ${safe(r.final_score)}</p>
+
+<b>Score Components:</b>
+<ul>
+<li>S1 Ephemeris: ${r.S1}</li>
+<li>S2 TTV: ${r.S2}</li>
+<li>S3 Instrument: ${r.S3}</li>
+<li>S4 Observability: ${r.S4}</li>
+<li>S5 Science: ${r.S5}</li>
+<li>S6 Synergy: ${r.S6}</li>
+</ul>
+
+<p><b>Ephemeris σ:</b> ${safe(r.pred_sigma_min)} min</p>
+<p><b>Observability:</b> ${safe(r.obs_frac)}</p>
+<p><b>Max Altitude:</b> ${safe(r.obs_max_alt)}</p>
+<p><b>Duration:</b> ${safe(r.duration_hours)} hr</p>
+
+<p><b>PIRATE Feasible:</b> ${r.obs_max_alt>=40?"Yes":"No"}</p>
+`;
+}
+
+// GRAPHS
+
+function renderPlots(data){
+
+// breakdown
+Plotly.newPlot("plot_breakdown",[{
+x:data.slice(0,10).map(d=>d.name),
+y:data.slice(0,10).map(d=>d.S1),
+type:'bar',
+name:"S1"
+}],{title:"Score Breakdown"});
+
+// tradeoff
+Plotly.newPlot("plot_tradeoff",[{
+x:data.map(d=>d.pred_sigma_min),
+y:data.map(d=>d.obs_frac),
+mode:"markers",
+text:data.map(d=>d.name),
+marker:{color:data.map(d=>d.final_score),colorscale:"Viridis"}
+}]);
+
+// PIRATE
+Plotly.newPlot("plot_pirate",[{
+x:data.map(d=>d.obs_max_alt),
+y:data.map(d=>d.duration_hours),
+mode:"markers",
+text:data.map(d=>d.name)
+}]);
+
+// science
+Plotly.newPlot("plot_science",[{
+x:data.map(d=>d.n_obs_recent),
+y:data.map(d=>d.final_score),
+mode:"markers"
+}]);
+
+// visibility
+Plotly.newPlot("plot_visibility",[{
+x:data.map(d=>d.time_to_window_days),
+y:data.map(d=>d.obs_frac),
+mode:"markers"
+}]);
+
+// histogram
+Plotly.newPlot("plot_hist",[{
+x:data.map(d=>d.final_score),
+type:"histogram"
+}]);
+
+}
+
+// CLICK INTERACTION FROM PLOTS
+document.addEventListener("plotly_click", function(e){
+let point=e.detail.points[0];
+showDetails(point.text);
+});
+
+// EXPORTS
+
 function downloadScheduler(){
-    let csv="Name,RA,Dec,Start,End\n";
-
-    filteredData.slice(0,5).forEach(r=>{
-        let mid=new Date(r.Tmid_utc);
-        let dur=r.duration_hours*3600*1000;
-
-        let s=new Date(mid.getTime()-dur/2).toISOString();
-        let e=new Date(mid.getTime()+dur/2).toISOString();
-
-        csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
-    });
-
-    let blob=new Blob([csv]);
-    let a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="pirate_scheduler.csv";
-    a.click();
+let csv="Name,RA,Dec,Start,End\n";
+filteredData.slice(0,5).forEach(r=>{
+let mid=new Date(r.Tmid_utc);
+let dur=r.duration_hours*3600*1000;
+let s=new Date(mid-dur/2).toISOString();
+let e=new Date(mid+dur/2).toISOString();
+csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
+});
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="scheduler.csv";
+a.click();
 }
 
-// ✅ OU EMAIL GENERATOR
 function generateEmail(){
+let top=filteredData.slice(0,3);
+let text="Subject: S841/SXS841 observing request\n\n";
+top.forEach((t,i)=>{
+let mid=new Date(t.Tmid_utc);
+let dur=t.duration_hours*3600*1000;
+let s=new Date(mid-dur/2);
+let e=new Date(mid+dur/2);
 
-    const top = filteredData.slice(0,3);
+text+=`\nTarget ${i+1}\nName:${t.name}\nRA:${t.ra} DEC:${t.dec}\nStart:${s.toISOString()}\nEnd:${e.toISOString()}\n`;
+});
+navigator.clipboard.writeText(text);
+alert("Email copied");
+}
 
-    let text="Subject: S841/SXS841 observing request\n\n";
+</script>
 
-    text+="Your name: [ENTER]\n";
-    text+="Your OUCU: [ENTER]\n";
-
-    top.forEach((t,i)=>{
-
-        let mid=new Date(t.Tmid_utc);
-        let dur=t.duration_hours*3600*1000;
-
-        let s=new Date(mid.getTime()-dur/2);
-        let e=new Date(mid.getTime()+dur/2);
-
-        text+=`\n--- Target ${i+1} ---\n`;
-        text+=`Name: ${t.name}\n`;
-        text+=`RA: ${t.ra} Dec: ${t.dec}\n`;
-        text+=`Start: ${s.toISOString()}\n`;
+</body>
+</html>
