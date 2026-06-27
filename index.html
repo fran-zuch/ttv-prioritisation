@@ -152,9 +152,9 @@ let html="";
 top.forEach(t=>{
     let mid=new Date(t.Tmid_utc);
     let dur=t.duration_hours*3600*1000;
-
-    let start=new Date(mid - dur/2);
-    let end=new Date(mid + dur/2);
+    
+    let start = new Date(mid.getTime() - dur/2);
+    let end   = new Date(mid.getTime() + dur/2);
 
     html+=`
 <li>
@@ -242,9 +242,10 @@ let csv="Name,RA,Dec,Start,End\n";
 filteredData.slice(0,5).forEach(r=>{
     let mid=new Date(r.Tmid_utc);
     let dur=r.duration_hours*3600*1000;
+    
+    let s=new Date(mid.getTime()-dur/2).toISOString();
+    let e=new Date(mid.getTime()+dur/2).toISOString();
 
-    let s=new Date(mid-dur/2).toISOString();
-    let e=new Date(mid+dur/2).toISOString();
 
     csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
 });
