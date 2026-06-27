@@ -166,17 +166,8 @@ def compute_observability(df, config):
                 "obs_visible": int(np.any(good)),
                 "obs_peak_time_jd": times[np.argmax(alt)].jd
             })
-    
-        except Exception as e:
-    
-            # ✅ SAFE fallback (NO reference to 'good' here!)
-            results.append({
-                "obs_frac": 0,
-                "obs_max_alt": np.nan,
-                "obs_min_alt": np.nan,
-                "obs_mean_airmass": np.nan,
-                "obs_visible": 0,
-                "obs_peak_time_jd": np.nan
-            })
+            
+            except Exception as e:
+                print("ERROR:", e)
             
     return df.join(pd.DataFrame(results))
