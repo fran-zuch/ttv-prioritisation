@@ -30,6 +30,8 @@ def run():
 
     # --- Ingestion ---
     df = prepare_catalog(fetch_exoclock())
+    
+    print(df[["name", "min_telescope_inches"]].head())
 
     # --- Expand events ---
     events = expand_events(df, start_str, end_str)
