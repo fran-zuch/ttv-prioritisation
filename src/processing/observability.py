@@ -87,6 +87,12 @@ def compute_observability(df, config):
     Expected df columns:
         ra, dec, Tmid_utc
     """
+    
+    # ✅ Convert to datetime first
+    df["Tmid_utc"] = pd.to_datetime(df["Tmid_utc"], errors="coerce")
+    
+    # ✅ Drop anything broken
+    df = df.dropna(subset=["Tmid_utc"])
 
     location = build_observatory(
         config["lat"],
@@ -105,7 +111,7 @@ def compute_observability(df, config):
                 raise ValueError("Missing coordinates")
     
             if pd.isna(row.get("Tmid_utc")):
-                raise ValueError("Missing Tmid")
+                raise ValueError("Invalid Tmid_utc after parsing")
     
             # ✅ Build target
             target = SkyCoord(
@@ -113,7 +119,7 @@ def compute_observability(df, config):
                 dec=row["dec"] * u.deg
             )
     
-            mid_time = Time(row["Tmid_utc"])
+            mid_time = Time(row["Tmid_utc"].to_pydatetime()
     
             times = build_time_grid(mid_time)
     
