@@ -1,27 +1,31 @@
+import numpy as np
+
 def compute_science_features(df):
 
-    # ✅ Ensure column exists safely
+    # --- Priority mapping ---
     if 'exoclock_priority' not in df.columns:
         df['exoclock_priority'] = None
 
-    # ✅ Map ExoClock priority → numeric
     def map_priority(status):
-        if status == "alert":
-            return 5
-         elif status == "high":
-            return 4            
-        elif status == "medium":
-            return 3
-        elif status == "low":
-            return 1
-        return 2  # default / unknown
+        if status is None:
+            return 0
+        status = str(status).lower()
+        mapping = {
+            "alert": 5,
+            "high": 4,
+            "medium": 3,
+            "low": 2
+        }
+        return mapping.get(status, 1)
 
     df['science_priority_numeric'] = df['exoclock_priority'].apply(map_priority)
 
-    # ✅ Ensure literature flag exists
-    if 'recent_activity_flag' not in df.columns:
-        df['recent_activity_flag'] = False
+    # --- Recency scoring ---
+    if "n_obs_recent" not in df.columns:
+        df["n_obs_recent"] = 0
 
-    df['recent_activity_flag'] = df['recent_activity_flag'].astype(bool)
+    df["n_obs_recent"] = df["n_obs_recent"].fillna(0)
+
+    df["science_recency_score"] = 1 / (1 + df["n_obs_recent"])
 
     return df
