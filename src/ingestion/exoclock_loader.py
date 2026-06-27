@@ -41,8 +41,6 @@ def fetch_exoclock():
         "v_mag": "mag_V",
         "depth_r_mmag": "depth_mmag",
         "depth_mmag": "depth_mmag",
-        "duration_hr": "duration_hr",
-        "duration_hours": "duration_hr",
         "ephem_mid_time": "ephem_mid_time",
         "ephem_period": "ephem_period",
         "t0_bjd_tdb": "t0_bjd_tdb",
@@ -54,18 +52,15 @@ def fetch_exoclock():
         "priority": "exoclock_priority",
         "total_observations": "n_obs_total",
         "recent_observations": "n_obs_recent",
-        "ra_j2000": "ra_deg",
-        "dec_j2000": "dec_deg",
+        "ra_j2000": "ra",
+        "dec_j2000": "dec",
         "r_mag": "r_mag",
     }
     df = df.rename(columns=rename_map)
 
     # --- Canonical coordinate fields for pipeline ---
-    df["ra"] = pd.to_numeric(df["ra_deg"], errors="coerce")
-    df["dec"] = pd.to_numeric(df["dec_deg"], errors="coerce")
-    
-    # --- Canonical timing fields ---
-    df["duration_hours"] = pd.to_numeric(df["duration_hr"], errors="coerce")
+    df["ra"] = pd.to_numeric(df["ra"], errors="coerce")
+    df["dec"] = pd.to_numeric(df["dec"], errors="coerce")
     
     # We do NOT yet define mid_transit_bjd here (done after ephemeris)
 
@@ -74,7 +69,7 @@ def fetch_exoclock():
         "name",
         "exoclock_priority",
         "depth_mmag",
-        "duration_hr",
+        "duration_hours",
         "mag_V",
         "ephem_mid_time",
         "ephem_period",
@@ -88,10 +83,11 @@ def fetch_exoclock():
         "literature_midtimes_recent",
         "literature_midtimes",
         "expected_transit_snr_tess",
-        "ra_deg",
-        "dec_deg",
+        "ra",
+        "dec",
         "r_mag",
-        "min_telescope_inches"
+        "min_telescope_inches",
+        "total_observations_recent"
     ]
 
     for col in required_cols:
@@ -110,7 +106,7 @@ def fetch_exoclock():
     else:
         df["recent_activity_flag"] = False
 
-    if "duration_hr" in df.columns:
+    if "duration_hours" in df.columns:
         dur = pd.to_numeric(df["duration_hr"], errors="coerce")
         df["network_needed"] = dur > 3
     else:
