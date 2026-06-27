@@ -37,7 +37,7 @@ def fetch_exoclock():
         "planet_name": "name",
         "v_mag": "mag_V",
         "depth_r_mmag": "depth_mmag",
-        "last_observed_midpoint": "last_obs_jd",
+        "ephem_mid_time": "last_obs_jd",
         "min_telescope_inches": "min_telescope_inches",
         "priority": "exoclock_priority",
         "total_observations": "n_obs_total",
