@@ -4,9 +4,7 @@ from ingestion.exoclock_loader import fetch_exoclock
 from processing.catalog import prepare_catalog
 from processing.ephemeris import expand_events
 from processing.observability import compute_observability
-
 from processing.ttv import compute_ttv_features
-
 from processing.instrument import (
     compute_instrument_features,
     add_instrument_constraints,
@@ -14,13 +12,14 @@ from processing.instrument import (
 )
 from processing.science import compute_science_features
 from processing.synergy import compute_synergy_features
-
 from scoring.scoring import compute_scores
 
 
 def run():
 
-    # ✅ Dynamic 30-day window
+    print("RUNNING UPDATED PIPELINE - VERSION 2")
+
+    # --- Dynamic 30-day window ---
     start = datetime.utcnow()
     end = start + timedelta(days=30)
 
@@ -29,50 +28,51 @@ def run():
 
     print(f"Running window: {start_str} → {end_str}")
 
-    # ✅ Data ingestion
+    # --- Ingestion ---
     df = prepare_catalog(fetch_exoclock())
 
-    # ✅ Expand events
+    # --- Expand events ---
     events = expand_events(df, start_str, end_str)
 
-    # ✅ Observability (S4)
+    if events.empty:
+        print("No observable events found in window.")
+        return
+
+    # --- Observability ---
     obs_config = {
-        "lat": 28.3,           # Teide example (update if needed)
+        "lat": 28.3,
         "lon": -16.5,
         "elevation": 2400,
-        "min_alt": 20,         # degrees
-        "max_sun_alt": -18,    # astronomical night
-        "min_moon_sep": 30     # degrees
+        "min_alt": 20,
+        "max_sun_alt": -18,
+        "min_moon_sep": 30
     }
-    
+
     events = compute_observability(events, obs_config)
 
-    # ✅ TTV marker (S2)
+    # --- TTV ---
     events = compute_ttv_features(events)
 
-    # ✅ Existing instrument scoring (difficulty → S3)
+    # --- Instrument ---
     events = compute_instrument_features(events)
-    
-    # ✅ NEW: physical feasibility layer
     events = add_instrument_constraints(events, telescope_aperture=24.0)
     events = add_instrument_penalty(events, alpha=2.0)
 
-    # ✅ Scientific impact (S5)
+    # --- Science ---
     events = compute_science_features(events)
 
-    # ✅ Network and community impact (S6)
+    # --- Synergy ---
     events = compute_synergy_features(events)
 
-    # ✅ Final scoring
+    # --- Scoring ---
     events = compute_scores(events)
 
-    # ✅ Output
-    events.to_csv('outputs.csv', index=False)
+    # --- Output ---
+    filename = f"outputs_{start.strftime('%Y%m%d')}.csv"
+    events.to_csv(filename, index=False)
 
     print(events[['name','S1','S2','S3','S4','S5','S6','final_score']].head())
 
 
 if __name__ == '__main__':
     run()
-
-print("RUNNING UPDATED PIPELINE - VERSION 2")
