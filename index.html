@@ -1,604 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TTV Target Dashboard</title>
-    
-    <!-- Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+<title>TTV Target Selection</title>
 
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        h1, h2 { margin-bottom: 10px; }
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
 
-        .controls {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f4f4f4;
-            border-radius: 8px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: center;
-        }
-
-        th {
-            background: #eee;
-        }
-
-        .high { background-color: #d4f7d4; }
-        .medium { background-color: #fff3cd; }
-
-        .tooltip {
-            position: relative;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 280px;
-            background-color: #333;
-            color: #fff;
-            text-align: left;
-            padding: 8px;
-            border-radius: 6px;
-            position: absolute;
-            z-index: 1;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: pre-line;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-        }
-
-        button {
-            padding: 8px 12px;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-    </style>
+<style>
+body { font-family: Arial; margin: 20px; }
+.controls { background:#f4f4f4;padding:10px;border-radius:8px;}
+table { width:100%; border-collapse:collapse; }
+th,td{ border:1px solid #ddd;padding:6px;text-align:center;}
+th{background:#eee;}
+</style>
 </head>
 
 <body>
 
-<h1>🔭 TTV Target Prioritisation Dashboard</h1>
-<p>Live ExoClock-based prioritisation with ephemeris urgency and scheduling awareness.</p>
-<p><i>All times shown in UTC</i></p>
+<h1>🔭 PIRATE Scheduling</h1>
+<p><b>Instrument-aware prioritisation for exoplanet transits.</b></p>
 
-    <!-- Filters -->
 <div class="controls">
-    Min Score:
-    <input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
-    <span id="scoreValue">0.5</span>
+Min Score:
+<input type="range" id="scoreFilter" min="0" max="1" step="0.01" value="0.5">
+<span id="scoreValue">0.5</span>
 
-    | Max Time to Window:
-    <input type="range" id="timeFilter" min="0" max="10" step="0.5" value="5">
-    <span id="timeValue">5</span>
+| PIRATE Ready:
+<input type="checkbox" id="pirateToggle">
 
-    | Min Observability:
-    <input type="range" id="obsFilter" min="0" max="1" step="0.05" value="0">
-    <span id="obsValue">0</span>
-    
-    | Tonight only:
-    <input type="checkbox" id="tonightToggle">
-
+| Tonight:
+<input type="checkbox" id="tonightToggle">
 </div>
 
-<!-- Summary -->
-<h2>📊 Why These Targets Are Ranked Highest</h2>
-<div id="summaryText"></div>
+<button onclick="downloadScheduler()">📡 Export Scheduler CSV</button>
+<button onclick="generateEmail()">✉️ Generate OU Email</button>
 
-<h2>⭐ Top 5 Targets This Week</h2>
-<div id="topTargets"></div>
+<h2>⚙️ Scoring Model</h2>
+<p>Weighted prioritisation combining ephemeris, TTV, instrument, observability, science, and synergy.</p>
 
-<button onclick="downloadCSV()">⬇ Download Filtered Data (CSV)</button>
+<div id="plot1"></div>
 
-<!-- Plots -->
-<div id="plot1" style="height:400px;"></div>
-<div id="plot2" style="height:400px;"></div>
-<div id="plot3" style="height:400px;"></div>
-<div id="plot4" style="height:400px;"></div>
-
-
-<!-- Table -->
 <table id="table"></table>
 
 <script>
-const OBS_LAT = 28.3;
-const OBS_LON = -16.6;   // ✅ Teide Observatory
-const NIGHT_BUFFER_MIN = 30;
-    
+
 let globalData = [];
 let filteredData = [];
 
-function safe(val, digits=2) {
-    if (val === null || val === undefined || isNaN(val)) {
-        return "–";
+function safe(x,d=2){ return (!x||isNaN(x)) ? "-" : Number(x).toFixed(d); }
+
+// ✅ LOAD CSV (dated)
+const today = new Date().toISOString().slice(0,10).replace(/-/g,"");
+
+Papa.parse(`outputs_${today}.csv`, {
+    download:true,
+    header:true,
+    dynamicTyping:true,
+    complete: function(r){
+        globalData = r.data;
+        updateDashboard();
     }
-    return Number(val).toFixed(digits);
-}
+});
 
-function formatUTC(timeString) {
-    if (!timeString) return "–";
-
-    let d = new Date(timeString);
-    if (isNaN(d)) return "–";
-
-    return d.toUTCString().replace("GMT", "UTC");
-}
-    
-// ---------------- BADGE ----------------
-function getBadge(row) {
-    if (row.pred_sigma_min > 15 && row.time_since_last_obs_days > 60) {
-        return "🔴 URGENT";
-    }
-    if (row.obs_frac > 0.75 && !isNaN(row.time_to_window_days) && row.time_to_window_days < 1.5) {
-        return "🟢 IDEAL";
-    }
-    return "";
-}
-
-// ---------------- TOOLTIP ----------------
-function getTooltipText(row) {
-    return [
-        `Ephemeris: σ=${safe(row.pred_sigma_min,1)} min, last obs=${safe(row.time_since_last_obs_days,0)}`,
-        `TTV: ${safe(row.current_oc_min,1)} min`,
-        `Observability: ${safe(row.obs_frac,2)}, window=${safe(row.time_to_window_days,2)}`,
-        `Instrument: mag=${safe(row.mag_V)}, depth=${safe(row.depth_mmag)}`
-    ].join("\n");
-}
-
-// ---------------- SUMMARY ----------------
-function generateSummary(data) {
-    if (data.length === 0) return "No targets.";
-  
-    const top = [...data]
-        .filter(d => !isNaN(d.final_score))
-        .sort((a,b)=>b.final_score - a.final_score)
-        .slice(0,5);
-
-    let highSigma = top.filter(t=>t.pred_sigma_min>15).length;
-    let nearWindow = top.filter(t=>t.time_to_window_days<2).length;
-    let highObs = top.filter(t=>t.obs_frac>0.75).length;
-
-    let text = "Top targets reflect a balance of ephemeris uncertainty, observability, and timing opportunity. ";
-
-    if (highSigma>1)
-        text += `${highSigma} show high ephemeris drift risk. `;
-
-    if (nearWindow>1)
-        text += `${nearWindow} have imminent observing windows. `;
-
-    if (highObs>1)
-        text += `Several are highly observable from the site. `;
-
-    let names = top.map(t=>t.name).join(", ");
-    text += `Key targets include: ${names}.`;
-
-    return text;
-}
-
-// ---------------- TOP TARGETS ----------------
-function renderTopTargets(data) {
-
-    const top = [...data]
-        .filter(d => !isNaN(d.final_score))
-        .sort((a,b) => b.final_score - a.final_score)
-        .slice(0,5);
-
-    let html = `
-        <table>
-            <tr>
-                <th>Indicator</th>
-                <th>Target</th>
-                <th>Score</th>
-                <th>Next Observation (UTC)</th>
-                <th>Duration</th>
-                <th>Visible Fraction</th>
-            </tr>
-    `;
-
-    top.forEach(t => {
-        html += `
-        <tr title="${getTooltipText(t)}">
-            <td>${getBadge(t)}</td>
-            <td>${t.name}</td>
-            <td>${safe(t.final_score, 3)}</td>
-            <td>
-                ${formatUTC(t.Tmid_utc)}<br>
-                <small>in ${safe(t.time_to_window_days, 1)} days</small>
-            </td>
-            <td>${safe(t.duration_hr, 2)} hr</td>
-            <td>${safe((t.visible_fraction || 0) * 100, 0)}%</td>
-        </tr>`;
-    });
-
-    html += "</table>";
-    document.getElementById("topTargets").innerHTML = html;
-}
-
-// ---------------- TABLE ----------------
-function renderTable(data) {
-    if (!data || data.length === 0) {
-        document.getElementById("table").innerHTML = "<p>No data available</p>";
-        return;
-    }
-
-    let table = document.getElementById("table");
-    
-    // ✅ Reset table each time
-    table.innerHTML = "";
-    
-    // ✅ Now add summary
-    table.innerHTML += `
-    <p><b>Showing first ${Math.min(data.length, 100)} of ${data.length} targets</b></p>
-    `;
-
-    let header = `
-    <tr>
-        <th>Indicator</th>
-        <th>Target</th>
-        <th>Score</th>
-        <th>Next Observation (UTC)</th>
-        <th>Duration (hr)</th>
-        <th>Observability</th>
-        <th>Visible Fraction</th>
-    </tr>
-    `;
-    
-    table.innerHTML += header;
- 
-    const MAX_ROWS = 100;   // ✅ adjust if needed
-    
-    const sorted = [...data]
-        .filter(d => !isNaN(d.final_score))
-        .sort((a,b)=>b.final_score - a.final_score);
-    
-    sorted.slice(0, MAX_ROWS).forEach(row=>{
-
-        let cls = 
-            (row.visible_fraction > 0.7 && row.final_score > 0.7) ? "high" :
-            (row.visible_fraction > 0.4) ? "medium" :
-            "";
-
-        let tooltip = getTooltipText(row);
-
-        let tr = `<tr class="${cls} tooltip">`;
-
-        tr += `<td>${getBadge(row)}<span class="tooltiptext">${tooltip}</span></td>`;
-
-        tr += `<td>${row.name}</td>`;
-        tr += `<td>${safe(row.final_score, 2)}</td>`;
-        
-        tr += `<td>
-            ${formatUTC(row.Tmid_utc)}<br>
-            <small>in ${safe(row.time_to_window_days, 1)} days</small>
-        </td>`;
-        
-        tr += `<td>${safe(row.duration_hr * 60, 0)} min</td>`;       
-        tr += `<td>${safe(row.obs_frac, 2)}</td>`;
-        tr += `<td>${safe((row.visible_fraction || 0) * 100, 0)}%</td>`;
-
-        tr += "</tr>";
-        
-        table.innerHTML += tr;
-    });
-}
-
-// ---------------- PLOTS ----------------
-function renderPlots(data) {
-
-    // ✅ LIMIT points for performance
-    const MAX_PLOT_POINTS = 300;
-
-    const plotData = [...data]
-        .filter(d => !isNaN(d.final_score))
-        .sort((a,b)=>b.final_score - a.final_score)
-        .slice(0, MAX_PLOT_POINTS);
-
-    const topTargets = plotData.slice(0, 10);
-
-    // -------------------------------
-    // PLOT 1: Score vs Time to Window
-    // -------------------------------
-    Plotly.newPlot('plot1', [
-        {
-            x: plotData.map(d => d.time_to_window_days),
-            y: plotData.map(d => d.final_score),
-            mode: 'markers',
-            text: plotData.map(d => d.name),
-            marker: {
-                size: 6,
-                color: plotData.map(d => d.visible_fraction || 0),
-                colorscale: 'Viridis',
-                showscale: true,
-                colorbar: { title: "Visible Fraction" }
-            },
-            name: "Targets"
-        },
-        {
-            x: topTargets.map(d => d.time_to_window_days),
-            y: topTargets.map(d => d.final_score),
-            mode: 'markers',
-            marker: { color: 'red', size: 10 },
-            text: topTargets.map(d => d.name),
-            name: "Top Targets"
-        }
-    ], {
-        title: "Score vs Time to Window",
-        xaxis: { title: "Days to Observation Window" },
-        yaxis: { title: "Score" }
-    });
-
-
-    // -------------------------------
-    // PLOT 2: Score vs Ephemeris
-    // -------------------------------
-    Plotly.newPlot('plot2', [
-        {
-            x: plotData.map(d => d.pred_sigma_min),
-            y: plotData.map(d => d.final_score),
-            mode: 'markers',
-            text: plotData.map(d => d.name),
-            marker: {
-                size: 6,
-                color: plotData.map(d => d.visible_fraction || 0),
-                colorscale: 'Plasma',
-                showscale: true,
-                colorbar: { title: "Visible Fraction" }
-            },
-            name: "Targets"
-        },
-        {
-            x: topTargets.map(d => d.pred_sigma_min),
-            y: topTargets.map(d => d.final_score),
-            mode: 'markers',
-            marker: { color: 'red', size: 10 },
-            text: topTargets.map(d => d.name),
-            name: "Top Targets"
-        }
-    ], {
-        title: "Score vs Ephemeris Uncertainty",
-        xaxis: { title: "Predicted Sigma (min)" },
-        yaxis: { title: "Score" }
-    });
-
-    // -------------------------------
-    // PLOT 3: Observability vs Sigma
-    // -------------------------------
-    Plotly.newPlot('plot3', [{
-        x: plotData.map(d => d.obs_frac),
-        y: plotData.map(d => d.pred_sigma_min),
-        mode: 'markers',
-        text: plotData.map(d => d.name),
-        marker: {
-            size: 6,
-            color: plotData.map(d => d.visible_fraction || 0),
-            colorscale: 'Viridis',
-            showscale: true,
-            colorbar: { title: "Visible Fraction" }
-        }
-    }], {
-        title: "Observability vs Ephemeris Uncertainty",
-        xaxis: { title: "Observability Fraction" },
-        yaxis: { title: "Ephemeris Uncertainty (min)" }
-    });
-
-    // -------------------------------
-    // PLOT 4: Score Distribution
-    // -------------------------------
-    Plotly.newPlot('plot4', [{
-        x: plotData.map(d => d.final_score),
-        type: 'histogram'
-    }], {
-        title: "Score Distribution",
-        xaxis: { title: "Score" },
-        yaxis: { title: "Count" }
-    });
-}
-
-// ---------------- CSV DOWNLOAD ----------------
-function downloadCSV() {
-    let csv = Object.keys(filteredData[0]).join(",") + "\n";
-
-    filteredData.forEach(r=>{
-        csv += Object.values(r).join(",") + "\n";
-    });
-
-    let blob = new Blob([csv]);
-    let link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-    link.download = "targets.csv";
-    link.click();
-}
-
-// ---------------- UPDATE ----------------
-console.log("Final dataset before dashboard:", globalData);
-    
-function updateDashboard() {
-
-    console.log("Running updateDashboard");
-        
-    if (!globalData || globalData.length === 0) {
-        console.warn("No data available");
-        return;
-    }
-
-    console.log("globalData:", globalData.length, globalData);
+function updateDashboard(){
 
     let minScore = parseFloat(document.getElementById("scoreFilter").value);
-    let maxTime = parseFloat(document.getElementById("timeFilter").value);
-    let minObs = parseFloat(document.getElementById("obsFilter").value);
 
-    
-    const now = new Date();
-    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    filteredData = globalData.filter(r=>r.final_score>=minScore);
 
-   filteredData = globalData.filter(row => {
-
-        let tmid = new Date(row.Tmid_utc);
-    
-        // ✅ Compute transit start/end
-        let durationMs = row.duration_hr * 60 * 60 * 1000;
-        let transitStart = new Date(tmid.getTime() - durationMs / 2);
-        let transitEnd   = new Date(tmid.getTime() + durationMs / 2);
-    
-        // ✅ Night constraints (Teide) 
-        // ✅ Use midday to avoid date boundary issues
-        let noon = new Date(tmid);
-        noon.setUTCHours(12, 0, 0, 0);
-        let times = SunCalc.getTimes(noon, OBS_LAT, OBS_LON);
-   
-        let bufferMs = NIGHT_BUFFER_MIN * 60 * 1000;
-   
-        if (!times.night || !times.nightEnd) return false;
-        
-        let nightStart = new Date(times.night.getTime() + bufferMs);
-        let nightEnd   = new Date(times.nightEnd.getTime() - bufferMs);
-    
-        // ✅ Compute overlap window
-        let overlapStart = new Date(Math.max(transitStart.getTime(), nightStart.getTime()));
-        let overlapEnd   = new Date(Math.min(transitEnd.getTime(), nightEnd.getTime()));
-        
-        // ✅ Overlap duration
-        let overlapMs = overlapEnd - overlapStart;
-        
-        // ✅ Total duration
-        let totalDuration = transitEnd - transitStart;
-        
-        // ✅ Visible fraction (0 → 1)
-        let visible_fraction = Math.max(0, overlapMs) / totalDuration;
-        
-        // ✅ Attach to row (IMPORTANT)
-        row.visible_fraction = visible_fraction;
-        
-        // ✅ Minimum requirement: at least 30 min observable
-        let MIN_OBSERVATION_MS = 30 * 60 * 1000;
-
-        let inNight = true; 
-            //overlapMs >= MIN_OBSERVATION_MS
-    
-        return (!isNaN(row.final_score) && row.final_score >= minScore && row.final_score > 0.5) &&
-               (!isNaN(row.obs_frac) && row.obs_frac >= minObs) &&
-               (isNaN(row.time_to_window_days) || row.time_to_window_days <= maxTime) &&
-               (!isNaN(tmid) && tmid >= now) &&
-               inNight;
-});
-
-    let uniqueTargets = {};
-    
-    filteredData.forEach(row => {
-        if (!uniqueTargets[row.name]) {
-            uniqueTargets[row.name] = row;
-        } else {
-            if (
-                row.final_score > uniqueTargets[row.name].final_score ||
-                (
-                    row.final_score === uniqueTargets[row.name].final_score &&
-                    row.time_to_window_days < uniqueTargets[row.name].time_to_window_days
-                )
-            ) {
-                uniqueTargets[row.name] = row;
-            }
-        }
-    });
-    
-    filteredData = Object.values(uniqueTargets);
-    
-    if (document.getElementById("tonightToggle").checked) {
-        filteredData = filteredData.filter(row => {
-            let tmid = new Date(row.Tmid_utc);
-            return !isNaN(tmid) && tmid >= now && tmid <= tomorrow;
-        });
+    // ✅ PIRATE filter
+    if(document.getElementById("pirateToggle").checked){
+        filteredData = filteredData.filter(r =>
+            r.obs_max_alt >= 40 &&
+            r.obs_frac > 0.5 &&
+            r.duration_hours <= 4
+        );
     }
-
-    console.log("filteredData after scoring:", filteredData.length);
-    
-    console.log("filteredData:", filteredData.length, filteredData);
 
     renderTable(filteredData);
-    renderPlots(filteredData);
-    renderTopTargets(filteredData);
+}
 
-
-    let label = document.getElementById("tonightToggle").checked
-        ? "<b>Showing tonight’s observable targets (times in UTC)</b><br>"
-        : "<b>Showing future observable targets (times in UTC)</b><br>";
-    
-    document.getElementById("summaryText").innerHTML =
-        label + generateSummary(filteredData);
-    }
-
-// ---------------- LOAD CSV ----------------
-console.log("Starting CSV load...");
-
-Papa.parse("outputs.csv", {
-    download: true,
-    header: true,
-    dynamicTyping: true,
-    complete: function(results) {
-
-        console.log("CSV loaded:", results);  
-        
-        globalData = results.data
-            .filter(r => r !== null && Object.keys(r).length > 0)
-            .map(r => {
-                return {
-                    ...r,
-                    name: r.name || r["name"],   // ensure name access
-                    final_score: Number(r.final_score),
-                    obs_frac: Number(r.obs_frac),
-                    pred_sigma_min: Number(r.pred_sigma_min),
-                    time_to_window_days: Number(r.time_to_window_days),
-                    time_since_last_obs_days: Number(r.time_since_last_obs_days)
-                };
-            })
-            .filter(r => r.name);  // ✅ filter AFTER cleaning
-
-        globalData.forEach(r => {
-            r.final_score = Number(r.final_score);
-            r.obs_frac = Number(r.obs_frac);
-            r.pred_sigma_min = Number(r.pred_sigma_min);
-        });
-
-
-        console.log("Filtered data:", globalData);
-
-        if (globalData.length === 0) {
-            document.body.innerHTML += "<p>❌ No valid data rows found</p>";
-        }
-
-        updateDashboard();
-    },
-    error: function(err) {
-        console.error("CSV load error:", err);
-    }
-});
-
-// ---------------- FILTER HANDLERS ----------------
-document.querySelectorAll("input").forEach(input=>{
-    input.addEventListener("input",()=>{
-        scoreValue.textContent = scoreFilter.value;
-        timeValue.textContent = timeFilter.value;
-        obsValue.textContent = obsFilter.value;
-
-        updateDashboard();
+function renderTable(data){
+    let html = "<tr><th>Target</th><th>Score</th><th>Time</th></tr>";
+    data.slice(0,20).forEach(r=>{
+        html+=`<tr>
+        <td>${r.name}</td>
+        <td>${safe(r.final_score)}</td>
+        <td>${r.Tmid_utc}</td>
+        </tr>`;
     });
-});
+    document.getElementById("table").innerHTML = html;
+}
 
-</script>
+// ✅ SCHEDULER EXPORT
+function downloadScheduler(){
+    let csv="Name,RA,Dec,Start,End\n";
 
-</body>
-</html>
+    filteredData.slice(0,5).forEach(r=>{
+        let mid=new Date(r.Tmid_utc);
+        let dur=r.duration_hours*3600*1000;
+
+        let s=new Date(mid.getTime()-dur/2).toISOString();
+        let e=new Date(mid.getTime()+dur/2).toISOString();
+
+        csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
+    });
+
+    let blob=new Blob([csv]);
+    let a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="pirate_scheduler.csv";
+    a.click();
+}
+
+// ✅ OU EMAIL GENERATOR
+function generateEmail(){
+
+    const top = filteredData.slice(0,3);
+
+    let text="Subject: S841/SXS841 observing request\n\n";
+
+    text+="Your name: [ENTER]\n";
+    text+="Your OUCU: [ENTER]\n";
+
+    top.forEach((t,i)=>{
+
+        let mid=new Date(t.Tmid_utc);
+        let dur=t.duration_hours*3600*1000;
+
+        let s=new Date(mid.getTime()-dur/2);
+        let e=new Date(mid.getTime()+dur/2);
+
+        text+=`\n--- Target ${i+1} ---\n`;
+        text+=`Name: ${t.name}\n`;
+        text+=`RA: ${t.ra} Dec: ${t.dec}\n`;
+        text+=`Start: ${s.toISOString()}\n`;
