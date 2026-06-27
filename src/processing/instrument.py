@@ -134,7 +134,7 @@ def add_instrument_constraints(df, telescope_aperture=24.0):
     df = df.copy()
 
     # ✅ Preserve ExoClock baseline (important for validation)   
-    df["aperture_exoclock"] = pd.to_numeric(
+    df["aperture_exoclock"] = df.to_numeric(
         df.get("min_telescope_inches"),
         errors="coerce"
     )
