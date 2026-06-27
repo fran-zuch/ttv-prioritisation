@@ -6,8 +6,10 @@ def compute_science_features(df):
 
     # ✅ Map ExoClock priority → numeric
     def map_priority(status):
-        if status == "high":
+        if status == "alert":
             return 5
+         elif status == "high":
+            return 4            
         elif status == "medium":
             return 3
         elif status == "low":
