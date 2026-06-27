@@ -153,6 +153,4 @@ def compute_observability(df, config):
                 "obs_peak_time_jd": np.nan
             })
             
-            missing_coords += 1
-    
     return df.join(pd.DataFrame(results))
