@@ -33,7 +33,12 @@ def expand_events(df, start_utc, end_utc):
         T0_sig = r.get("T0_unc_days", 0) or 0
         P_sig = r.get("P_unc_days", 0) or 0
 
-        "epoch": N = int((start.tdb.jd - T0) / P) - 1
+        # skip invalid or zero period to avoid division-by-zero and NaN behavior
+        if P == 0 or not np.isfinite(P):
+            continue
+
+        # compute starting epoch (use floor so negative offsets are handled correctly)
+        N = int(np.floor((start.tdb.jd - T0) / P)) - 1
 
         while True:
             tmid = T0 + N * P
