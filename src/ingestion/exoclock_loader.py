@@ -60,6 +60,15 @@ def fetch_exoclock():
     }
     df = df.rename(columns=rename_map)
 
+    # --- Canonical coordinate fields for pipeline ---
+    df["ra"] = pd.to_numeric(df["ra_deg"], errors="coerce")
+    df["dec"] = pd.to_numeric(df["dec_deg"], errors="coerce")
+    
+    # --- Canonical timing fields ---
+    df["duration_hours"] = pd.to_numeric(df["duration_hr"], errors="coerce")
+    
+    # We do NOT yet define mid_transit_bjd here (done after ephemeris)
+
     # Ensure required columns exist
     required_cols = [
         "name",
@@ -82,7 +91,7 @@ def fetch_exoclock():
         "ra_deg",
         "dec_deg",
         "r_mag",
-        "min_teselcope_inches"
+        "min_telescope_inches"
     ]
 
     for col in required_cols:
