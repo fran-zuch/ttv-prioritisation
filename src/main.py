@@ -34,13 +34,12 @@ def run():
     
     print(df[["name", "min_telescope_inches"]].head())
 
-    # --- Expand events ---
+    # --- Ephemeris calculation ---
     events = expand_events(df, start_str, end_str)
 
     if events.empty:
         print("No observable events found in window.")
         return
-
   
     # --- Observability ---
     obs_config = {
