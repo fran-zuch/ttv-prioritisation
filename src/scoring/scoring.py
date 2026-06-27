@@ -1,47 +1,46 @@
 import pandas as pd
 from .bins import *
 
+
 def compute_scores(df):
 
-    # ✅ S1 — Ephemeris urgency
+    # --- S1: Ephemeris urgency ---
     def urgency(r):
         s = r['pred_sigma_min']
         t = r['time_since_last_obs_days']
-        return s if t is None else s * (1 + (t / 100))
+
+        if s is None or not pd.notna(s):
+            return 0
+
+        if t is None or not pd.notna(t):
+            return s
+
+        return s * (1 + min(t / 100, 2))
 
     df['S1'] = df.apply(urgency, axis=1).apply(bin_ephemeris)
 
-    # ✅ S2 — TTV scoring (NEW clean implementation)
+    # --- S2: TTV ---
     df['S2'] = df['ttv_amplitude_min'].apply(bin_ttv)
-
-    # ✅ Boost if ExoClock flagged
-    df.loc[df['ttv_flag_numeric'] == 1, 'S2'] += 1
-
+    df.loc[df['ttv_flag'] == 1, 'S2'] += 1
     df['S2'] = df['S2'].clip(upper=5)
-    
-    # ✅ S3 — Instrument feasibility
-    df['S3'] = df['instrument_difficulty'].apply(bin_instrument)
 
-    # ✅ S4 — Observability
+    # --- S3: Instrument ---
+    df['S3'] = df['instrument_difficulty_norm'].apply(bin_instrument)
+
+    # --- S4: Observability ---
     df['S4'] = df['obs_frac'].apply(bin_observability)
 
-    # ✅ S5 — Science score
+    # --- S5: Science (priority + recency) ---
     df['S5'] = df['science_priority_numeric']
-    
-    # ✅ Boost for recent research / activity
-    df.loc[df['recent_activity_flag'] == True, 'S5'] += 1
-    
+    df['S5'] += (1 - df['recent_activity_flag'].astype(int))
     df['S5'] = df['S5'].clip(upper=5)
 
-    # ✅ S6 — Synergy / campaign need
-    df['S6'] = df['campaign_intensity'].apply(bin_synergy)
-
-    # ✅ Optional: slight boost for explicit campaigns
+    # --- S6: Synergy ---
+    df['S6'] = df['campaign_intensity_norm'].apply(bin_synergy)
     df.loc[df['campaign_flag'] == True, 'S6'] += 1
-    
     df['S6'] = df['S6'].clip(upper=5)
 
-    # ✅ Final weighted score
+    # --- Weighted score ---
     df['base_score'] = (
         0.25 * df['S1'] +
         0.20 * df['S2'] +
@@ -50,11 +49,11 @@ def compute_scores(df):
         0.15 * df['S5'] +
         0.10 * df['S6']
     )
-    
-    # ✅ Apply instrument feasibility penalty
+
+    # --- Apply feasibility penalty ---
     df['final_score'] = df['base_score'] * df['instrument_penalty']
 
-   # ✅ Group by feasibility first (optional but recommended)
+    # --- Group by feasibility ---
     priority_map = {
         "OK": 0,
         "Marginal": 1,
@@ -62,9 +61,8 @@ def compute_scores(df):
         "Not suitable": 3
     }
 
-    
     df["priority_group"] = df["instrument_flag"].map(priority_map)
-    
+
     return df.sort_values(
         ["priority_group", "final_score"],
         ascending=[True, False]
