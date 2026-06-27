@@ -16,6 +16,12 @@ def prepare_catalog(df):
     # ----------------------------
     # 1. Ensure numeric fields
     # ----------------------------
+    
+    df["min_telescope_inches"] = pd.to_numeric(
+        df.get("min_telescope_inches"),
+        errors="coerce"
+    )
+
     cols = [
         "ephem_mid_time",
         "ephem_period",
