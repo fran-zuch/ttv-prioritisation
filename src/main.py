@@ -98,7 +98,7 @@ def run():
         output_dir,
         f"outputs_{start.strftime('%Y%m%d')}.csv")
 
-events.to_csv(filename, index=False)
+    events.to_csv(filename, index=False)
     
     # ✅ ALSO write latest pointer file
     events.to_csv("outputs.csv", index=False)
