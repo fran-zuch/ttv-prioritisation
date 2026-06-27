@@ -65,6 +65,9 @@ def expand_events(df, start_utc, end_utc):
                     "mag_V": r.get("mag_V"),
                     "depth_mmag": r.get("depth_mmag"),
                     "current_oc_min": r.get("current_oc_min"),
+                    "min_telescope_inches": r.get("min_telescope_inches"),
+                    "ra": r.get("ra"),
+                    "dec": r.get("dec"),
 
                     # Inherited metadata needed downstream for scoring
                     "exoclock_priority": r.get("exoclock_priority"),
@@ -75,6 +78,7 @@ def expand_events(df, start_utc, end_utc):
                     "ttv_flag": r.get("ttv_flag", 0),
                     "snr_proxy": r.get("snr_proxy"),
                     "last_obs_jd": r.get("last_obs_jd"),
+                    
                 })
             N += 1
 
