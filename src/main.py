@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import os
 
 from ingestion.exoclock_loader import fetch_exoclock
 from processing.catalog import prepare_catalog
@@ -90,8 +91,14 @@ def run():
     events = compute_scores(events)
 
     # --- Output ---
-    filename = f"outputs_{start.strftime('%Y%m%d')}.csv"
-    events.to_csv(filename, index=False)
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "output")
+    os.makedirs(output_dir, exist_ok=True)
+    
+    filename = os.path.join(
+        output_dir,
+        f"outputs_{start.strftime('%Y%m%d')}.csv")
+
+events.to_csv(filename, index=False)
     
     # ✅ ALSO write latest pointer file
     events.to_csv("outputs.csv", index=False)
