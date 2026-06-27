@@ -42,8 +42,10 @@ def compute_altaz(target_coord, location, times):
 
 
 def compute_airmass(alt):
-    z = 90 * u.deg - alt
-    return 1 / np.cos(z.to(u.rad))
+    alt_deg = alt.to(u.deg).value
+    airmass = 1 / np.sin(np.deg2rad(alt_deg))
+    airmass[alt_deg < 0] = np.nan
+    return airmass
 
 
 def compute_sun_alt(location, times):
@@ -83,7 +85,7 @@ def compute_observability(df, config):
     Adds observability metrics to dataframe.
 
     Expected df columns:
-        ra, dec, mid_transit_bjd, duration_hours
+        ra, dec, Tmid_utc
     """
 
     location = build_observatory(
@@ -96,12 +98,19 @@ def compute_observability(df, config):
 
     for _, row in df.iterrows():
         try:
+            if pd.isna(row.get("ra")) or pd.isna(row.get("dec")):
+                raise ValueError("Missing coordinates")
+            
+            if pd.isna(row.get("Tmid_utc")):
+                raise ValueError("Missing Tmid_utc")
+
             target = SkyCoord(
                 ra=row["ra"] * u.deg,
                 dec=row["dec"] * u.deg
             )
+            
 
-            mid_time = Time(row["mid_transit_bjd"], format="jd")
+            mid_time = Time(row["Tmid_utc"])
 
             times = build_time_grid(mid_time)
 
@@ -120,7 +129,7 @@ def compute_observability(df, config):
                 "obs_frac": np.sum(good) / len(good),
                 "obs_max_alt": alt.max().value,
                 "obs_min_alt": alt.min().value,
-                "obs_mean_airmass": np.mean(airmass).value,
+                "obs_mean_airmass": np.nanmean(airmass),
                 "obs_visible": int(np.any(good)),
 
                 # ✅ Optional explainability hooks
@@ -130,12 +139,13 @@ def compute_observability(df, config):
         except Exception:
             # Keep pipeline robust
             results.append({
-                "obs_frac": 0,
-                "obs_max_alt": np.nan,
-                "obs_min_alt": np.nan,
-                "obs_mean_airmass": np.nan,
-                "obs_visible": 0,
-                "obs_peak_time_jd": np.nan
+                "obs_frac": np.sum(good) / len(good),    
+                "obs_max_alt": alt.max().value,
+                "obs_min_alt": alt.min().value,
+                "obs_mean_airmass": np.nanmean(airmass),
+                "obs_visible": int(np.any(good)),
+                "obs_peak_time_jd": times[np.argmax(alt)].jd
+
             })
 
     return df.join(pd.DataFrame(results))
