@@ -71,11 +71,16 @@ def build_time_grid(mid_time, window_hours=4, cadence_min=2):
         -half_window.to(u.hour).value,
         half_window.to(u.hour).value,
         cadence.to(u.hour).value
-    ) * u.hour
+    )
 
-    return mid_time + offsets   # ✅ DO NOT wrap with Time()
-    
-    print("Time grid sample:", times[:3])
+    # ✅ Convert offsets to timedelta explicitly
+    delta = offsets * u.hour
+
+    # ✅ Build clean Time array
+    times = mid_time + delta
+
+    # ✅ CRITICAL: force proper Astropy Time object
+    return Time(times.jd, format="jd")
 
 
 # -----------------------------------------------------------------------------
@@ -131,6 +136,10 @@ def compute_observability(df, config):
             print("mid_time:", row["Tmid_utc"], type(row["Tmid_utc"]))
     
             times = build_time_grid(mid_time)
+
+            print("DEBUG times type:", type(times))
+            print("DEBUG times element:", type(times[0]))
+
     
             # --- Compute ---
             alt, az = compute_altaz(target, location, times)
@@ -142,6 +151,8 @@ def compute_observability(df, config):
             moon_ok = compute_moon_sep(location, times, target) > (
                 config.get("min_moon_sep", 30) * u.deg
             )
+
+            print("ALT sample:", alt[:5])
     
             good = altitude_ok & sun_ok & moon_ok
     
