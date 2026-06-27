@@ -94,58 +94,65 @@ def compute_observability(df, config):
         config.get("elevation", 0)
     )
 
-    results = []
+results = []
 
-    for _, row in df.iterrows():
-        try:
-            if pd.isna(row.get("ra")) or pd.isna(row.get("dec")):
-                raise ValueError("Missing coordinates")
-            
-            if pd.isna(row.get("Tmid_utc")):
-                raise ValueError("Missing Tmid_utc")
+for _, row in df.iterrows():
 
-            target = SkyCoord(
-                ra=row["ra"] * u.deg,
-                dec=row["dec"] * u.deg
-            )
-            
+    try:
 
-            mid_time = Time(row["Tmid_utc"])
+        # ✅ Validate inputs
+        if pd.isna(row.get("ra")) or pd.isna(row.get("dec")):
+            raise ValueError("Missing coordinates")
 
-            times = build_time_grid(mid_time)
+        if pd.isna(row.get("Tmid_utc")):
+            raise ValueError("Missing Tmid")
 
-            # --- Core geometry ---
-            alt, az = compute_altaz(target, location, times)
-            airmass = compute_airmass(alt)
+        # ✅ Build target
+        target = SkyCoord(
+            ra=row["ra"] * u.deg,
+            dec=row["dec"] * u.deg
+        )
 
-            # --- Constraints ---
-            altitude_ok = alt > (config.get("min_alt", 20) * u.deg)
-            sun_ok = compute_sun_alt(location, times) < (config.get("max_sun_alt", -18) * u.deg)
-            moon_ok = compute_moon_sep(location, times, target) > (config.get("min_moon_sep", 30) * u.deg)
+        mid_time = Time(row["Tmid_utc"])
 
-            good = altitude_ok & sun_ok & moon_ok
+        times = build_time_grid(mid_time)
 
-            results.append({
-                "obs_frac": np.sum(good) / len(good),
-                "obs_max_alt": alt.max().value,
-                "obs_min_alt": alt.min().value,
-                "obs_mean_airmass": np.nanmean(airmass),
-                "obs_visible": int(np.any(good)),
+        # --- Compute ---
+        alt, az = compute_altaz(target, location, times)
+        airmass = compute_airmass(alt)
+        sun_alt = compute_sun_alt(location, times)
 
-                # ✅ Optional explainability hooks
-                "obs_peak_time_jd": times[np.argmax(alt)].jd
-            })
+        altitude_ok = alt > (config.get("min_alt", 20) * u.deg)
+        sun_ok = sun_alt < (config.get("max_sun_alt", -18) * u.deg)
+        moon_ok = compute_moon_sep(location, times, target) > (
+            config.get("min_moon_sep", 30) * u.deg
+        )
 
-        except Exception:
-            # Keep pipeline robust
-            results.append({
-                "obs_frac": np.sum(good) / len(good),    
-                "obs_max_alt": alt.max().value,
-                "obs_min_alt": alt.min().value,
-                "obs_mean_airmass": np.nanmean(airmass),
-                "obs_visible": int(np.any(good)),
-                "obs_peak_time_jd": times[np.argmax(alt)].jd
+        good = altitude_ok & sun_ok & moon_ok
 
-            })
+        obs_frac = np.sum(good) / len(good)
+
+        results.append({
+            "obs_frac": obs_frac,
+            "obs_max_alt": np.nanmax(alt.value),
+            "obs_min_alt": np.nanmin(alt.value),
+            "obs_mean_airmass": np.nanmean(airmass),
+            "obs_visible": int(np.any(good)),
+            "obs_peak_time_jd": times[np.argmax(alt)].jd
+        })
+
+    except Exception as e:
+
+        # ✅ SAFE fallback (NO reference to 'good' here!)
+        results.append({
+            "obs_frac": 0,
+            "obs_max_alt": np.nan,
+            "obs_min_alt": np.nan,
+            "obs_mean_airmass": np.nan,
+            "obs_visible": 0,
+            "obs_peak_time_jd": np.nan
+        })
+        
+        missing_coords += 1
 
     return df.join(pd.DataFrame(results))
