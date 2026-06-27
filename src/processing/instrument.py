@@ -5,9 +5,13 @@ def compute_instrument_features(df, telescope="PIRATE"):
     def instrument_difficulty(r):
         mag = r.get('mag_V')
         depth = r.get('depth_mmag')
-        duration = r.get('duration_hr')
+        duration = r.get('duration_hours')
 
-        if mag is None or depth is None or np.isnan(mag) or np.isnan(depth):
+        if (
+            mag is None or depth is None
+            or not np.isfinite(mag)
+            or not np.isfinite(depth)
+        ):
             return 0
 
         score = 0
@@ -38,14 +42,21 @@ def compute_instrument_features(df, telescope="PIRATE"):
         return max(0, score)
 
     df['instrument_difficulty'] = df.apply(instrument_difficulty, axis=1)
-    df['instrument_difficulty_norm'] = np.clip(df['instrument_difficulty'] / 6, 0, 1)
+    
+    max_score = 6
+    df['instrument_difficulty_norm'] = np.clip(df['instrument_difficulty'] / max_score, 0, 1)
 
     return df
 
 
 def estimate_required_aperture(mag_V, depth_mmag):
-    if mag_V is None or depth_mmag is None or np.isnan(mag_V) or np.isnan(depth_mmag):
+    if (
+        mag_V is None or depth_mmag is None
+        or not np.isfinite(mag_V)
+        or not np.isfinite(depth_mmag)
+    ):
         return np.nan
+
 
     if depth_mmag <= 0:
         return np.nan
@@ -70,6 +81,7 @@ def add_instrument_constraints(df, telescope_aperture=24.0):
     )
 
     df["aperture_ratio"] = telescope_aperture / df["required_aperture"]
+    df.loc[~np.isfinite(df["aperture_ratio"]), "aperture_ratio"] = np.nan
 
     df["instrument_flag"] = np.select(
         [
@@ -94,7 +106,7 @@ def add_instrument_penalty(df, alpha=2.0):
     df = df.copy()
 
     def penalty(r):
-        if r is None or np.isnan(r):
+        if r is None or not np.isfinite(r):
             return 1.0
         if r >= 1:
             return 1.0
