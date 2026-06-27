@@ -89,7 +89,12 @@ def compute_observability(df, config):
     """
     
     # ✅ Convert to datetime first
-    df["Tmid_utc"] = pd.to_datetime(df["Tmid_utc"], errors="coerce")
+    df["Tmid_utc"] = pd.to_datetime(
+        df["Tmid_utc"],
+        format="ISO8601",   # preferred
+        errors="coerce"
+    )
+
     
     # ✅ Drop anything broken
     df = df.dropna(subset=["Tmid_utc"])
@@ -119,7 +124,9 @@ def compute_observability(df, config):
                 dec=row["dec"] * u.deg
             )
     
-            mid_time = Time(row["Tmid_utc"].to_pydatetime())
+            mid_time =Time(pd.to_datetime(row["Tmid_utc"]).to_pydatetime())
+            
+            print("mid_time:", row["Tmid_utc"], type(row["Tmid_utc"]))
     
             times = build_time_grid(mid_time)
     
