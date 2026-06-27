@@ -36,7 +36,16 @@ def run():
     events = expand_events(df, start_str, end_str)
 
     # ✅ Observability (S4)
-    events = compute_observability(events)
+    obs_config = {
+        "lat": 28.3,           # Teide example (update if needed)
+        "lon": -16.5,
+        "elevation": 2400,
+        "min_alt": 20,         # degrees
+        "max_sun_alt": -18,    # astronomical night
+        "min_moon_sep": 30     # degrees
+    }
+    
+    events = compute_observability(events, obs_config)
 
     # ✅ TTV marker (S2)
     events = compute_ttv_features(events)
