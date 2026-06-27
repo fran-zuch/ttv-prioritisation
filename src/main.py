@@ -57,7 +57,7 @@ def run():
 
     events = compute_observability(events, obs_config)
 
-    print(events[["obs_frac", "obs_max_alt"]].head(
+    print(events[["obs_frac", "obs_max_alt"]].head()
 
     # --- TTV ---
     events = compute_ttv_features(events)
