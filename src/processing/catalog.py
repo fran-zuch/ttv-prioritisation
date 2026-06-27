@@ -38,6 +38,8 @@ def prepare_catalog(df):
         "n_obs_recent",
         "expected_transit_snr_tess",
         "min_telescope_inches",
+        "ra",
+        "dec",
     ]
     df = to_numeric(df, cols)
 
