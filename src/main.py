@@ -70,6 +70,10 @@ def run():
     # --- Output ---
     filename = f"outputs_{start.strftime('%Y%m%d')}.csv"
     events.to_csv(filename, index=False)
+    
+    # ✅ ALSO write latest pointer file
+    events.to_csv("outputs.csv", index=False)
+
 
     print(events[['name','S1','S2','S3','S4','S5','S6','final_score']].head())
 
