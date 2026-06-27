@@ -52,11 +52,31 @@ def run():
 
     # --- TTV ---
     events = compute_ttv_features(events)
-
+    
+    # --- Instrument input validation ---
+    required_cols = ["mag_V", "depth_mmag", "duration_hours"]
+    
+    missing = [c for c in required_cols if c not in events.columns]
+    if missing:
+        raise ValueError(f"Missing required instrument columns: {missing}")
+    
+    print(events[required_cols].describe())
+        
     # --- Instrument ---
     events = compute_instrument_features(events)
     events = add_instrument_constraints(events, telescope_aperture=24.0)
     events = add_instrument_penalty(events, alpha=2.0)
+
+    print(events[[
+        "name",
+        "mag_V",
+        "depth_mmag",
+        "duration_hours",
+        "required_aperture",
+        "aperture_exoclock",
+        "aperture_ratio",
+        "instrument_flag"
+    ]].head())
 
     # --- Science ---
     events = compute_science_features(events)
