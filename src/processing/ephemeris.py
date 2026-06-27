@@ -9,7 +9,9 @@ def propagate_uncertainty(T0, P, T0_sig, P_sig, Tmid):
 
 
 def compute_time_since_last_obs(last_obs_jd):
-    if last_obs_jd is None or not np.isfinite(last_obs_jd):
+    if last_obs_jd is None:
+        return None
+    if not np.isfinite(last_obs_jd):
         return None
     return Time.now().tdb.jd - last_obs_jd
 
@@ -20,14 +22,18 @@ def expand_events(df, start_utc, end_utc):
     events = []
 
     for _, r in df.iterrows():
-        T0, P = r["T0"], r["P"]
+        T0 = r.get("T0")
+        P = r.get("P")
+        
+        if T0 is None or P is None:
+            continue
         if not np.isfinite(T0) or not np.isfinite(P):
             continue
 
         T0_sig = r.get("T0_unc_days", 0) or 0
         P_sig = r.get("P_unc_days", 0) or 0
 
-        N = int((start.tdb.jd - T0) / P) - 1
+        "epoch": N = int((start.tdb.jd - T0) / P) - 1
 
         while True:
             tmid = T0 + N * P
@@ -44,13 +50,18 @@ def expand_events(df, start_utc, end_utc):
                     "pred_sigma_min": sigma,
                     "time_since_last_obs_days": compute_time_since_last_obs(r.get("last_obs_jd")),
 
+                    # ✅ Add (optional but recommended)
+                    "T0": T0,
+                    "P": P,
+                    "epoch": N,
+
                     # Core observing fields
-                    "duration_hr": r.get("duration_hr"),
+                    "duration_hours": r.get("duration_hours"),
                     "mag_V": r.get("mag_V"),
                     "depth_mmag": r.get("depth_mmag"),
                     "current_oc_min": r.get("current_oc_min"),
 
-                    # Metadata needed downstream
+                    # Inherited metadata needed downstream for scoring
                     "exoclock_priority": r.get("exoclock_priority"),
                     "recent_activity_flag": r.get("recent_activity_flag"),
                     "events_per_month": r.get("events_per_month"),
