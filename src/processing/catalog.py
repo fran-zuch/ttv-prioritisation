@@ -55,4 +55,18 @@ def prepare_catalog(df):
     df["campaign_flag"] = df["campaign_flag"].fillna(False).astype(bool)
     df["ttv_flag"] = pd.to_numeric(df["ttv_flag"], errors="coerce").fillna(0).astype(int)
 
+    # --- Canonical pipeline timing names ---
+    df["mid_transit_bjd"] = df["T0"]
+    df["duration_hours"] = df["duration_hr"]
+    
+    # --- Canonical coordinates (ensure present) ---
+    df["ra"] = df.get("ra_deg", np.nan)
+    df["dec"] = df.get("dec_deg", np.nan)
+
+        required = ["ra", "dec", "mid_transit_bjd", "duration_hours"]
+    missing = [c for c in required if df[c].isna().all()]
+    
+    if missing:
+        print(f"WARNING: Missing critical columns: {missing}")
+
     return df
