@@ -61,12 +61,6 @@ def fetch_exoclock():
     df["dec"] = df["dec"].apply(dms_to_deg)
     
     print(df[["name", "ra", "dec"]].head())
-
-    df["ra"] = pd.to_numeric(df["ra"], errors="coerce")
-    df["dec"] = pd.to_numeric(df["dec"], errors="coerce")
-
-    print("RA/DEC after conversion:")
-    print(df[["ra", "dec"]].head())
     print(df[["ra", "dec"]].dtypes)
 
 
