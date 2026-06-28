@@ -104,3 +104,89 @@ def expand_events(df, start_utc, end_utc):
             })
 
     return pd.DataFrame(events)
+
+
+def expand_events(df, start_utc, end_utc):
+    start = Time(start_utc)
+    end = Time(end_utc)
+
+    events = []
+
+    for _, r in df.iterrows():
+
+        T0 = r.get("T0")
+        P = r.get("P")
+
+        if T0 is None or P is None:
+            continue
+        if not np.isfinite(T0) or not np.isfinite(P):
+            continue
+        if P == 0:
+            continue
+
+        T0_sig = r.get("T0_unc_days", 0) or 0
+        P_sig = r.get("P_unc_days", 0) or 0
+
+        # ✅ Start CLOSE to the window (huge speed improvement)
+        N = int(np.floor((start.tdb.jd - T0) / P)) - 2
+
+        max_iter = 200   # ✅ safe cap (adjustable)
+        count = 0
+
+        while count < max_iter:
+
+            tmid = T0 + N * P
+
+            # ✅ STOP EARLY
+            if tmid > end.tdb.jd:
+                break
+
+            if tmid >= start.tdb.jd:
+
+                sigma = propagate_uncertainty(
+                    T0, P, T0_sig, P_sig, tmid
+                ) * 1440
+
+                events.append({
+                    "event_id": f"{r.get('name')}_{N}",
+                    "name": r.get("name"),
+                    "Tmid_utc": Time(tmid, format="jd", scale="tdb").utc.isot,
+                    "epoch": N,
+                    "pred_sigma_min": sigma,
+
+                    # ✅ Add (optional but recommended)
+                    "T0": T0,
+                    "P": P,
+                    "epoch": N,
+    
+                    # Core observing fields
+                    "duration_hours": r.get("duration_hours"),
+                    "mag_V": r.get("mag_V"),
+                    "depth_mmag": r.get("depth_mmag"),
+                    "current_oc_min": r.get("current_oc_min"),
+                    "min_telescope_inches": r.get("min_telescope_inches"),
+                    "ra": r.get("ra"),
+                    "dec": r.get("dec"),
+                    "n_obs_recent": r.get("n_obs_recent"),
+    
+                    # Inherited metadata needed downstream for scoring
+                    "exoclock_priority": r.get("exoclock_priority"),
+                    "recent_activity_flag": r.get("recent_activity_flag"),
+                    "events_per_month": r.get("events_per_month"),
+                    "network_needed": r.get("network_needed"),
+                    "campaign_flag": r.get("campaign_flag"),
+                    "ttv_flag": r.get("ttv_flag", 0),
+                    "snr_proxy": r.get("snr_proxy"),
+                    "last_obs_jd": r.get("last_obs_jd"),
+                })
+
+            # ✅ move forward
+            N += 1
+            count += 1
+
+    df_events = pd.DataFrame(events)
+
+    # ✅ ALWAYS deduplicate (safety)
+    df_events = df_events.drop_duplicates(subset="event_id")
+
+    return df_events
