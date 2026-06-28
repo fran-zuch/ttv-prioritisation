@@ -9,418 +9,386 @@
 <style>
 body { font-family: Arial; margin:20px;}
 
-.controls { background:#f4f4f4; padding:10px; border-radius:8px; }
+.controls { background:#f4f4f4; padding:10px; border-radius:8px;}
 
-.dashboard { display:flex; gap:20px; align-items:flex-start; }
+.dashboard {display:flex; gap:20px;}
 
-.panel { border:2px solid #444; padding:10px; margin-top:20px; flex:1;}
-
-.explainer {
-    background:#f9f9f9;
-    border-left:5px solid #4a86e8;
-    padding:10px;
-    margin-top:10px;
-    font-size:14px;
+.panel {
+ border:2px solid #444;
+ padding:10px;
+ margin-top:15px;
+ flex:1;
 }
 
 .scorebox {
-    background:#eef3ff;
-    border:1px solid #aac0ff;
-    padding:10px;
-    border-radius:8px;
+ background:#eef3ff;
+ border:1px solid #aac0ff;
+ padding:10px;
+ border-radius:8px;
 }
 
-/* score */
-.high { color:green; font-weight:bold; }
-.medium { color:#d48800; }
-.low { color:#888; }
+/* colours */
+.high {color:green;font-weight:bold;}
+.medium {color:#d48800;}
+.low {color:#888;}
 
-/* TTV */
-.ttv_high { color:green; font-weight:bold;}
-.ttv_medium { color:#d48800;}
-.ttv_low { color:red;}
+.ttv_high{color:green;font-weight:bold;}
+.ttv_medium{color:#d48800;}
+.ttv_low{color:red;}
 
-/* urgency */
-.urgent { background:#ffcccc; padding:5px; }
-.soon { background:#ffe599; padding:5px; }
-.relaxed { background:#d9ead3; padding:5px; }
+.urgent{background:#ffcccc;}
+.soon{background:#ffe599;}
+.relaxed{background:#d9ead3;}
 
-/* tooltip */
-.tooltip { cursor:help; }
+table {width:100%;border-collapse:collapse;}
+th,td {border:1px solid #ddd;padding:6px;text-align:center;}
+th {background:#eee;cursor:pointer;}
 
-/* table */
-table { width:100%; border-collapse:collapse; }
-th,td { border:1px solid #ddd; padding:6px; text-align:center;}
-th { background:#eee; }
-
+button {margin:3px;}
 </style>
 </head>
 
 <body>
 
-<h1>🔭 Prioritisation and Scoring Pipeline</h1>
-<h2>Instrument aware: PIRATE Telescope</h2>
+<h1>🔭 Prioritisation Dashboard</h1>
 
 <div class="controls">
-Min Score <input type="range" id="scoreFilter" min="0" max="5" step="0.01" value="3.5">
-<label><input type="checkbox" id="pirateToggle"> PIRATE only</label>
-<label><input type="checkbox" id="next5Toggle"> Next 5 days only</label>
+Min Score <input type="range" id="scoreFilter" value="3.5" min="0" max="5" step="0.1">
 
-<br><br>
+TTV:
+<select id="ttvFilter">
+<option value="all">All</option>
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+</select>
 
-<button onclick="downloadScheduler()">📡 Scheduler CSV</button>
-<button onclick="generateEmail()">✉ OU Email</button>
+PIRATE:
+<select id="pirateClassFilter">
+<option value="all">All</option>
+<option value="OK">OK</option>
+<option value="Marginal">Marginal</option>
+<option value="Not suitable">Not suitable</option>
+</select>
 
-<button onclick="exportPlot('plot_time_score')">⬇ Export Time Plot (SVG)</button>
-<button onclick="exportPlot('plot_obs_duration')">⬇ Export Obs Plot (SVG)</button>
+<button onclick="updateDashboard()">Apply</button>
 </div>
-
-<div class="panel">
-<h2>ℹ️ Dashboard Guide</h2>
-<p><b>Top Targets:</b> Ordered by next observation window.</p>
-<p><b>Table:</b> Summary of all targets (click for breakdown).</p>
-<p><b>Plots:</b> Show trade-offs between urgency, feasibility, and science value.</p>
-</div>
-
-<div class="dashboard">
 
 <div class="panel">
 <h2>⭐ Top Targets</h2>
 <ul id="topTargets"></ul>
 </div>
 
+<div class="dashboard">
 <div class="panel">
-<h2>📊 Top Scores</h2>
-<div id="plot_breakdown"></div>
-<div class="explainer">
-Highest scoring targets in the current filtered dataset.
-</div>
+<h3>📈 Score vs Time</h3>
+<div id="plot_time"></div>
 </div>
 
+<div class="panel">
+<h3>🔭 Observability vs Duration</h3>
+<div id="plot_obs"></div>
+</div>
 </div>
 
 <table id="table"></table>
+<div id="pagination"></div>
 
-<div class="dashboard">
-
-<div class="panel">
-<h2>📈 Score vs Time</h2>
-<div id="plot_time_score"></div>
-<div class="explainer">
-Shows urgency (time until transit) vs scientific value (score).
-Top-right = high-priority upcoming observations.
-Colour = TTV significance.
-</div>
-</div>
-
-<div class="panel">
-<h2>🔭 Observability vs Duration</h2>
-<div id="plot_obs_duration"></div>
-<div class="explainer">
-Shows observational feasibility. High observable fraction + shorter duration is ideal.
-Colour = TTV significance.
-</div>
-</div>
-
-</div>
-
-<div id="detailPanel" class="panel">
-<h2>📊 Target Detail</h2>
-<p>Select a target</p>
-</div>
+<div id="detailPanel" class="panel"></div>
 
 <script>
 
 let globalData=[];
 let filteredData=[];
-let currentPage = 1;
-let rowsPerPage = 25;
-let currentSort = "score";
+let currentPage=1;
+let rowsPerPage=25;
+let currentSort="score";
 
-/* ---------------- BASE FUNCTIONS (UNCHANGED) ---------------- */
+/* ---------- CORE (unchanged) ---------- */
 
 function safe(x,d=2){
-    return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d);
+ return (!x||isNaN(x))?"-":Number(x).toFixed(d);
 }
 
-/* ✅ KEEP EXACT */
 function getObsClass(r){
-    if(r.obs_frac > 0.7 && r.obs_max_alt > 60) return "🌟 Excellent";
-    if(r.obs_frac > 0.4 && r.obs_max_alt > 30) return "✅ Good";
-    if(r.obs_frac > 0.1) return "⚠️ Partial";
-    return "❌ Poor";
+ if(r.obs_frac>0.7&&r.obs_max_alt>60) return "🌟 Excellent";
+ if(r.obs_frac>0.4&&r.obs_max_alt>30) return "✅ Good";
+ if(r.obs_frac>0.1) return "⚠️ Partial";
+ return "❌ Poor";
 }
 
-/* ✅ KEEP EXACT */
 function getScoreClass(score){
-    if(score >= 4) return "high";
-    if(score >= 3.5) return "medium";
-    return "low";
+ if(score>=4) return "high";
+ if(score>=3.5) return "medium";
+ return "low";
 }
 
-/* ---------------- HELPERS ---------------- */
+/* ---------- HELPERS ---------- */
 
 function getTimeToWindowDays(r){
-    return (new Date(r.Tmid_utc) - new Date()) / 86400000;
+ return (new Date(r.Tmid_utc)-new Date())/86400000;
 }
 
 function getUrgency(r){
-    let d = getTimeToWindowDays(r);
-    if(d < 1) return {label:"🔥 URGENT", class:"urgent"};
-    if(d < 3) return {label:"⚠️ Soon", class:"soon"};
-    return {label:"✅ Planned", class:"relaxed"};
+ let d=getTimeToWindowDays(r);
+ if(d<1) return {label:"🔥 URGENT",class:"urgent"};
+ if(d<3) return {label:"⚠️ Soon",class:"soon"};
+ return {label:"✅ Planned",class:"relaxed"};
 }
 
-/* ---------------- LOAD WITH FALLBACK ---------------- */
+/* ---------- INTERPRETATION (REFINED) ---------- */
 
-function tryLoadCSV(daysBack=0){
+function buildInterpretation(r){
 
-    let d = new Date();
-    d.setDate(d.getDate() - daysBack);
+let priority = r.final_score >= 4 ? "High-priority target" : "Moderate-priority target";
 
-    let tag = d.toISOString().slice(0,10).replace(/-/g,"");
-    let path = `output/outputs_${tag}.csv`;
+/* drivers */
+let science =
+ r.S2 >= 4 ? "driven by a strong TTV signal"
+ :
+ r.S2 >= 3 ? "with a moderate TTV signal"
+ :
+ "with limited TTV evidence";
 
-    Papa.parse(path,{
-        download:true,
-        header:true,
-        dynamicTyping:true,
-        complete:r=>{
-            if(r.data && r.data.length > 5){
-                globalData = r.data.filter(x=>x.name);
-                updateDashboard();
-            } else if(daysBack < 3){
-                tryLoadCSV(daysBack+1);
-            }
-        }
-    });
+let obs =
+ r.obs_frac > 0.7 ? "excellent observability"
+ :
+ r.obs_frac > 0.4 ? "partial observability"
+ :
+ "limited observability";
+
+let time =
+ getTimeToWindowDays(r) < 1 ? "time-critical"
+ :
+ getTimeToWindowDays(r) < 3 ? "time-sensitive"
+ :
+ "not time critical";
+
+let instrument =
+ r.instrument_flag === "OK"
+ ? "well suited for PIRATE"
+ :
+ r.instrument_flag === "Marginal"
+ ? "marginal for PIRATE"
+ :
+ "not suitable for PIRATE";
+
+/* final sentence */
+return `${priority} ${science} and ${obs}. The observation is ${time} and ${instrument}, guiding its overall ranking.`;
 }
 
-tryLoadCSV();
+/* ---------- LOAD ---------- */
 
-/* ---------------- UPDATE DASHBOARD ---------------- */
+function tryLoad(days=0){
+ let d=new Date();
+ d.setDate(d.getDate()-days);
+ let tag=d.toISOString().slice(0,10).replace(/-/g,"");
+
+ Papa.parse(`output/outputs_${tag}.csv`,{
+  download:true, header:true, dynamicTyping:true,
+  complete:r=>{
+   if(r.data && r.data.length>5){
+    globalData=r.data.filter(x=>x.name);
+    updateDashboard();
+   } else if(days<3){ tryLoad(days+1); }
+  }
+ });
+}
+
+tryLoad();
+
+/* ---------- UPDATE ---------- */
 
 function updateDashboard(){
 
-currentPage = 1;
+currentPage=1;
 
-let minScore = parseFloat(scoreFilter.value);
+let base=globalData.filter(r=>r.final_score>=scoreFilter.value);
 
-let base = globalData.filter(r => r.final_score >= minScore);
+/* filters */
 
-/* ✅ restored filters */
-if(ttvFilter.value !== "all"){
-    base = base.filter(r =>
-        r.ttv_significance_class &&
-        r.ttv_significance_class.toLowerCase().includes(ttvFilter.value.toLowerCase())
-    );
+if(ttvFilter.value!=="all"){
+ base=base.filter(r=>r.ttv_significance_class?.toLowerCase().includes(ttvFilter.value.toLowerCase()));
 }
 
-if(pirateClassFilter.value !== "all"){
-    base = base.filter(r => r.instrument_flag === pirateClassFilter.value);
+if(pirateClassFilter.value!=="all"){
+ base=base.filter(r=>r.instrument_flag===pirateClassFilter.value);
 }
 
-filteredData = base;
+filteredData=base;
 
 sortData();
 
-renderTopTargets(filteredData);
-renderTable(filteredData);
+renderTopTargets();
+renderTable();
 }
 
-/* ---------------- SORT ---------------- */
+/* ---------- SORT ---------- */
 
 function sortData(){
-
-if(currentSort === "score"){
-    filteredData.sort((a,b)=>{
-        let s = b.final_score - a.final_score;
-        if(s !== 0) return s;
-        return new Date(a.Tmid_utc) - new Date(b.Tmid_utc);
-    });
+ if(currentSort==="score"){
+  filteredData.sort((a,b)=>{
+   let s=b.final_score-a.final_score;
+   if(s!==0)return s;
+   return new Date(a.Tmid_utc)-new Date(b.Tmid_utc);
+  });
+ } else {
+  filteredData.sort((a,b)=>new Date(a.Tmid_utc)-new Date(b.Tmid_utc));
+ }
 }
 
-if(currentSort === "time"){
-    filteredData.sort((a,b)=> new Date(a.Tmid_utc) - new Date(b.Tmid_utc));
-}
+/* ---------- TOP TARGETS ---------- */
 
-}
+function renderTopTargets(){
 
-/* ---------------- TOP TARGETS (RESTORED + ENHANCED) ---------------- */
-
-function renderTopTargets(data){
-
-let now = new Date();
-let top = data
-    .filter(d => new Date(d.Tmid_utc) > now)
-    .sort((a,b)=> new Date(a.Tmid_utc) - new Date(b.Tmid_utc))
-    .slice(0,5);
-
+let top=filteredData.slice(0,5);
 let html="";
 
 top.forEach(t=>{
 
-let mid = new Date(t.Tmid_utc);
-let dur = t.duration_hours * 3600000;
+ let mid=new Date(t.Tmid_utc);
+ let dur=t.duration_hours*3600000;
 
-let start = new Date(mid.getTime() - dur/2);
-let end   = new Date(mid.getTime() + dur/2);
+ let start=new Date(mid.getTime()-dur/2);
+ let end=new Date(mid.getTime()+dur/2);
 
-let urgency = getUrgency(t);
+ let u=getUrgency(t);
 
-html += `
-<li class="${urgency.class}">
-<b>${t.name}</b> (${urgency.label})
+ html+=`
+<li class="${u.class}">
+<b>${t.name}</b> (${u.label})
 <br>Score: <span class="${getScoreClass(t.final_score)}">${safe(t.final_score)}</span>
 <br>⏳ ${getTimeToWindowDays(t).toFixed(2)} days
 <br>🕒 ${start.toLocaleString()} → ${end.toLocaleString()}
-<br>⛰ Alt: ${safe(t.obs_max_alt)}° | Obs: ${safe(t.obs_frac)}
 <br>📊 ${getObsClass(t)} | ${t.instrument_flag}
 </li><br>`;
 });
 
-topTargets.innerHTML = html;
+topTargets.innerHTML=html;
 }
 
-/* ---------------- TABLE ---------------- */
+/* ---------- TABLE ---------- */
 
-function renderTable(data){
+function renderTable(){
 
-let startIndex = (currentPage-1)*rowsPerPage;
-let pageData = data.slice(startIndex, startIndex + rowsPerPage);
+let start=(currentPage-1)*rowsPerPage;
+let page=filteredData.slice(start,start+rowsPerPage);
 
 let html=`
 <tr>
-<th onclick="setSort('score')" title="Sort by final score">Target</th>
+<th onclick="setSort('score')" title="Sort by score">Target</th>
 <th>Score</th>
-<th>Obs %</th>
-<th>Max Alt</th>
-<th>σ</th>
-<th onclick="setSort('time')" title="Sort by next observation">Transit</th>
+<th>Transit</th>
+<th>Obs</th>
+<th>Alt</th>
 <th>Class</th>
 <th>PIRATE</th>
 </tr>`;
 
-pageData.forEach(r=>{
-
-let pirate = (r.obs_max_alt >= 40 && r.obs_frac > 0.5) ? "✅" : "❌";
-
-html += `
+page.forEach(r=>{
+html+=`
 <tr onclick="showDetails('${r.name}')">
 <td>${r.name}</td>
 <td class="${getScoreClass(r.final_score)}">${safe(r.final_score)}</td>
+<td>${new Date(r.Tmid_utc).toLocaleString()}</td>
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
-<td>${safe(r.pred_sigma_min)}</td>
-<td>${new Date(r.Tmid_utc).toLocaleString()}</td>
 <td>${getObsClass(r)}</td>
-<td>${pirate}</td>
+<td>${r.instrument_flag}</td>
 </tr>`;
 });
 
-table.innerHTML = html;
+table.innerHTML=html;
 
-renderPagination(data.length);
-renderPlots(pageData);
+renderPagination();
+renderPlots(page);
 }
 
-/* ---------------- PAGINATION ---------------- */
+/* ---------- PAGINATION ---------- */
 
-function renderPagination(total){
+function renderPagination(){
 
-let pages = Math.ceil(total / rowsPerPage);
-let html = "";
+let pages=Math.ceil(filteredData.length/rowsPerPage);
+let html="";
 
 for(let i=1;i<=pages;i++){
-    html += `<button onclick="goToPage(${i})">${i}</button>`;
+ html+=`<button onclick="goPage(${i})">${i}</button>`;
 }
 
-html += `<br>Page ${currentPage} of ${pages}`;
-
-pagination.innerHTML = html;
+html+=`<br>Page ${currentPage} of ${pages}`;
+pagination.innerHTML=html;
 }
 
-function goToPage(p){
-    currentPage = p;
-    renderTable(filteredData);
+function goPage(p){
+ currentPage=p;
+ renderTable();
 }
 
-/* ---------------- SORT CONTROL ---------------- */
+/* ---------- SORT ---------- */
 
-function setSort(mode){
-    currentSort = mode;
-    currentPage = 1;
-    sortData();
-    renderTable(filteredData);
+function setSort(m){
+ currentSort=m;
+ currentPage=1;
+ sortData();
+ renderTable();
 }
 
-/* ---------------- PLOTS (FIXED) ---------------- */
+/* ---------- PLOTS (with priority shading) ---------- */
 
 function renderPlots(data){
 
-if(!data || data.length === 0) return;
+let high=data.filter(d=>d.ttv_significance_class?.includes("High"));
+let med=data.filter(d=>d.ttv_significance_class?.includes("Medium"));
+let low=data.filter(d=>d.ttv_significance_class?.includes("Low"));
 
-/* Score vs Time */
-Plotly.newPlot("plot_breakdown",[{
-    x:data.map(d=>d.name),
-    y:data.map(d=>d.final_score),
-    type:"bar"
-}]);
+Plotly.newPlot("plot_time",[
+{ x:high.map(getTimeToWindowDays), y:high.map(d=>d.final_score), mode:"markers", name:"High", marker:{color:"green"}},
+{ x:med.map(getTimeToWindowDays), y:med.map(d=>d.final_score), mode:"markers", name:"Medium", marker:{color:"orange"}},
+{ x:low.map(getTimeToWindowDays), y:low.map(d=>d.final_score), mode:"markers", name:"Low", marker:{color:"red"}}
+],{
+ title:"Score vs Time",
+ shapes:[{type:"rect", x0:0,x1:3,y0:3.5,y1:5, fillcolor:"rgba(0,200,0,0.1)", line:{width:0}}],
+ annotations:[{x:1.5,y:4.5,text:"High Priority",showarrow:false}]
+});
 
-Plotly.newPlot("plot_time_score",[{
-    x:data.map(getTimeToWindowDays),
-    y:data.map(d=>d.final_score),
-    text:data.map(d=>d.name),
-    mode:"markers",
-    marker:{size:10}
-}]);
-
-Plotly.newPlot("plot_obs_duration",[{
-    x:data.map(d=>d.obs_frac),
-    y:data.map(d=>d.duration_hours),
-    text:data.map(d=>d.name),
-    mode:"markers"
-}]);
+Plotly.newPlot("plot_obs",[
+{ x:high.map(d=>d.obs_frac), y:high.map(d=>d.duration_hours), mode:"markers", name:"High", marker:{color:"green"}},
+{ x:med.map(d=>d.obs_frac), y:med.map(d=>d.duration_hours), mode:"markers", name:"Medium", marker:{color:"orange"}},
+{ x:low.map(d=>d.obs_frac), y:low.map(d=>d.duration_hours), mode:"markers", name:"Low", marker:{color:"red"}}
+],{
+ title:"Observability vs Duration",
+ shapes:[{type:"rect", x0:0.6,x1:1,y0:0,y1:3, fillcolor:"rgba(0,200,255,0.1)", line:{width:0}}],
+ annotations:[{x:0.8,y:1.5,text:"Easiest Observations",showarrow:false}]
+});
 
 }
 
-/* ---------------- DETAILS (RESTORED EXACTLY) ---------------- */
+/* ---------- DETAILS ---------- */
 
 function showDetails(name){
 
-let r = filteredData.find(d=>d.name===name);
+let r=filteredData.find(d=>d.name===name);
 
 detailPanel.innerHTML=`
-
 <h3>${r.name}</h3>
 
-<p><b>Final Score:</b> ${safe(r.final_score)}</p>
-
-<h4>📊 Score Breakdown</h4>
-
+<div class="scorebox">
+<h4>Score Breakdown</h4>
 <ul>
-<li><span title="Transit timing uncertainty (drives need for follow-up)">
-S1 Ephemeris: ${safe(r.S1)}</span></li>
-
-<li><span title="Strength of TTV signal (science driver)">
-S2 TTV: ${safe(r.S2)} (${r.ttv_significance_class})</span></li>
-
-<li><span title="Instrument suitability for PIRATE">
-S3 Instrument: ${safe(r.S3)}</span></li>
-
-<li><span title="Visibility from site (altitude + duration)">
-S4 Observability: ${safe(r.S4)}</span></li>
-
-<li><span title="Scientific importance">
-S5 Science: ${safe(r.S5)}</span></li>
-
-<li><span title="Campaign synergy (ARIEL / ExoClock)">
-S6 Synergy: ${safe(r.S6)}</span></li>
+<li><span title="Transit timing uncertainty">S1: ${safe(r.S1)}</span></li>
+<li><span title="TTV strength">S2: ${safe(r.S2)} (${r.ttv_significance_class})</span></li>
+<li><span title="Instrument suitability">S3: ${safe(r.S3)}</span></li>
+<li><span title="Observability">S4: ${safe(r.S4)}</span></li>
+<li><span title="Science priority">S5: ${safe(r.S5)}</span></li>
+<li><span title="Synergy">S6: ${safe(r.S6)}</span></li>
 </ul>
+</div>
+
+<p><b>Interpretation:</b> ${buildInterpretation(r)}</p>
 `;
 }
 
 </script>
-    
+
 </body>
 </html>
