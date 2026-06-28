@@ -20,12 +20,29 @@ def compute_science_features(df):
 
     df['science_priority_numeric'] = df['exoclock_priority'].apply(map_priority)
 
-    # --- Recency scoring ---
-    if "n_obs_recent" not in df.columns:
-        df["n_obs_recent"] = 0
+    # --- Updated Priority Calculation using last observation timestamp AND recent observational numebers ---
+    # --- Ensure inputs exist ---
+    df['n_obs_recent'] = df.get('n_obs_recent', 0).fillna(0)
+    days = df.get('time_since_last_obs_days')
 
-    df["n_obs_recent"] = df["n_obs_recent"].fillna(0)
+    # --- Observation scarcity (fewer obs = higher need) ---
+    df['obs_density_score'] = 1 / (1 + df['n_obs_recent'])
 
-    df["science_recency_score"] = 1 / (1 + df["n_obs_recent"])
+    # --- Time-based recency (older = more valuable) ---
+    def recency_weight(t):
+        if t is None or not np.isfinite(t):
+            return 1.0
+        return np.clip(t / 1000, 0, 1)
+
+    df['time_recency_score'] = df['time_since_last_obs_days'].apply(recency_weight)
+
+    # --- Combined science recency ---
+    df['science_recency_score'] = (
+        0.6 * df['time_recency_score'] +
+        0.4 * df['obs_density_score']
+    )
+
+    # --- Placeholder for recent scientific paper mention, that still needs to be explored
+
 
     return df
