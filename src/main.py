@@ -60,8 +60,14 @@ def run():
         "max_sun_alt": -18,
         "min_moon_sep": 30
     }
+    print("Starting observability calculation")
 
-    events = compute_observability(events, obs_config)
+    try:
+        events = compute_observability(events, obs_config)
+        print ("Observability COMPLETE")
+    except Exception as e:
+        print("Observability FAILED", e)
+        
 
     print(events[["Tmid_utc"]].head())
     print(type(events["Tmid_utc"].iloc[0]))
