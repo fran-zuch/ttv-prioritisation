@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TTV Prioritisation Dashboard</title>
+<title>TTV Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
@@ -17,21 +17,38 @@ body { font-family: Arial; margin:20px;}
 
 /* layout */
 .dashboard { display:flex; gap:20px; margin-top:20px; }
-
-.panel {
-    border:2px solid #444;
-    padding:10px;
-    flex:1;
-}
-
+.panel { border:2px solid #444; padding:10px; flex:1; }
 .spacer { margin-top:40px; }
 
-/* text panels */
+/* top targets horizontal */
+#topTargets {
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    list-style:none;
+    padding:0;
+}
+
+#topTargets li {
+    width:240px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+/* text boxes */
 .explainer {
     background:#f9f9f9;
     border-left:5px solid #4a86e8;
     padding:10px;
     margin-top:10px;
+    font-size:14px;
+}
+
+.figure-caption {
+    font-size:13px;
+    color:#333;
+    margin-top:8px;
 }
 
 .scorebox {
@@ -43,43 +60,14 @@ body { font-family: Arial; margin:20px;}
 
 /* colours */
 .high { color:green; font-weight:bold; }
-.medium { color:#d48800; }
-.low { color:#888; }
-
 .ttv_high { color:green; }
 .ttv_medium { color:#d48800; }
 .ttv_low { color:red; }
-
-.urgent { background:#ffcccc; }
-.soon { background:#ffe599; }
-.relaxed { background:#d9ead3; }
 
 /* table */
 table { width:100%; border-collapse:collapse;}
 th,td { border:1px solid #ddd; padding:6px; text-align:center;}
 th { background:#eee; cursor:pointer;}
-
-<div class="controls">
-Min Score <input type="range" id="scoreFilter" value="3.5" min="0" max="5" step="0.1">
-
-TTV:
-<select id="ttvFilter">
-<option value="all">All</option>
-<option value="High">High</option>
-<option value="Medium">Medium</option>
-<option value="Low">Low</option>
-</select>
-
-PIRATE:
-<select id="pirateClassFilter">
-<option value="all">All</option>
-<option value="OK">OK</option>
-<option value="Marginal">Marginal</option>
-<option value="Not suitable">Not suitable</option>
-</select>
-
-<button onclick="updateDashboard()">Apply</button>
-</div>
 
 button { margin:3px; }
 </style>
@@ -99,6 +87,7 @@ button { margin:3px; }
 <p><b>Confidence:</b> Combines timing and uncertainty to indicate likelihood of successful follow-up.</p>
 </div>
 
+<!-- CONTROLS (UNCHANGED) -->
 <div class="controls">
 
 Min Score <input type="range" id="scoreFilter" value="3.5" min="0" max="5" step="0.1">
@@ -120,228 +109,198 @@ PIRATE:
 </select>
 
 <button onclick="updateDashboard()">Apply</button>
+<button onclick="downloadScheduler()">📡 CSV</button>
+<button onclick="generateEmail()">✉ Email</button>
+<button onclick="exportPlot('plot_time')">⬇ SVG</button>
 
 </div>
 
-<!-- TOP TARGETS -->
+<!-- TOP TARGETS + TOP SCORES -->
+<div class="dashboard">
+
 <div class="panel">
 <h2>⭐ Top Targets</h2>
 <ul id="topTargets"></ul>
+</div>
+
+<div class="panel">
+<h2>📊 Top Scores</h2>
+<div id="plot_top"></div>
+</div>
+
 </div>
 
 <!-- PLOTS -->
 <div class="dashboard">
 
 <div class="panel">
-<h3>📊 Top Scores</h3>
-<div id="plot_top"></div>
-</div>
-
-<div class="panel">
 <h3>📈 Score vs Time</h3>
 <div id="plot_time"></div>
-<div class="explainer">
-High-priority targets lie in the shaded region (high score + near-term transit).  
-Marker size represents confidence (larger = more reliable observation).
+
+<div class="figure-caption">
+<b>Figure 1:</b> Target prioritisation in score–time space.  
+Points represent candidate observations, with marker size encoding confidence (derived from uncertainty and timing).  
+The shaded region highlights high-priority targets with strong scientific value and near-term observability.
 </div>
+
 </div>
 
 <div class="panel">
 <h3>🔭 Observability vs Duration</h3>
 <div id="plot_obs"></div>
-<div class="explainer">
-The shaded region highlights the easiest observations.  
-Larger markers indicate higher confidence follow-up opportunities.
-</div>
+
+<div class="figure-caption">
+<b>Figure 2:</b> Observational feasibility space.  
+Targets with higher observable fraction and shorter duration lie in the shaded region, representing efficient observations.  
+Marker size reflects confidence in successful follow-up.
 </div>
 
 </div>
 
-<!-- spacing before table -->
+</div>
+
 <div class="spacer"></div>
 
 <table id="table"></table>
 <div id="pagination"></div>
 
-<div id="detailPanel" class="panel">
-<h2>📊 Target Detail</h2>
-<p>Select a target</p>
-</div>
+<div id="detailPanel" class="panel"></div>
 
 <script>
 
-/* ---------- GLOBAL ---------- */
-
+/* GLOBAL */
 let globalData=[];
 let filteredData=[];
 let currentPage=1;
 let rowsPerPage=25;
-let currentSort="score";
 
-/* ---------- CORE ---------- */
+/* HELPERS */
 
 function safe(x,d=2){
  return (!x||isNaN(x))?"-":Number(x).toFixed(d);
 }
-
-function getObsClass(r){
- if(r.obs_frac>0.7 && r.obs_max_alt>60) return "🌟 Excellent";
- if(r.obs_frac>0.4 && r.obs_max_alt>30) return "✅ Good";
- if(r.obs_frac>0.1) return "⚠️ Partial";
- return "❌ Poor";
-}
-
-function getScoreClass(score){
- if(score>=4) return "high";
- if(score>=3.5) return "medium";
- return "low";
-}
-
-/* ---------- CONFIDENCE ---------- */
 
 function getTimeToWindowDays(r){
  return (new Date(r.Tmid_utc)-new Date())/86400000;
 }
 
 function getConfidenceScore(r){
- let sigma = r.pred_sigma_min || 60;
- let days = getTimeToWindowDays(r);
+ let sigma=r.pred_sigma_min||60;
+ let days=getTimeToWindowDays(r);
 
- let sigmaScore = Math.max(0, 5 - sigma/10);
- let timeScore = Math.max(0, 5 - days);
+ let s=Math.max(0,5-sigma/10);
+ let t=Math.max(0,5-days);
 
- return Math.max(0, Math.min(5,(sigmaScore + timeScore)/2));
+ return Math.max(0,Math.min(5,(s+t)/2));
 }
 
-/* ---------- LOAD ---------- */
+/* LOAD */
 
-function tryLoad(days=0){
+function tryLoad(d=0){
+ let date=new Date();
+ date.setDate(date.getDate()-d);
 
-    let d = new Date();
-    d.setDate(d.getDate() - days);
+ let tag=date.toISOString().slice(0,10).replace(/-/g,"");
 
-    let tag = d.toISOString().slice(0,10).replace(/-/g,"");
-    let path = `output/outputs_${tag}.csv`;
-
-    Papa.parse(path,{
-        download:true,
-        header:true,
-        dynamicTyping:true,
-        complete:r=>{
-            if(r.data && r.data.length > 5 && r.data[0].name){
-
-                globalData = r.data.filter(x => x.name);
-
-                document.getElementById("status").innerText =
-                    `Loaded dataset: ${tag} (${globalData.length} targets)`;
-
-                updateDashboard();
-
-            } else if(days < 3){
-                tryLoad(days + 1);
-            } else {
-                document.getElementById("status").innerText =
-                    "⚠️ No data found for last 3 days";
-            }
-        },
-        error:()=>{
-            if(days < 3){
-                tryLoad(days + 1);
-            }
-        }
-    });
+ Papa.parse(`output/outputs_${tag}.csv`,{
+  download:true,
+  header:true,
+  dynamicTyping:true,
+  complete:r=>{
+   if(r.data && r.data.length>5){
+    globalData=r.data.filter(x=>x.name);
+    updateDashboard();
+   } else if(d<3){
+    tryLoad(d+1);
+   }
+  }
+ });
 }
 
 tryLoad();
 
-/* ---------- UPDATE ---------- */
+/* UPDATE */
 
 function updateDashboard(){
 
-currentPage=1;
+let min=parseFloat(scoreFilter.value);
 
-let minScore=parseFloat(scoreFilter.value);
-
-let base=globalData.filter(r=>r.final_score>=minScore);
+let base=globalData.filter(r=>r.final_score>=min);
 
 if(ttvFilter.value!=="all"){
- base=base.filter(r=>r.ttv_significance_class?.toLowerCase().includes(ttvFilter.value.toLowerCase()));
+ base=base.filter(r=>r.ttv_significance_class?.includes(ttvFilter.value));
 }
 
 if(pirateClassFilter.value!=="all"){
  base=base.filter(r=>r.instrument_flag===pirateClassFilter.value);
 }
 
-filteredData=base;
+filteredData=base.sort((a,b)=>b.final_score-a.final_score);
 
-sortData();
 renderTopTargets();
 renderTable();
 }
 
-/* ---------- SORT ---------- */
-
-function sortData(){
- if(currentSort==="score"){
-  filteredData.sort((a,b)=> b.final_score-a.final_score);
- } else {
-  filteredData.sort((a,b)=> new Date(a.Tmid_utc)-new Date(b.Tmid_utc));
- }
-}
-
-/* ---------- TOP TARGETS ---------- */
+/* TOP TARGETS */
 
 function renderTopTargets(){
 
-let top=filteredData.slice(0,5);
 let html="";
 
-top.forEach(t=>{
+filteredData.slice(0,5).forEach(t=>{
 
- let conf=getConfidenceScore(t);
+ let mid=new Date(t.Tmid_utc);
+ let dur=t.duration_hours*3600000;
+
+ let s=new Date(mid.getTime()-dur/2);
+ let e=new Date(mid.getTime()+dur/2);
 
  html+=`
 <li>
 <b>${t.name}</b>
-<br>Score: <span class="${getScoreClass(t.final_score)}">${safe(t.final_score)}</span>
-<br>🎯 Confidence: ${conf.toFixed(2)}
-<br>📊 ${getObsClass(t)} | ${t.instrument_flag}
-</li><br>`;
+<br>Score: ${safe(t.final_score)}
+<br>🕒 ${s.toLocaleString()} → ${e.toLocaleString()}
+<br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
+<br>${t.instrument_flag}
+</li>`;
 });
 
 topTargets.innerHTML=html;
 }
 
-/* ---------- TABLE ---------- */
+/* TABLE */
 
 function renderTable(){
 
 let start=(currentPage-1)*rowsPerPage;
 let page=filteredData.slice(start,start+rowsPerPage);
 
-let html=`
-<tr>
-<th onclick="setSort('score')">Target</th>
+let html=`<tr>
+<th>Target</th>
 <th>Score</th>
-<th>Confidence</th>
-<th>Transit</th>
+<th>Conf</th>
+<th>Observation Window</th>
 <th>Obs</th>
 <th>Alt</th>
-<th>Class</th>
 <th>PIRATE</th>
 </tr>`;
 
 page.forEach(r=>{
- let conf=getConfidenceScore(r);
+
+ let mid=new Date(r.Tmid_utc);
+ let dur=r.duration_hours*3600000;
+
+ let s=new Date(mid.getTime()-dur/2);
+ let e=new Date(mid.getTime()+dur/2);
+
  html+=`
 <tr onclick="showDetails('${r.name}')">
 <td>${r.name}</td>
 <td>${safe(r.final_score)}</td>
-<td>${conf.toFixed(2)}</td>
-<td>${new Date(r.Tmid_utc).toLocaleString()}</td>
+<td>${getConfidenceScore(r).toFixed(2)}</td>
+<td>${s.toLocaleString()}<br>→<br>${e.toLocaleString()}</td>
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
-<td>${getObsClass(r)}</td>
 <td>${r.instrument_flag}</td>
 </tr>`;
 });
@@ -351,14 +310,20 @@ renderPagination();
 renderPlots(page);
 }
 
-/* ---------- PAGINATION ---------- */
+/* PAGINATION */
 
 function renderPagination(){
+
 let pages=Math.ceil(filteredData.length/rowsPerPage);
+
 let html="";
-for(let i=1;i<=pages;i++){
- html+=`<button onclick="goPage(${i})">${i}</button>`;
-}
+
+if(currentPage>1) html+=`<button onclick="goPage(${currentPage-1})">Prev</button>`;
+
+html+=` Page ${currentPage} of ${pages} `;
+
+if(currentPage<pages) html+=`<button onclick="goPage(${currentPage+1})">Next</button>`;
+
 pagination.innerHTML=html;
 }
 
@@ -367,68 +332,99 @@ function goPage(p){
  renderTable();
 }
 
-/* ---------- SORT ---------- */
-
-function setSort(m){
- currentSort=m;
- updateDashboard();
-}
-
-/* ---------- PLOTS (WITH CONFIDENCE SIZE) ---------- */
+/* PLOTS */
 
 function renderPlots(data){
 
-let sizes=data.map(d=>getConfidenceScore(d)*6+5);
+let sizes=data.map(d=>getConfidenceScore(d)*7+6);
 
-/* TOP SCORES */
 Plotly.newPlot("plot_top",[{
  x:data.map(d=>d.name),
  y:data.map(d=>d.final_score),
  type:"bar"
 }]);
 
-/* SCORE vs TIME */
 Plotly.newPlot("plot_time",[{
  x:data.map(getTimeToWindowDays),
  y:data.map(d=>d.final_score),
  mode:"markers",
- marker:{size:sizes}
+ marker:{
+  size:sizes,
+  color:data.map(d =>
+   d.ttv_significance_class?.includes("High")?"green":
+   d.ttv_significance_class?.includes("Medium")?"orange":"red")
+ }
 }],{
- shapes:[{type:"rect",x0:0,x1:3,y0:3.5,y1:5,fillcolor:"rgba(0,200,0,0.1)",line:{width:0}}],
+ shapes:[{type:"rect",x0:0,x1:3,y0:3.5,y1:5,fillcolor:"rgba(0,200,0,0.1)",line:{width:0}}]
 });
 
-/* OBS PLOT */
 Plotly.newPlot("plot_obs",[{
  x:data.map(d=>d.obs_frac),
  y:data.map(d=>d.duration_hours),
  mode:"markers",
  marker:{size:sizes}
 }],{
- shapes:[{type:"rect",x0:0.6,x1:1,y0:0,y1:3,fillcolor:"rgba(0,200,255,0.1)",line:{width:0}}],
+ shapes:[{type:"rect",x0:0.6,x1:1,y0:0,y1:3,fillcolor:"rgba(0,200,255,0.1)",line:{width:0}}]
 });
 
 }
 
-/* ---------- DETAILS ---------- */
+/* EXPORTS */
+
+function exportPlot(id){
+ Plotly.toImage(document.getElementById(id),{
+  format:"svg",
+  width:1200,
+  height:700
+ }).then(url=>{
+  let a=document.createElement("a");
+  a.href=url;
+  a.download=id+".svg";
+  a.click();
+ });
+}
+
+function downloadScheduler(){
+ let csv="Name,Start,End\\n";
+ filteredData.slice(0,5).forEach(r=>{
+  let mid=new Date(r.Tmid_utc);
+  let dur=r.duration_hours*3600000;
+  let s=new Date(mid.getTime()-dur/2).toISOString();
+  let e=new Date(mid.getTime()+dur/2).toISOString();
+  csv+=`${r.name},${s},${e}\\n`;
+ });
+ let blob=new Blob([csv]);
+ let a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="schedule.csv";
+ a.click();
+}
+
+function generateEmail(){
+ let txt="Observing Request\\n\\n";
+ filteredData.slice(0,3).forEach(r=>{
+  txt+=`${r.name}\\n`;
+ });
+ prompt("Copy:",txt);
+}
+
+/* DETAILS */
 
 function showDetails(name){
-
 let r=filteredData.find(d=>d.name===name);
 
 detailPanel.innerHTML=`
 <h3>${r.name}</h3>
-
 <div class="scorebox">
 <ul>
-<li><span title="Transit timing uncertainty">S1: ${safe(r.S1)}</span></li>
-<li><span title="TTV strength">S2: ${safe(r.S2)}</span></li>
-<li><span title="Instrument suitability">S3: ${safe(r.S3)}</span></li>
-<li><span title="Observability">S4: ${safe(r.S4)}</span></li>
-<li><span title="Science priority">S5: ${safe(r.S5)}</span></li>
-<li><span title="Synergy">S6: ${safe(r.S6)}</span></li>
+<li title="Timing uncertainty">S1: ${safe(r.S1)}</li>
+<li title="TTV strength">S2: ${safe(r.S2)}</li>
+<li title="Instrument">S3: ${safe(r.S3)}</li>
+<li title="Observability">S4: ${safe(r.S4)}</li>
+<li title="Science">S5: ${safe(r.S5)}</li>
+<li title="Synergy">S6: ${safe(r.S6)}</li>
 </ul>
-</div>
-`;
+</div>`;
 }
 
 </script>
