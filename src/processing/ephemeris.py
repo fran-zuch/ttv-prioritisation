@@ -81,6 +81,7 @@ def expand_events(df, start_utc, end_utc):
                 "min_telescope_inches": r.get("min_telescope_inches"),
                 "ra": r.get("ra"),
                 "dec": r.get("dec"),
+                "n_obs_recent": r.get("n_obs_recent"),
 
                 # Inherited metadata needed downstream for scoring
                 "exoclock_priority": r.get("exoclock_priority"),
