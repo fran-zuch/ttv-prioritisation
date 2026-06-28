@@ -133,25 +133,19 @@ Colour = TTV significance.
 
 let globalData=[];
 let filteredData=[];
-let limitTo5Days=false;
 
-next5Toggle.addEventListener("change", ()=> {
-    limitTo5Days = next5Toggle.checked;
-    updateDashboard();
-});
+let currentPage = 1;
+let rowsPerPage = 25;
+let currentSort = "score";
 
-function safe(x,d=2){ return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d); }
+/* ================= HELPERS ================= */
+
+function safe(x,d=2){
+    return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d);
+}
 
 function getTimeToWindowDays(r){
     return (new Date(r.Tmid_utc) - new Date()) / 86400000;
-}
-
-function getTTVColor(c){
-    if(!c) return "grey";
-    c = c.toLowerCase();
-    if(c.includes("high")) return "green";
-    if(c.includes("medium")) return "orange";
-    return "red";
 }
 
 function getTTVClass(c){
@@ -162,99 +156,92 @@ function getTTVClass(c){
     return "ttv_low";
 }
 
-function getUrgency(r){
-    let d=getTimeToWindowDays(r);
-    if(d<1) return {label:"🔥 URGENT",class:"urgent"};
-    if(d<3) return {label:"⚠️ Soon",class:"soon"};
-    return {label:"✅ Planned",class:"relaxed"};
+function getTTVColor(c){
+    if(!c) return "grey";
+    c=c.toLowerCase();
+    if(c.includes("high")) return "green";
+    if(c.includes("medium")) return "orange";
+    return "red";
 }
 
-/* LOAD DATA */
-function tryLoadCSV(daysBack = 0){
+/* ================= DATA LOAD (fallback) ================= */
+
+function tryLoadCSV(daysBack=0){
 
     let date = new Date();
-    date.setDate(date.getDate() - daysBack);
+    date.setDate(date.getDate()-daysBack);
 
     let tag = date.toISOString().slice(0,10).replace(/-/g,"");
     let path = `output/outputs_${tag}.csv`;
 
-    console.log("Trying:", path);
-
-    Papa.parse(path, {
+    Papa.parse(path,{
         download:true,
         header:true,
         dynamicTyping:true,
 
-        complete: r => {
-
-            // ✅ check if valid data
+        complete:r=>{
             if(r.data && r.data.length > 5 && r.data[0].name){
-
-                console.log("✅ Loaded:", path);
                 globalData = r.data.filter(d=>d.name);
                 updateDashboard();
-
-            } else {
-
-                console.warn("⚠️ Empty/invalid:", path);
-
-                if(daysBack < 3){
-                    tryLoadCSV(daysBack + 1);
-                } else {
-                    showNoData();
-                }
+            } else if(daysBack < 3){
+                tryLoadCSV(daysBack+1);
             }
         },
 
-        error: err => {
-            console.warn("❌ Failed:", path, err);
-
+        error:()=>{
             if(daysBack < 3){
-                tryLoadCSV(daysBack + 1);
-            } else {
-                showNoData();
+                tryLoadCSV(daysBack+1);
             }
         }
-
     });
 }
 
-/* ✅ fallback message */
-function showNoData(){
-    document.getElementById("status").innerText =
-        "⚠️ No recent data available (last 3 days checked)";
-}
-
-/* ✅ load */
 tryLoadCSV();
 
-/* UPDATE */
+/* ================= SORTING ================= */
+
+function sortData(data){
+
+    if(currentSort === "score"){
+
+        data.sort((a,b)=>{
+            let s = b.final_score - a.final_score;
+            if(s !== 0) return s;
+            return new Date(a.Tmid_utc) - new Date(b.Tmid_utc);
+        });
+
+    } else if(currentSort === "time"){
+
+        data.sort((a,b)=>
+            new Date(a.Tmid_utc) - new Date(b.Tmid_utc)
+        );
+
+    } else if(currentSort === "duration"){
+
+        data.sort((a,b)=> a.duration_hours - b.duration_hours);
+    }
+
+}
+
+/* ================= UPDATE ================= */
 
 function updateDashboard(){
 
-filteredData = globalData.filter(r=>r.final_score>=parseFloat(scoreFilter.value));
+    filteredData = globalData.filter(r =>
+        r.final_score >= parseFloat(scoreFilter.value)
+    );
 
-if(pirateToggle.checked){
-    filteredData = filteredData.filter(r=>r.instrument_flag==="OK");
+    sortData(filteredData);
+
+    renderTopTargets(filteredData);
+    renderTable(filteredData);
 }
 
-renderTopTargets(filteredData);
-renderTable(filteredData);
-renderPlots(filteredData);
-}
-
-/* TOP TARGETS */
+/* ================= TOP TARGETS ================= */
 
 function renderTopTargets(data){
 
-let now=new Date();
-let cutoff=new Date(now.getTime()+5*86400000);
-
-let top=data
-.filter(d=>new Date(d.Tmid_utc)>=now)
-.filter(d=> !limitTo5Days || new Date(d.Tmid_utc)<=cutoff)
-.sort((a,b)=> new Date(a.Tmid_utc)-new Date(b.Tmid_utc))
-.slice(0,5);
+let top = data.slice(0,5);
 
 let html="";
 
@@ -266,61 +253,100 @@ let dur=t.duration_hours*3600000;
 let start=new Date(mid.getTime()-dur/2);
 let end=new Date(mid.getTime()+dur/2);
 
-let urgency=getUrgency(t);
-
 html+=`
-<li class="${urgency.class}">
-<b>${t.name}</b> (${urgency.label})
+<li>
+<b>${t.name}</b>
 <br>Score: ${safe(t.final_score)}
 <br>⏳ ${getTimeToWindowDays(t).toFixed(2)} days
 <br>🕒 ${start.toLocaleString()} → ${end.toLocaleString()}
-<br>📊 ${t.ttv_significance_class} | ${t.instrument_flag}
 </li><br>`;
 });
 
 topTargets.innerHTML=html;
 }
 
-/* TABLE */
+/* ================= TABLE ================= */
 
 function renderTable(data){
 
+let start = (currentPage-1)*rowsPerPage;
+let end   = start + rowsPerPage;
+
+let pageData = data.slice(start, end);
+
 let html=`
 <tr>
+<th onclick="setSort('score')">Score</th>
 <th>Target</th>
-<th>Score</th>
+<th onclick="setSort('time')">Transit</th>
 <th>TTV</th>
+<th onclick="setSort('duration')">Dur</th>
 <th>Obs</th>
 <th>Alt</th>
-<th>σ</th>
-<th>Dur</th>
 </tr>`;
 
-data.forEach(r=>{
+pageData.forEach(r=>{
+
+let mid=new Date(r.Tmid_utc);
+let dur=r.duration_hours*3600000;
+
+let startT=new Date(mid.getTime()-dur/2);
+
 html+=`
 <tr onclick="showDetails('${r.name}')">
-<td>${r.name}</td>
 <td class="high">${safe(r.final_score)}</td>
-<td class="${getTTVClass(r.ttv_significance_class)}">${r.ttv_significance_class}</td>
+<td>${r.name}</td>
+<td>${startT.toLocaleString()}</td>
+<td class="${getTTVClass(r.ttv_significance_class)}">
+${r.ttv_significance_class}
+</td>
+<td>${safe(r.duration_hours)}</td>
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
-<td>${safe(r.pred_sigma_min)}</td>
-<td>${safe(r.duration_hours)}</td>
 </tr>`;
 });
 
 table.innerHTML=html;
+
+renderPagination(data.length);
+
+/* ✅ IMPORTANT: plots now reflect current page */
+renderPlots(pageData);
 }
 
-/* PLOTS */
+/* ================= PAGINATION ================= */
+
+function renderPagination(total){
+
+let pages = Math.ceil(total / rowsPerPage);
+
+let html="";
+
+for(let i=1;i<=pages;i++){
+    html += `<button onclick="goToPage(${i})">${i}</button>`;
+}
+
+html += `<div>Page ${currentPage} of ${pages}</div>`;
+
+pagination.innerHTML=html;
+}
+
+function goToPage(p){
+    currentPage = p;
+    renderTable(filteredData);
+}
+
+/* ================= SORT BUTTON ================= */
+
+function setSort(mode){
+    currentSort = mode;
+    currentPage = 1;
+    updateDashboard();
+}
+
+/* ================= PLOTS ================= */
 
 function renderPlots(data){
-
-Plotly.newPlot("plot_breakdown", [{
-    x:data.slice(0,10).map(d=>d.name),
-    y:data.slice(0,10).map(d=>d.final_score),
-    type:'bar'
-}]);
 
 Plotly.newPlot("plot_time_score",[{
     x:data.map(getTimeToWindowDays),
@@ -346,25 +372,10 @@ Plotly.newPlot("plot_obs_duration",[{
         color:data.map(d=>getTTVColor(d.ttv_significance_class))
     }
 }]);
+
 }
 
-/* SVG EXPORT */
-
-function exportPlot(id){
-
-Plotly.toImage(document.getElementById(id),{
-    format:"svg",
-    width:1200,
-    height:700
-}).then(url=>{
-    let a=document.createElement("a");
-    a.href=url;
-    a.download=id+".svg";
-    a.click();
-});
-}
-
-/* DETAIL PANEL (WITH TOOLTIPS) */
+/* ================= DETAILS ================= */
 
 function showDetails(name){
 
@@ -375,84 +386,30 @@ detailPanel.innerHTML=`
 <h3>${r.name}</h3>
 
 <div class="scorebox">
-<h4>Score Breakdown (hover for explanation)</h4>
+<h4>Score Breakdown</h4>
 
 <ul>
-<li class="tooltip" title="Transit timing uncertainty">
-S1 Ephemeris: ${safe(r.S1)}</li>
+<li><span title="Transit timing uncertainty">
+S1: ${safe(r.S1)}</span></li>
 
-<li class="tooltip" title="Strength of TTV signal">
-S2 TTV: ${safe(r.S2)} (${r.ttv_significance_class})</li>
+<li><span title="Strength of TTV signal">
+S2: ${safe(r.S2)} (${r.ttv_significance_class})</span></li>
 
-<li class="tooltip" title="Instrument suitability for PIRATE">
-S3 Instrument: ${safe(r.S3)}</li>
+<li><span title="Instrument suitability">
+S3: ${safe(r.S3)}</span></li>
 
-<li class="tooltip" title="Visibility from site">
-S4 Observability: ${safe(r.S4)}</li>
+<li><span title="Visibility from site">
+S4: ${safe(r.S4)}</span></li>
 
-<li class="tooltip" title="Scientific priority">
-S5 Science: ${safe(r.S5)}</li>
+<li><span title="Scientific importance">
+S5: ${safe(r.S5)}</span></li>
 
-<li class="tooltip" title="Campaign synergy">
-S6 Synergy: ${safe(r.S6)}</li>
+<li><span title="Campaign synergy">
+S6: ${safe(r.S6)}</span></li>
+
 </ul>
 </div>
-
-<p><b>Interpretation:</b>
-This target ranks highly due to a combination of TTV detectability, observability, and timing urgency.
-</p>
 `;
-}
-
-/* EMAIL */
-
-function generateEmail(){
-
-let top = filteredData.slice(0,3);
-
-let text="Subject: S841 Observing Request\n\n";
-
-top.forEach((t,i)=>{
-
-let mid=new Date(t.Tmid_utc);
-let dur=t.duration_hours*3600000;
-
-let s=new Date(mid.getTime()-dur/2);
-let e=new Date(mid.getTime()+dur/2);
-
-text+=`
-Target ${i+1}
-${t.name}
-Start: ${s.toISOString()}
-End: ${e.toISOString()}
-`;
-});
-
-prompt("Copy email:", text);
-}
-
-/* SCHEDULER */
-
-function downloadScheduler(){
-
-let csv="Name,RA,Dec,Start,End\n";
-
-filteredData.slice(0,5).forEach(r=>{
-
-let mid=new Date(r.Tmid_utc);
-let dur=r.duration_hours*3600000;
-
-let s=new Date(mid.getTime()-dur/2).toISOString();
-let e=new Date(mid.getTime()+dur/2).toISOString();
-
-csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
-});
-
-let blob=new Blob([csv]);
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="scheduler.csv";
-a.click();
 }
 
 </script>
