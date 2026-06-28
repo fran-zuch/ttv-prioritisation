@@ -47,23 +47,19 @@ def expand_events(df, start_utc, end_utc):
         # ✅ NEW: bounded epoch calculation
         print(f"[EPHEMERIS] Target {r.get('name')} | P={P:.3f} | T0={T0:.1f}")
 
+        # MUCH wider search window
+        N_center = int((start.tdb.jd - T0) / P)
         
-        N_start = int(np.floor((start.tdb.jd - T0) / P)) - 1
-        N_end   = int(np.ceil((end.tdb.jd - T0) / P)) + 1
-
+        N_start = N_center - 50
+        N_end   = N_center + 50
         
         print(f"[EPHEMERIS] Epoch range: {N_start} → {N_end} (count={N_end - N_start})")
-
-        # safety guard
-        max_events_per_target = 200
-        
-        if N_end - N_start > max_events_per_target:
-            N_end = N_start + max_events_per_target
 
 
         for N in range(N_start, N_end + 1):
             tmid = T0 + N * P
             
+            # Precise filtering
             if not (start.tdb.jd <= tmid <= end.tdb.jd):
                 continue
                 
@@ -106,9 +102,5 @@ def expand_events(df, start_utc, end_utc):
                 "last_obs_jd": r.get("last_obs_jd"),
                 
             })
-            
-        N += 1            
-            
-        print(f"[EPHEMERIS] Generated {len(events)} events total")
 
     return pd.DataFrame(events)
