@@ -14,8 +14,17 @@ from processing.instrument import (
 from processing.science import compute_science_features
 from processing.synergy import compute_synergy_features
 from scoring.scoring import compute_scores
-from interpretation.score_interpretation import build_dynamic_summary
 
+from interpretation.interpretation_utils import (
+    add_dynamic_interpretation,
+    add_synergy_explanations,
+    add_recency_labels,
+    build_score_breakdown
+)
+from interpretation.score_interpretation import (
+    build_dynamic_summary,
+    add_flag_labels
+)
 
 def run():
 
@@ -97,7 +106,14 @@ def run():
     events = compute_scores(events)
 
     # --- Interpretation ---
+    events = add_dynamic_interpretation(events)
+    events = add_synergy_explanations(events)
+    events = add_recency_labels(events)
+    events = build_score_breakdown(events)
     events = build_dynamic_summary(events)
+
+    # ---- UI Enrichment ----
+    events = add_flag_labels(events)
 
     # --- Output ---
     # Path to the repo root (one level above src/)
