@@ -9,13 +9,14 @@ def compute_scores(df):
         s = r['pred_sigma_min']
         t = r['time_since_last_obs_days']
 
-        if s is None or not pd.notna(s):
+        if not pd.notna(s):
             return 0
+    
+        # smoother scaling than hard cap
+        time_factor = 1 + np.log1p(t / 100)
+    
+        return s * time_factor
 
-        if t is None or not pd.notna(t):
-            return s
-
-        return s * (1 + min(t / 100, 2))
 
     df['S1'] = df.apply(urgency, axis=1).apply(bin_ephemeris)
 
