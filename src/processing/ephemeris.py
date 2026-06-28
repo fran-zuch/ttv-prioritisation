@@ -18,12 +18,19 @@ def compute_time_since_last_obs(last_obs_jd):
 
 
 def expand_events(df, start_utc, end_utc):
+    print(f"[EPHEMERIS] Starting expand_events with {len(df)} targets")
+    
     start = Time(start_utc)
     end = Time(end_utc)
 
     events = []
 
     for _, r in df.iterrows():
+        
+    for i, (_, r) in enumerate(df.iterrows()):
+        if i % 50 == 0:
+            print(f"[EPHEMERIS] Processing target {i}/{len(df)}: {r.get('name')}")
+
         T0 = r.get("T0")
         P = r.get("P")
 
@@ -38,8 +45,12 @@ def expand_events(df, start_utc, end_utc):
         P_sig = r.get("P_unc_days", 0) or 0
 
         # ✅ NEW: bounded epoch calculation
+        print(f"[EPHEMERIS] Target {r.get('name')} | P={P:.3f} | T0={T0:.1f}")
+        
         N_start = int(np.ceil((start.tdb.jd - T0) / P))
         N_end   = int(np.floor((end.tdb.jd - T0) / P))
+        
+        print(f"[EPHEMERIS] Epoch range: {N_start} → {N_end} (count={N_end - N_start})")
 
         # safety guard
         if N_end - N_start > 200:
@@ -82,5 +93,7 @@ def expand_events(df, start_utc, end_utc):
                 "last_obs_jd": r.get("last_obs_jd"),
                 
             })
+            
+            print(f"[EPHEMERIS] Generated {len(events)} events total")
 
     return pd.DataFrame(events)
