@@ -65,11 +65,15 @@ def expand_events(df, start_utc, end_utc):
             sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
 
             events.append({
+                # ✅ UNIQUE IDENTIFIER (ADD THIS)
+                "event_id": f"{r.get('name')}_{N}",
+
                 # Event-level fields
                 "name": r.get("name"),
                 "Tmid_utc": Time(tmid, format="jd", scale="tdb").utc.isot,
                 "pred_sigma_min": sigma,
                 "time_since_last_obs_days": compute_time_since_last_obs(r.get("last_obs_jd")),
+               
 
                 # ✅ Add (optional but recommended)
                 "T0": T0,
