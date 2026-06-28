@@ -64,9 +64,9 @@ def expand_events(df, start_utc, end_utc):
         for N in range(N_start, N_end + 1):
             tmid = T0 + N * P
             
-           if not (start.tdb.jd <= tmid <= end.tdb.jd):
+            if not (start.tdb.jd <= tmid <= end.tdb.jd):
                 continue
-
+                
             sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
 
             events.append({
