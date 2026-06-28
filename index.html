@@ -170,17 +170,63 @@ function getUrgency(r){
 }
 
 /* LOAD DATA */
-const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
+function tryLoadCSV(daysBack = 0){
 
-Papa.parse(`output/outputs_${today}.csv`,{
-    download:true,
-    header:true,
-    dynamicTyping:true,
-    complete:r=>{
-        globalData=r.data.filter(d=>d.name);
-        updateDashboard();
-    }
-});
+    let date = new Date();
+    date.setDate(date.getDate() - daysBack);
+
+    let tag = date.toISOString().slice(0,10).replace(/-/g,"");
+    let path = `output/outputs_${tag}.csv`;
+
+    console.log("Trying:", path);
+
+    Papa.parse(path, {
+        download:true,
+        header:true,
+        dynamicTyping:true,
+
+        complete: r => {
+
+            // ✅ check if valid data
+            if(r.data && r.data.length > 5 && r.data[0].name){
+
+                console.log("✅ Loaded:", path);
+                globalData = r.data.filter(d=>d.name);
+                updateDashboard();
+
+            } else {
+
+                console.warn("⚠️ Empty/invalid:", path);
+
+                if(daysBack < 3){
+                    tryLoadCSV(daysBack + 1);
+                } else {
+                    showNoData();
+                }
+            }
+        },
+
+        error: err => {
+            console.warn("❌ Failed:", path, err);
+
+            if(daysBack < 3){
+                tryLoadCSV(daysBack + 1);
+            } else {
+                showNoData();
+            }
+        }
+
+    });
+}
+
+/* ✅ fallback message */
+function showNoData(){
+    document.getElementById("status").innerText =
+        "⚠️ No recent data available (last 3 days checked)";
+}
+
+/* ✅ load */
+tryLoadCSV();
 
 /* UPDATE */
 
