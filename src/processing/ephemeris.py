@@ -107,6 +107,8 @@ def expand_events(df, start_utc, end_utc):
                 
             })
             
-            print(f"[EPHEMERIS] Generated {len(events)} events total")
+        N += 1            
+            
+        print(f"[EPHEMERIS] Generated {len(events)} events total")
 
     return pd.DataFrame(events)
