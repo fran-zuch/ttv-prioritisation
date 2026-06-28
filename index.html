@@ -209,6 +209,22 @@ function formatTTVLabel(val){
     return val;
 }
 
+    function isNightObservation(start, end){
+
+    let s = new Date(start);
+    let e = new Date(end);
+
+    let sHour = s.getHours();
+    let eHour = e.getHours();
+
+    /* ✅ simple local night model (adjustable) */
+    return (
+        (sHour >= 18 || sHour <= 6) &&
+        (eHour >= 18 || eHour <= 6)
+    );
+}
+    
+
 /* ---------- LOAD (FIXED) ---------- */
 
 function tryLoad(daysBack=0){
@@ -296,6 +312,8 @@ filteredData.slice(0,5).forEach(t=>{
 
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
+    
+ if(!isNightObservation(s, e)) return;
 
  html+=`
 <li>
@@ -409,12 +427,17 @@ Plotly.newPlot("plot_top",[{
 /* SCORE vs TIME */
 Plotly.newPlot("plot_time",[{
     x: data.map(getTimeToWindowDays),
-    y: data.map(d => d.final_score),
-    mode: "markers",
+    y: data.map(d=>d.final_score),
+    text: data.map(d=>d.name),
+    mode:"markers",
     marker:{
-        size: sizes,
-        color: colors
-    }
+        size:sizes,
+        color:colors
+    },
+    hovertemplate:
+        "<b>%{text}</b><br>" +
+        "Score: %{y}<br>" +
+        "Days: %{x:.2f}<extra></extra>"
 }],{
     shapes:[{
         type:"rect",
@@ -427,12 +450,18 @@ Plotly.newPlot("plot_time",[{
 
 /* OBSERVABILITY */
 Plotly.newPlot("plot_obs",[{
-    x: data.map(d => d.obs_frac),
-    y: data.map(d => d.duration_hours),
+    x: data.map(d=>d.obs_frac),
+    y: data.map(d=>d.duration_hours),
+    text: data.map(d=>d.name),
     mode:"markers",
     marker:{
-        size: sizes,
-        color: colors
+        size:sizes,
+        color:colors
+    },
+    hovertemplate:
+        "<b>%{text}</b><br>" +
+        "Obs frac: %{x:.2f}<br>" +
+        "Duration: %{y:.2f}h<extra></extra>"
     }
 }],{
     shapes:[{
@@ -462,19 +491,31 @@ function exportPlot(id){
 }
 
 function downloadScheduler(){
- let csv="Name,Start,End\\n";
- filteredData.slice(0,5).forEach(r=>{
-  let mid=new Date(r.Tmid_utc);
-  let dur=r.duration_hours*3600000;
-  let s=new Date(mid.getTime()-dur/2).toISOString();
-  let e=new Date(mid.getTime()+dur/2).toISOString();
-  csv+=`${r.name},${s},${e}\\n`;
- });
- let blob=new Blob([csv]);
- let a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="schedule.csv";
- a.click();
+
+let csv = "Name,RA,Dec,Start,End\n";
+
+filteredData.slice(0,5).forEach(r=>{
+
+let mid=new Date(r.Tmid_utc);
+if(isNaN(mid)) return;
+
+let dur=r.duration_hours*3600000;
+let s=new Date(mid.getTime()-dur/2).toISOString();
+let e=new Date(mid.getTime()+dur/2).toISOString();
+
+/* ✅ include RA / Dec safely */
+let ra = r.ra ?? r.RA ?? "";
+let dec = r.dec ?? r.Dec ?? "";
+
+csv += `${r.name},${ra},${dec},${s},${e}\n`;
+
+});
+
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="scheduler.csv";
+a.click();
 }
 
 function generateEmail(){
@@ -488,20 +529,32 @@ function generateEmail(){
 /* DETAILS */
 
 function showDetails(name){
+
 let r=filteredData.find(d=>d.name===name);
 
 detailPanel.innerHTML=`
 <h3>${r.name}</h3>
+
 <div class="scorebox">
+<h4>Score Breakdown</h4>
 <ul>
-<li title="Timing uncertainty">S1: ${safe(r.S1)}</li>
-<li title="TTV strength">S2: ${safe(r.S2)}</li>
-<li title="Instrument">S3: ${safe(r.S3)}</li>
-<li title="Observability">S4: ${safe(r.S4)}</li>
-<li title="Science">S5: ${safe(r.S5)}</li>
-<li title="Synergy">S6: ${safe(r.S6)}</li>
+<li><b>S1:</b> ${safe(r.S1)} – Ephemeris uncertainty (timing precision)</li>
+<li><b>S2:</b> ${safe(r.S2)} – TTV strength (${formatTTVLabel(r.ttv_significance_class)})</li>
+<li><b>S3:</b> ${safe(r.S3)} – Instrument suitability</li>
+<li><b>S4:</b> ${safe(r.S4)} – Observability (altitude + visibility)</li>
+<li><b>S5:</b> ${safe(r.S5)} – Science priority</li>
+<li><b>S6:</b> ${safe(r.S6)} – Campaign synergy</li>
 </ul>
-</div>`;
+</div>
+
+<p>
+<b>Interpretation:</b><br>
+Score reflects a balance between scientific value (TTV strength),
+observability conditions, and instrument suitability.
+Higher scores indicate targets that are both scientifically valuable
+and operationally feasible.
+</p>
+`;
 }
 
 </script>
