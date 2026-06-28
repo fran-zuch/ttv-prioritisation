@@ -62,7 +62,7 @@ def expand_events(df, start_utc, end_utc):
                 events.append({
                     "event_id": f"{r.get('name')}_{N}",
                     "name": r.get("name"),
-                    "Tmid_utc": tmid,
+                    "Tmid": tmid,
                     "epoch": N,
                     "pred_sigma_min": sigma,
 
@@ -99,11 +99,11 @@ def expand_events(df, start_utc, end_utc):
       
     # ✅ convert times OUTSIDE loop
     df_events["Tmid_utc"] = Time(
-        df_events["Tmid_jd"].values,
+        df_events["Tmid"].values,
         format="jd",
         scale="tdb"
     ).utc.isot
     
-    df_events = df_events.drop(columns=["Tmid_jd"])
+    df_events = df_events.drop(columns=["Tmid"])
     
     return df_events
