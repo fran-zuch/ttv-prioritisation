@@ -197,6 +197,18 @@ function getConfidenceScore(r){
  return Math.max(0,Math.min(5,(s+t)/2));
 }
 
+function formatTTVLabel(val){
+
+    let v = (val || "").toLowerCase();
+
+    if(v.includes("strong")) return "High TTV";
+    if(v.includes("moderate")) return "Medium";
+    if(v.includes("weak")) return "Low";
+    if(v.includes("none")) return "No signal";
+
+    return val;
+}
+
 /* ---------- LOAD (FIXED) ---------- */
 
 function tryLoad(daysBack=0){
@@ -251,15 +263,17 @@ let min=parseFloat(scoreFilter.value);
 
 let base=globalData.filter(r=>r.final_score>=min);
 
-if(ttvFilter.value!=="all"){
- base=base.filter(r=>r.ttv_significance_class?.toLowerCase().includes(ttvFilter.value.toLowerCase());
-}
-
-if(pirateClassFilter.value!=="all"){
+if(ttvFilter.value !== "all"){
     base = base.filter(r => {
         let ttv = (r.ttv_significance_class || "").toLowerCase();
         return ttv.includes(ttvFilter.value.toLowerCase());
-});
+    });
+}
+
+if(pirateClassFilter.value !== "all"){
+    base = base.filter(r => 
+        r.instrument_flag === pirateClassFilter.value
+    );
 }
 
 filteredData=base.sort((a,b)=>b.final_score-a.final_score);
@@ -289,7 +303,7 @@ filteredData.slice(0,5).forEach(t=>{
 <br>Score: ${safe(t.final_score)}
 <br>🕒 ${s.toLocaleString()} → ${e.toLocaleString()}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
-<br>${t.instrument_flag}
+<br>${formatTTVLabel(t.ttv_significance_class)} | ${t.instrument_flag}
 </li>`;
 });
 
@@ -332,6 +346,7 @@ page.forEach(r=>{
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
 <td>${r.instrument_flag}</td>
+<td>${formatTTVLabel(r.ttv_significance_class)}</td>
 </tr>`;
 });
 
