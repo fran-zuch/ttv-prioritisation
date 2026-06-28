@@ -46,9 +46,11 @@ def expand_events(df, start_utc, end_utc):
 
         # ✅ NEW: bounded epoch calculation
         print(f"[EPHEMERIS] Target {r.get('name')} | P={P:.3f} | T0={T0:.1f}")
+
         
-        N_start = int(np.ceil((start.tdb.jd - T0) / P))
-        N_end   = int(np.floor((end.tdb.jd - T0) / P))
+        N_start = int(np.floor((start.tdb.jd - T0) / P)) - 1
+        N_end   = int(np.ceil((end.tdb.jd - T0) / P)) + 1
+
         
         print(f"[EPHEMERIS] Epoch range: {N_start} → {N_end} (count={N_end - N_start})")
 
@@ -61,6 +63,9 @@ def expand_events(df, start_utc, end_utc):
 
         for N in range(N_start, N_end + 1):
             tmid = T0 + N * P
+            
+           if not (start.tdb.jd <= tmid <= end.tdb.jd):
+                continue
 
             sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
 
