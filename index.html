@@ -95,9 +95,10 @@ Min Score <input type="range" id="scoreFilter" value="3.5" min="0" max="5" step=
 TTV:
 <select id="ttvFilter">
 <option value="all">All</option>
-<option value="High">High</option>
-<option value="Medium">Medium</option>
-<option value="Low">Low</option>
+<option value="strong">High</option>
+<option value="moderate">Medium</option>
+<option value="weak">Low</option>
+<option value="none">None</option>
 </select>
 
 PIRATE:
@@ -214,9 +215,8 @@ function tryLoad(daysBack=0){
   complete:r=>{
 
     // ✅ CLEAN + VALIDATE DATA
-    let clean = r.data.filter(x =>
-        x && x.name && x.Tmid_utc
-    );
+    let clean = r.data.filter(x => 
+    x && x.name);
 
     if(clean.length > 0){
 
@@ -272,8 +272,9 @@ function renderTopTargets(){
 let html="";
 
 filteredData.slice(0,5).forEach(t=>{
+    let mid = new Date(t.Tmid_utc);
+    if (isNaN(mid)) return;
 
- let mid=new Date(t.Tmid_utc);
  let dur=t.duration_hours*3600000;
 
  let s=new Date(mid.getTime()-dur/2);
@@ -311,7 +312,9 @@ let html=`<tr>
 
 page.forEach(r=>{
 
- let mid=new Date(r.Tmid_utc);
+ let mid = new Date(r.Tmid_utc);
+    if (isNaN(mid)) return;
+    
  let dur=r.duration_hours*3600000;
 
  let s=new Date(mid.getTime()-dur/2);
