@@ -65,7 +65,7 @@ def expand_events(df, start_utc, end_utc):
                 events.append({
                     "event_id": f"{r.get('name')}_{N}",
                     "name": r.get("name"),
-                    "Tmid_utc": Time(tmid, format="jd", scale="tdb").utc.isot,
+                    "Tmid_utc": tmid,
                     "epoch": N,
                     "pred_sigma_min": sigma,
 
@@ -100,8 +100,14 @@ def expand_events(df, start_utc, end_utc):
             count += 1
 
     df_events = pd.DataFrame(events)
-
-    # ✅ ALWAYS deduplicate (safety)
-    df_events = df_events.drop_duplicates(subset="event_id")
-
+      
+    # ✅ convert times OUTSIDE loop
+    df_events["Tmid_utc"] = Time(
+        df_events["Tmid_jd"].values,
+        format="jd",
+        scale="tdb"
+    ).utc.isot
+    
+    df_events = df_events.drop(columns=["Tmid_jd"])
+    
     return df_events
