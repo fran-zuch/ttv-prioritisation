@@ -174,14 +174,16 @@ let filteredData=[];
 let currentPage=1;
 let rowsPerPage=25;
 
-/* HELPERS */
+/* ---------- HELPERS ---------- */
 
 function safe(x,d=2){
  return (!x||isNaN(x))?"-":Number(x).toFixed(d);
 }
 
 function getTimeToWindowDays(r){
- return (new Date(r.Tmid_utc)-new Date())/86400000;
+ let d = new Date(r.Tmid_utc);
+ if(isNaN(d)) return 999;
+ return (d - new Date()) / 86400000;
 }
 
 function getConfidenceScore(r){
@@ -194,31 +196,53 @@ function getConfidenceScore(r){
  return Math.max(0,Math.min(5,(s+t)/2));
 }
 
-/* LOAD */
+/* ---------- LOAD (FIXED) ---------- */
 
-function tryLoad(d=0){
- let date=new Date();
- date.setDate(date.getDate()-d);
+function tryLoad(daysBack=0){
 
- let tag=date.toISOString().slice(0,10).replace(/-/g,"");
+ let d=new Date();
+ d.setDate(d.getDate()-daysBack);
 
- Papa.parse(`output/outputs_${tag}.csv`,{
+ let tag=d.toISOString().slice(0,10).replace(/-/g,"");
+ let path=`output/outputs_${tag}.csv`;
+
+ Papa.parse(path,{
   download:true,
   header:true,
   dynamicTyping:true,
+
   complete:r=>{
-   if(r.data && r.data.length>5){
-    globalData=r.data.filter(x=>x.name);
-    updateDashboard();
-   } else if(d<3){
-    tryLoad(d+1);
-   }
+
+    // ✅ CLEAN + VALIDATE DATA
+    let clean = r.data.filter(x =>
+        x && x.name && x.Tmid_utc
+    );
+
+    if(clean.length > 0){
+
+      globalData = clean;
+
+      updateDashboard();
+
+    } else if(daysBack < 3){
+
+      tryLoad(daysBack + 1);
+
+    }
+
+  },
+
+  error:()=>{
+    if(daysBack < 3){
+      tryLoad(daysBack + 1);
+    }
   }
+
  });
 }
 
 tryLoad();
-
+    
 /* UPDATE */
 
 function updateDashboard(){
@@ -228,7 +252,7 @@ let min=parseFloat(scoreFilter.value);
 let base=globalData.filter(r=>r.final_score>=min);
 
 if(ttvFilter.value!=="all"){
- base=base.filter(r=>r.ttv_significance_class?.includes(ttvFilter.value));
+ base=base.filter(r=>r.ttv_significance_class?.toLowerCase().includes(ttvFilter.value.toLowerCase());
 }
 
 if(pirateClassFilter.value!=="all"){
@@ -333,38 +357,68 @@ function goPage(p){
 }
 
 /* PLOTS */
-
 function renderPlots(data){
 
-let sizes=data.map(d=>getConfidenceScore(d)*7+6);
+    if (!data || data.length === 0) return;
 
-Plotly.newPlot("plot_top",[{
- x:data.map(d=>d.name),
- y:data.map(d=>d.final_score),
- type:"bar"
-}]);
-
-Plotly.newPlot("plot_time",[{
- x:data.map(getTimeToWindowDays),
- y:data.map(d=>d.final_score),
- mode:"markers",
- marker:{
-  size:sizes,
-  color:data.map(d =>
-   d.ttv_significance_class?.includes("High")?"green":
-   d.ttv_significance_class?.includes("Medium")?"orange":"red")
- }
-}],{
- shapes:[{type:"rect",x0:0,x1:3,y0:3.5,y1:5,fillcolor:"rgba(0,200,0,0.1)",line:{width:0}}]
+/* ✅ Confidence-based sizes */
+let sizes = data.map(d => {
+    let c = getConfidenceScore(d);
+    return isNaN(c) ? 8 : c * 7 + 6;
 });
 
-Plotly.newPlot("plot_obs",[{
- x:data.map(d=>d.obs_frac),
- y:data.map(d=>d.duration_hours),
- mode:"markers",
- marker:{size:sizes}
+/* ✅ Robust TTV colours */
+let colors = data.map(d => {
+    let ttv = (d.ttv_significance_class || "").toLowerCase();
+    if (ttv.includes("high")) return "green";
+    if (ttv.includes("medium")) return "orange";
+    if (ttv.includes("low")) return "red";
+    return "grey";
+});
+
+/* TOP SCORES */
+Plotly.newPlot("plot_top",[{
+    x: data.map(d => d.name),
+    y: data.map(d => d.final_score),
+    type: "bar"
+}]);
+
+/* SCORE vs TIME */
+Plotly.newPlot("plot_time",[{
+    x: data.map(getTimeToWindowDays),
+    y: data.map(d => d.final_score),
+    mode: "markers",
+    marker:{
+        size: sizes,
+        color: colors
+    }
 }],{
- shapes:[{type:"rect",x0:0.6,x1:1,y0:0,y1:3,fillcolor:"rgba(0,200,255,0.1)",line:{width:0}}]
+    shapes:[{
+        type:"rect",
+        x0:0, x1:3,
+        y0:3.5, y1:5,
+        fillcolor:"rgba(0,200,0,0.1)",
+        line:{width:0}
+    }]
+});
+
+/* OBSERVABILITY */
+Plotly.newPlot("plot_obs",[{
+    x: data.map(d => d.obs_frac),
+    y: data.map(d => d.duration_hours),
+    mode:"markers",
+    marker:{
+        size: sizes,
+        color: colors
+    }
+}],{
+    shapes:[{
+        type:"rect",
+        x0:0.6, x1:1,
+        y0:0, y1:3,
+        fillcolor:"rgba(0,200,255,0.1)",
+        line:{width:0}
+    }]
 });
 
 }
