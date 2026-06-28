@@ -5,6 +5,12 @@ def compute_science_features(df):
     # --- Priority mapping ---
     if 'exoclock_priority' not in df.columns:
         df['exoclock_priority'] = None
+        
+    # --- Recent observation mapping ---
+    if 'n_obs_recent' not in df.columns:
+        df['n_obs_recent'] = 0
+    else:
+        df['n_obs_recent'] = df['n_obs_recent'].fillna(0)
 
     def map_priority(status):
         if status is None:
