@@ -380,7 +380,7 @@ let colors = data.map(d => {
     if (ttv.includes("moderate")) return "orange";
     if (ttv.includes("weak")) return "red";
     if (ttv.includes("none")) return "grey";
-    return "black";
+    return "grey"; //fallback
 });
 
 /* TOP SCORES */
