@@ -320,11 +320,12 @@ let page=filteredData.slice(start,start+rowsPerPage);
 let html=`<tr>
 <th>Target</th>
 <th>Score</th>
-<th>Conf</th>
-<th>Observation Window</th>
-<th>Obs</th>
+<th>Confidence</th>
+<th>Observation Window (UTC)</th>
+<th>Observation fraction</th>
 <th>Alt</th>
 <th>PIRATE</th>
+<th>TTV Flag</th>
 </tr>`;
 
 page.forEach(r=>{
