@@ -19,48 +19,43 @@ def compute_time_since_last_obs(last_obs_jd):
 def expand_events(df, start_utc, end_utc):
     start = Time(start_utc)
     end = Time(end_utc)
-
-    events = []
-
+    
+    start_jd = start.tdb.jd
+    end_jd = end.tdb.jd
+    
+    window_days = end_jd - start_jd
+    
     for _, r in df.iterrows():
-
+    
         T0 = r.get("T0")
         P = r.get("P")
-
+    
         if T0 is None or P is None:
             continue
         if not np.isfinite(T0) or not np.isfinite(P):
             continue
-        if P == 0:
+        if P <= 0:
             continue
-
+    
         T0_sig = r.get("T0_unc_days", 0) or 0
         P_sig = r.get("P_unc_days", 0) or 0
-
-        # ✅ Start CLOSE to the window (huge speed improvement)
-        N = int(np.floor((start.tdb.jd - T0) / P)) - 2
-
-        # ✅ safe cap (adjustable)
-        window_days = end.tdb.jd - start.tdb.jd
-
-        # max number of events possible for this planet
+    
+        # ✅ smart starting point
+        N = int((start_jd - T0) / P) - 2
+    
+        # ✅ physics-based limit
         max_iter = int(window_days / P) + 5
-        
-        count = 0
-
-        while count < max_iter:
-
+    
+        for _ in range(max_iter):
+    
             tmid = T0 + N * P
-
-            # ✅ STOP EARLY
-            if tmid > end.tdb.jd:
+    
+            if tmid > end_jd:
                 break
-
-            if tmid >= start.tdb.jd:
-
-                sigma = propagate_uncertainty(
-                    T0, P, T0_sig, P_sig, tmid
-                ) * 1440
+    
+            if tmid >= start_jd:
+    
+                sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
 
                 events.append({
                     "event_id": f"{r.get('name')}_{N}",
@@ -97,7 +92,6 @@ def expand_events(df, start_utc, end_utc):
 
             # ✅ move forward
             N += 1
-            count += 1
 
     df_events = pd.DataFrame(events)
       
