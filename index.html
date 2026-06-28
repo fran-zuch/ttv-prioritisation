@@ -133,63 +133,63 @@ Colour = TTV significance.
 
 let globalData=[];
 let filteredData=[];
-
 let currentPage = 1;
 let rowsPerPage = 25;
 let currentSort = "score";
 
-/* ================= HELPERS ================= */
+/* ---------------- BASE FUNCTIONS (UNCHANGED) ---------------- */
 
 function safe(x,d=2){
     return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d);
 }
 
+/* ✅ KEEP EXACT */
+function getObsClass(r){
+    if(r.obs_frac > 0.7 && r.obs_max_alt > 60) return "🌟 Excellent";
+    if(r.obs_frac > 0.4 && r.obs_max_alt > 30) return "✅ Good";
+    if(r.obs_frac > 0.1) return "⚠️ Partial";
+    return "❌ Poor";
+}
+
+/* ✅ KEEP EXACT */
+function getScoreClass(score){
+    if(score >= 4) return "high";
+    if(score >= 3.5) return "medium";
+    return "low";
+}
+
+/* ---------------- HELPERS ---------------- */
+
 function getTimeToWindowDays(r){
     return (new Date(r.Tmid_utc) - new Date()) / 86400000;
 }
 
-function getTTVClass(c){
-    if(!c) return "";
-    c=c.toLowerCase();
-    if(c.includes("high")) return "ttv_high";
-    if(c.includes("medium")) return "ttv_medium";
-    return "ttv_low";
+function getUrgency(r){
+    let d = getTimeToWindowDays(r);
+    if(d < 1) return {label:"🔥 URGENT", class:"urgent"};
+    if(d < 3) return {label:"⚠️ Soon", class:"soon"};
+    return {label:"✅ Planned", class:"relaxed"};
 }
 
-function getTTVColor(c){
-    if(!c) return "grey";
-    c=c.toLowerCase();
-    if(c.includes("high")) return "green";
-    if(c.includes("medium")) return "orange";
-    return "red";
-}
-
-/* ================= DATA LOAD (fallback) ================= */
+/* ---------------- LOAD WITH FALLBACK ---------------- */
 
 function tryLoadCSV(daysBack=0){
 
-    let date = new Date();
-    date.setDate(date.getDate()-daysBack);
+    let d = new Date();
+    d.setDate(d.getDate() - daysBack);
 
-    let tag = date.toISOString().slice(0,10).replace(/-/g,"");
+    let tag = d.toISOString().slice(0,10).replace(/-/g,"");
     let path = `output/outputs_${tag}.csv`;
 
     Papa.parse(path,{
         download:true,
         header:true,
         dynamicTyping:true,
-
         complete:r=>{
-            if(r.data && r.data.length > 5 && r.data[0].name){
-                globalData = r.data.filter(d=>d.name);
+            if(r.data && r.data.length > 5){
+                globalData = r.data.filter(x=>x.name);
                 updateDashboard();
             } else if(daysBack < 3){
-                tryLoadCSV(daysBack+1);
-            }
-        },
-
-        error:()=>{
-            if(daysBack < 3){
                 tryLoadCSV(daysBack+1);
             }
         }
@@ -198,137 +198,146 @@ function tryLoadCSV(daysBack=0){
 
 tryLoadCSV();
 
-/* ================= SORTING ================= */
-
-function sortData(data){
-
-    if(currentSort === "score"){
-
-        data.sort((a,b)=>{
-            let s = b.final_score - a.final_score;
-            if(s !== 0) return s;
-            return new Date(a.Tmid_utc) - new Date(b.Tmid_utc);
-        });
-
-    } else if(currentSort === "time"){
-
-        data.sort((a,b)=>
-            new Date(a.Tmid_utc) - new Date(b.Tmid_utc)
-        );
-
-    } else if(currentSort === "duration"){
-
-        data.sort((a,b)=> a.duration_hours - b.duration_hours);
-    }
-
-}
-
-/* ================= UPDATE ================= */
+/* ---------------- UPDATE DASHBOARD ---------------- */
 
 function updateDashboard(){
 
-    filteredData = globalData.filter(r =>
-        r.final_score >= parseFloat(scoreFilter.value)
+currentPage = 1;
+
+let minScore = parseFloat(scoreFilter.value);
+
+let base = globalData.filter(r => r.final_score >= minScore);
+
+/* ✅ restored filters */
+if(ttvFilter.value !== "all"){
+    base = base.filter(r =>
+        r.ttv_significance_class &&
+        r.ttv_significance_class.toLowerCase().includes(ttvFilter.value.toLowerCase())
     );
-
-    sortData(filteredData);
-
-    renderTopTargets(filteredData);
-    renderTable(filteredData);
 }
 
-/* ================= TOP TARGETS ================= */
+if(pirateClassFilter.value !== "all"){
+    base = base.filter(r => r.instrument_flag === pirateClassFilter.value);
+}
+
+filteredData = base;
+
+sortData();
+
+renderTopTargets(filteredData);
+renderTable(filteredData);
+}
+
+/* ---------------- SORT ---------------- */
+
+function sortData(){
+
+if(currentSort === "score"){
+    filteredData.sort((a,b)=>{
+        let s = b.final_score - a.final_score;
+        if(s !== 0) return s;
+        return new Date(a.Tmid_utc) - new Date(b.Tmid_utc);
+    });
+}
+
+if(currentSort === "time"){
+    filteredData.sort((a,b)=> new Date(a.Tmid_utc) - new Date(b.Tmid_utc));
+}
+
+}
+
+/* ---------------- TOP TARGETS (RESTORED + ENHANCED) ---------------- */
 
 function renderTopTargets(data){
 
-let top = data.slice(0,5);
+let now = new Date();
+let top = data
+    .filter(d => new Date(d.Tmid_utc) > now)
+    .sort((a,b)=> new Date(a.Tmid_utc) - new Date(b.Tmid_utc))
+    .slice(0,5);
 
 let html="";
 
 top.forEach(t=>{
 
-let mid=new Date(t.Tmid_utc);
-let dur=t.duration_hours*3600000;
+let mid = new Date(t.Tmid_utc);
+let dur = t.duration_hours * 3600000;
 
-let start=new Date(mid.getTime()-dur/2);
-let end=new Date(mid.getTime()+dur/2);
+let start = new Date(mid.getTime() - dur/2);
+let end   = new Date(mid.getTime() + dur/2);
 
-html+=`
-<li>
-<b>${t.name}</b>
-<br>Score: ${safe(t.final_score)}
+let urgency = getUrgency(t);
+
+html += `
+<li class="${urgency.class}">
+<b>${t.name}</b> (${urgency.label})
+<br>Score: <span class="${getScoreClass(t.final_score)}">${safe(t.final_score)}</span>
 <br>⏳ ${getTimeToWindowDays(t).toFixed(2)} days
 <br>🕒 ${start.toLocaleString()} → ${end.toLocaleString()}
+<br>⛰ Alt: ${safe(t.obs_max_alt)}° | Obs: ${safe(t.obs_frac)}
+<br>📊 ${getObsClass(t)} | ${t.instrument_flag}
 </li><br>`;
 });
 
-topTargets.innerHTML=html;
+topTargets.innerHTML = html;
 }
 
-/* ================= TABLE ================= */
+/* ---------------- TABLE ---------------- */
 
 function renderTable(data){
 
-let start = (currentPage-1)*rowsPerPage;
-let end   = start + rowsPerPage;
-
-let pageData = data.slice(start, end);
+let startIndex = (currentPage-1)*rowsPerPage;
+let pageData = data.slice(startIndex, startIndex + rowsPerPage);
 
 let html=`
 <tr>
-<th onclick="setSort('score')">Score</th>
-<th>Target</th>
-<th onclick="setSort('time')">Transit</th>
-<th>TTV</th>
-<th onclick="setSort('duration')">Dur</th>
-<th>Obs</th>
-<th>Alt</th>
+<th onclick="setSort('score')" title="Sort by final score">Target</th>
+<th>Score</th>
+<th>Obs %</th>
+<th>Max Alt</th>
+<th>σ</th>
+<th onclick="setSort('time')" title="Sort by next observation">Transit</th>
+<th>Class</th>
+<th>PIRATE</th>
 </tr>`;
 
 pageData.forEach(r=>{
 
-let mid=new Date(r.Tmid_utc);
-let dur=r.duration_hours*3600000;
+let pirate = (r.obs_max_alt >= 40 && r.obs_frac > 0.5) ? "✅" : "❌";
 
-let startT=new Date(mid.getTime()-dur/2);
-
-html+=`
+html += `
 <tr onclick="showDetails('${r.name}')">
-<td class="high">${safe(r.final_score)}</td>
 <td>${r.name}</td>
-<td>${startT.toLocaleString()}</td>
-<td class="${getTTVClass(r.ttv_significance_class)}">
-${r.ttv_significance_class}
-</td>
-<td>${safe(r.duration_hours)}</td>
+<td class="${getScoreClass(r.final_score)}">${safe(r.final_score)}</td>
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
+<td>${safe(r.pred_sigma_min)}</td>
+<td>${new Date(r.Tmid_utc).toLocaleString()}</td>
+<td>${getObsClass(r)}</td>
+<td>${pirate}</td>
 </tr>`;
 });
 
-table.innerHTML=html;
+table.innerHTML = html;
 
 renderPagination(data.length);
-
-/* ✅ IMPORTANT: plots now reflect current page */
 renderPlots(pageData);
 }
 
-/* ================= PAGINATION ================= */
+/* ---------------- PAGINATION ---------------- */
 
 function renderPagination(total){
 
 let pages = Math.ceil(total / rowsPerPage);
-
-let html="";
+let html = "";
 
 for(let i=1;i<=pages;i++){
     html += `<button onclick="goToPage(${i})">${i}</button>`;
 }
 
-html += `<div>Page ${currentPage} of ${pages}</div>`;
+html += `<br>Page ${currentPage} of ${pages}`;
 
-pagination.innerHTML=html;
+pagination.innerHTML = html;
 }
 
 function goToPage(p){
@@ -336,46 +345,46 @@ function goToPage(p){
     renderTable(filteredData);
 }
 
-/* ================= SORT BUTTON ================= */
+/* ---------------- SORT CONTROL ---------------- */
 
 function setSort(mode){
     currentSort = mode;
     currentPage = 1;
-    updateDashboard();
+    sortData();
+    renderTable(filteredData);
 }
 
-/* ================= PLOTS ================= */
+/* ---------------- PLOTS (FIXED) ---------------- */
 
 function renderPlots(data){
+
+if(!data || data.length === 0) return;
+
+/* Score vs Time */
+Plotly.newPlot("plot_breakdown",[{
+    x:data.map(d=>d.name),
+    y:data.map(d=>d.final_score),
+    type:"bar"
+}]);
 
 Plotly.newPlot("plot_time_score",[{
     x:data.map(getTimeToWindowDays),
     y:data.map(d=>d.final_score),
     text:data.map(d=>d.name),
     mode:"markers",
-    marker:{
-        size:10,
-        color:data.map(d=>getTTVColor(d.ttv_significance_class))
-    }
-}],{
-    xaxis:{title:"Days to transit"},
-    yaxis:{title:"Score"}
-});
+    marker:{size:10}
+}]);
 
 Plotly.newPlot("plot_obs_duration",[{
     x:data.map(d=>d.obs_frac),
     y:data.map(d=>d.duration_hours),
     text:data.map(d=>d.name),
-    mode:"markers",
-    marker:{
-        size:10,
-        color:data.map(d=>getTTVColor(d.ttv_significance_class))
-    }
+    mode:"markers"
 }]);
 
 }
 
-/* ================= DETAILS ================= */
+/* ---------------- DETAILS (RESTORED EXACTLY) ---------------- */
 
 function showDetails(name){
 
@@ -385,34 +394,33 @@ detailPanel.innerHTML=`
 
 <h3>${r.name}</h3>
 
-<div class="scorebox">
-<h4>Score Breakdown</h4>
+<p><b>Final Score:</b> ${safe(r.final_score)}</p>
+
+<h4>📊 Score Breakdown</h4>
 
 <ul>
-<li><span title="Transit timing uncertainty">
-S1: ${safe(r.S1)}</span></li>
+<li><span title="Transit timing uncertainty (drives need for follow-up)">
+S1 Ephemeris: ${safe(r.S1)}</span></li>
 
-<li><span title="Strength of TTV signal">
-S2: ${safe(r.S2)} (${r.ttv_significance_class})</span></li>
+<li><span title="Strength of TTV signal (science driver)">
+S2 TTV: ${safe(r.S2)} (${r.ttv_significance_class})</span></li>
 
-<li><span title="Instrument suitability">
-S3: ${safe(r.S3)}</span></li>
+<li><span title="Instrument suitability for PIRATE">
+S3 Instrument: ${safe(r.S3)}</span></li>
 
-<li><span title="Visibility from site">
-S4: ${safe(r.S4)}</span></li>
+<li><span title="Visibility from site (altitude + duration)">
+S4 Observability: ${safe(r.S4)}</span></li>
 
 <li><span title="Scientific importance">
-S5: ${safe(r.S5)}</span></li>
+S5 Science: ${safe(r.S5)}</span></li>
 
-<li><span title="Campaign synergy">
-S6: ${safe(r.S6)}</span></li>
-
+<li><span title="Campaign synergy (ARIEL / ExoClock)">
+S6 Synergy: ${safe(r.S6)}</span></li>
 </ul>
-</div>
 `;
 }
 
 </script>
-
+    
 </body>
 </html>
