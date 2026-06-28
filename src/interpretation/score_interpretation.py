@@ -1,3 +1,6 @@
+import pandas as pd
+import numpy as np
+
 def build_dynamic_summary(df):
     df = df.copy()
 
