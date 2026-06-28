@@ -45,7 +45,8 @@ def expand_events(df, start_utc, end_utc):
 
         # max number of events possible for this planet
         max_iter = int(window_days / P) + 5
-                count = 0
+        
+        count = 0
 
         while count < max_iter:
 
