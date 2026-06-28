@@ -97,7 +97,7 @@ def run():
     events = compute_scores(events)
 
     # --- Interpretation ---
-    events = compute_build_dynamic_summary(events)
+    events = build_dynamic_summary(events)
 
     # --- Output ---
     # Path to the repo root (one level above src/)
