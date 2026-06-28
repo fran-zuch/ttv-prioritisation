@@ -53,8 +53,11 @@ def expand_events(df, start_utc, end_utc):
         print(f"[EPHEMERIS] Epoch range: {N_start} → {N_end} (count={N_end - N_start})")
 
         # safety guard
-        if N_end - N_start > 200:
-            continue
+        max_events_per_target = 200
+        
+        if N_end - N_start > max_events_per_target:
+            N_end = N_start + max_events_per_target
+
 
         for N in range(N_start, N_end + 1):
             tmid = T0 + N * P
