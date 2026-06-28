@@ -256,7 +256,10 @@ if(ttvFilter.value!=="all"){
 }
 
 if(pirateClassFilter.value!=="all"){
- base=base.filter(r=>r.instrument_flag===pirateClassFilter.value);
+    base = base.filter(r => {
+        let ttv = (r.ttv_significance_class || "").toLowerCase();
+        return ttv.includes(ttvFilter.value.toLowerCase());
+});
 }
 
 filteredData=base.sort((a,b)=>b.final_score-a.final_score);
@@ -373,10 +376,11 @@ let sizes = data.map(d => {
 /* ✅ Robust TTV colours */
 let colors = data.map(d => {
     let ttv = (d.ttv_significance_class || "").toLowerCase();
-    if (ttv.includes("high")) return "green";
-    if (ttv.includes("medium")) return "orange";
-    if (ttv.includes("low")) return "red";
-    return "grey";
+    if (ttv.includes("strong")) return "green";
+    if (ttv.includes("moderate")) return "orange";
+    if (ttv.includes("weak")) return "red";
+    if (ttv.includes("none")) return "grey";
+    return "black";
 });
 
 /* TOP SCORES */
