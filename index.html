@@ -216,19 +216,40 @@ function getConfidenceScore(r){
 /* ---------- LOAD ---------- */
 
 function tryLoad(days=0){
- let d=new Date();
- d.setDate(d.getDate()-days);
- let tag=d.toISOString().slice(0,10).replace(/-/g,"");
 
- Papa.parse(`output/outputs_${tag}.csv`,{
-  download:true, header:true, dynamicTyping:true,
-  complete:r=>{
-   if(r.data && r.data.length>5){
-    globalData=r.data.filter(x=>x.name);
-    updateDashboard();
-   } else if(days<3){ tryLoad(days+1); }
-  }
- });
+    let d = new Date();
+    d.setDate(d.getDate() - days);
+
+    let tag = d.toISOString().slice(0,10).replace(/-/g,"");
+    let path = `output/outputs_${tag}.csv`;
+
+    Papa.parse(path,{
+        download:true,
+        header:true,
+        dynamicTyping:true,
+        complete:r=>{
+            if(r.data && r.data.length > 5 && r.data[0].name){
+
+                globalData = r.data.filter(x => x.name);
+
+                document.getElementById("status").innerText =
+                    `Loaded dataset: ${tag} (${globalData.length} targets)`;
+
+                updateDashboard();
+
+            } else if(days < 3){
+                tryLoad(days + 1);
+            } else {
+                document.getElementById("status").innerText =
+                    "⚠️ No data found for last 3 days";
+            }
+        },
+        error:()=>{
+            if(days < 3){
+                tryLoad(days + 1);
+            }
+        }
+    });
 }
 
 tryLoad();
