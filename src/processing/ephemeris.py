@@ -27,9 +27,9 @@ def expand_events(df, start_utc, end_utc):
 
     for _, r in df.iterrows():
         
-    for i, (_, r) in enumerate(df.iterrows()):
-        if i % 50 == 0:
-            print(f"[EPHEMERIS] Processing target {i}/{len(df)}: {r.get('name')}")
+        for i, (_, r) in enumerate(df.iterrows()):
+            if i % 50 == 0:
+                print(f"[EPHEMERIS] Processing target {i}/{len(df)}: {r.get('name')}")
 
         T0 = r.get("T0")
         P = r.get("P")
