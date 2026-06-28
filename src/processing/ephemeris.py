@@ -40,8 +40,12 @@ def expand_events(df, start_utc, end_utc):
         # ✅ Start CLOSE to the window (huge speed improvement)
         N = int(np.floor((start.tdb.jd - T0) / P)) - 2
 
-        max_iter = 200   # ✅ safe cap (adjustable)
-        count = 0
+        # ✅ safe cap (adjustable)
+        window_days = end.tdb.jd - start.tdb.jd
+
+        # max number of events possible for this planet
+        max_iter = int(window_days / P) + 5
+                count = 0
 
         while count < max_iter:
 
