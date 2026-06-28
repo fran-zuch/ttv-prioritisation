@@ -46,7 +46,7 @@ th { background:#eee; }
 .medium { color:#d48800; }
 .low { color:#888; }
 
-/* urgency banner */
+/* urgency */
 .urgent { background:#ffcccc; padding:5px; }
 .soon { background:#ffe599; padding:5px; }
 .relaxed { background:#d9ead3; padding:5px; }
@@ -67,14 +67,11 @@ Min Score <input type="range" id="scoreFilter" min="0" max="5" step="0.01" value
 <button onclick="downloadScheduler()">📡 Scheduler CSV</button>
 <button onclick="generateEmail()">✉ OU Email</button>
 
-<!-- ✅ EXPLAINER -->
 <div class="panel">
 <h2>ℹ️ How to Use This Dashboard</h2>
-
-<p><b>Top Targets:</b> Shows the next observable transits, prioritised by time and feasibility.</p>
-<p><b>Table:</b> One row per target with key science and observability metrics. Click a row for details.</p>
-<p><b>Target Detail:</b> Explains why the target is ranked (score breakdown S1–S6).</p>
-
+<p><b>Top Targets:</b> Next observable transits ranked by time + urgency.</p>
+<p><b>Table:</b> One row per target. Click for full scientific breakdown.</p>
+<p><b>Target Detail:</b> Explains score using S1–S6 components.</p>
 </div>
 
 <div class="dashboard">
@@ -95,10 +92,12 @@ Min Score <input type="range" id="scoreFilter" min="0" max="5" step="0.01" value
 
 <div id="detailPanel" class="panel">
 <h2>📊 Target Detail</h2>
-<p>Select a target to view details</p>
+<p>Select a target</p>
 </div>
 
 <script>
+
+/* ================= GLOBAL ================= */
 
 let globalData=[];
 let filteredData=[];
@@ -113,7 +112,8 @@ function safe(x,d=2){
     return (!x || isNaN(x)) ? "-" : Number(x).toFixed(d);
 }
 
-/* ✅ load CSV */
+/* ================= LOAD ================= */
+
 const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
 
 Papa.parse(`output/outputs_${today}.csv`,{
@@ -126,7 +126,8 @@ Papa.parse(`output/outputs_${today}.csv`,{
     }
 });
 
-/* ✅ deduplicate */
+/* ================= HELPERS ================= */
+
 function getBestPerTarget(data){
     const best={};
     data.forEach(r=>{
@@ -138,7 +139,6 @@ function getBestPerTarget(data){
     return Object.values(best);
 }
 
-/* ✅ observability */
 function getObsClass(r){
     if(r.obs_frac > 0.7 && r.obs_max_alt > 60) return "🌟 Excellent";
     if(r.obs_frac > 0.4 && r.obs_max_alt > 30) return "✅ Good";
@@ -146,22 +146,54 @@ function getObsClass(r){
     return "❌ Poor";
 }
 
-/* ✅ score colouring */
+function getInstrumentStatus(r){
+    if(!r.instrument_flag) return "Unknown";
+    return r.instrument_flag;
+}
+
 function getScoreClass(score){
     if(score >= 4) return "high";
     if(score >= 3.5) return "medium";
     return "low";
 }
 
-/* ✅ urgency function */
+function getTimeToWindowDays(r){
+    let now = new Date();
+    let mid = new Date(r.Tmid_utc);
+    return (mid - now) / (1000*3600*24);
+}
+
 function getUrgency(r){
-    let days = r.time_to_window_days;
-    if(days < 1) return {label:"🔥 URGENT", class:"urgent"};
-    if(days < 3) return {label:"⚠️ Soon", class:"soon"};
+    let d = getTimeToWindowDays(r);
+    if(d < 1) return {label:"🔥 URGENT", class:"urgent"};
+    if(d < 3) return {label:"⚠️ Soon", class:"soon"};
     return {label:"✅ Planned", class:"relaxed"};
 }
 
-/* ✅ MAIN UPDATE */
+/* ================= INTERPRETATION ================= */
+
+function buildInterpretation(r){
+
+let reasons=[];
+
+if(r.S4 >= 4) reasons.push("excellent observability conditions");
+if(r.S2 >= 4) reasons.push("a strong and detectable TTV signal");
+if(r.S1 >= 4) reasons.push("significant ephemeris uncertainty requiring refinement");
+if(r.S5 >= 4) reasons.push("high scientific priority");
+
+if(r.instrument_flag === "Not suitable"){
+    reasons.push("instrumental limitations for PIRATE observations");
+}
+
+if(reasons.length===0){
+    reasons.push("a balanced combination of moderate scoring factors");
+}
+
+return "This target is prioritised due to " + reasons.join(", ") + ".";
+}
+
+/* ================= UPDATE ================= */
+
 function updateDashboard(){
 
 let minScore=parseFloat(scoreFilter.value);
@@ -170,11 +202,10 @@ let base = getBestPerTarget(globalData);
 
 filteredData = base.filter(r=>r.final_score >= minScore);
 
+/* ✅ PIRATE filter now uses instrument flag */
 if(pirateToggle.checked){
     filteredData = filteredData.filter(r =>
-        r.obs_max_alt >= 40 &&
-        r.obs_frac > 0.5 &&
-        r.duration_hours <= 4
+        r.instrument_flag === "OK"
     );
 }
 
@@ -183,11 +214,12 @@ renderTable(filteredData);
 renderPlots(filteredData);
 }
 
-/* ✅ TOP TARGETS (time-based + urgency) */
+/* ================= TOP TARGETS ================= */
+
 function renderTopTargets(data){
 
 let now = new Date();
-let cutoff = new Date(now.getTime() + 5*24*3600*1000);
+let cutoff = new Date(now.getTime() + 5*86400000);
 
 let top = data
     .filter(d => new Date(d.Tmid_utc) >= now)
@@ -200,37 +232,39 @@ let html="";
 top.forEach(t=>{
 
 let mid=new Date(t.Tmid_utc);
-let dur=t.duration_hours*3600*1000;
+let dur=t.duration_hours*3600000;
 
-let start = new Date(mid.getTime() - dur/2);
-let end   = new Date(mid.getTime() + dur/2);
+let start=new Date(mid.getTime() - dur/2);
+let end=new Date(mid.getTime() + dur/2);
 
 let urgency = getUrgency(t);
+let ttw = getTimeToWindowDays(t).toFixed(2);
 
 html+=`
 <li class="${urgency.class}">
 <b>${t.name}</b> (${urgency.label})
 <br>Score: ${safe(t.final_score)}
+<br>⏳ In ${ttw} days
 <br>🕒 ${start.toLocaleString()} → ${end.toLocaleString()}
-<br>⛰ Alt: ${safe(t.obs_max_alt)}° | Obs: ${safe(t.obs_frac)}
-<br>📊 ${getObsClass(t)}
+<br>📊 ${getObsClass(t)} | ${getInstrumentStatus(t)}
 </li><br>`;
 });
 
 document.getElementById("topTargets").innerHTML=html;
 }
 
-/* ✅ TABLE */
+/* ================= TABLE ================= */
+
 function renderTable(data){
 
 let html=`
 <tr>
 <th>Target</th>
 <th>Score</th>
-<th>Obs %</th>
-<th>Max Alt</th>
+<th>Obs</th>
+<th>Alt</th>
 <th>σ</th>
-<th>Duration</th>
+<th>Dur</th>
 <th>Transit</th>
 <th>Class</th>
 <th>PIRATE</th>
@@ -239,33 +273,31 @@ let html=`
 data.sort((a,b)=>b.final_score - a.final_score)
 .forEach(r=>{
 
-let pirate = (r.obs_max_alt >= 40 && r.obs_frac > 0.5) ? "✅" : "❌";
-
-let scoreClass = getScoreClass(r.final_score);
-
 html+=`
 <tr onclick="showDetails('${r.name}')">
 <td>${r.name}</td>
-<td class="${scoreClass}">${safe(r.final_score)}</td>
+<td class="${getScoreClass(r.final_score)}">${safe(r.final_score)}</td>
 <td>${safe(r.obs_frac)}</td>
 <td>${safe(r.obs_max_alt)}</td>
 <td>${safe(r.pred_sigma_min)}</td>
 <td>${safe(r.duration_hours)}</td>
-<td>${r.Tmid_utc ? new Date(r.Tmid_utc).toLocaleString() : "-"}</td>
+<td>${new Date(r.Tmid_utc).toLocaleString()}</td>
 <td>${getObsClass(r)}</td>
-<td>${pirate}</td>
+<td>${getInstrumentStatus(r)}</td>
 </tr>`;
 });
 
 table.innerHTML=html;
 }
 
-/* ✅ DETAILS (enhanced) */
+/* ================= DETAILS ================= */
+
 function showDetails(name){
 
 let r = filteredData.find(d=>d.name===name);
 
 detailPanel.innerHTML=`
+
 <h3>${r.name}</h3>
 
 <p><b>Final Score:</b> ${safe(r.final_score)}</p>
@@ -273,7 +305,7 @@ detailPanel.innerHTML=`
 <h4>📊 Score Breakdown</h4>
 <ul>
 <li>S1 Ephemeris: ${safe(r.S1)}</li>
-<li>S2 TTV Signal: ${safe(r.S2)}</li>
+<li>S2 TTV Signal: ${safe(r.S2)} (${r.ttv_significance_class || "N/A"})</li>
 <li>S3 Instrument: ${safe(r.S3)}</li>
 <li>S4 Observability: ${safe(r.S4)}</li>
 <li>S5 Science: ${safe(r.S5)}</li>
@@ -283,24 +315,38 @@ detailPanel.innerHTML=`
 <h4>🔭 Observability</h4>
 <ul>
 <li>Visible fraction: ${safe(r.obs_frac)}</li>
-<li>Max altitude: ${safe(r.obs_max_alt)}</li>
-<li>Duration: ${safe(r.duration_hours)}</li>
-<li>${getObsClass(r)}</li>
+<li>Max altitude: ${safe(r.obs_max_alt)}°</li>
+<li>Duration: ${safe(r.duration_hours)} h</li>
+<li>Class: ${getObsClass(r)}</li>
+<li>PIRATE suitability: <b>${getInstrumentStatus(r)}</b></li>
 </ul>
 
 <h4>📡 Scheduling</h4>
 <ul>
 <li>Tmid: ${r.Tmid_utc}</li>
 <li>Uncertainty: ${safe(r.pred_sigma_min)} min</li>
-<li>Time to window: ${safe(r.time_to_window_days)} days</li>
+<li>Time to window: ${getTimeToWindowDays(r).toFixed(2)} days</li>
 </ul>
 
-<p><b>Interpretation:</b> Balanced trade-off between observability and timing urgency.</p>
+<p><b>Interpretation:</b> ${buildInterpretation(r)}</p>
+
 `;
 }
 
-/* ✅ EMAIL */
+/* ================= PLOT ================= */
+
+function renderPlots(data){
+Plotly.newPlot("plot_breakdown", [{
+    x:data.slice(0,10).map(d=>d.name),
+    y:data.slice(0,10).map(d=>d.final_score),
+    type:'bar'
+}],{title:"Top Scores"});
+}
+
+/* ================= EMAIL ================= */
+
 function generateEmail(){
+
 let top = filteredData.slice(0,3);
 
 let text="Subject: S841 Observing Request\n\n";
@@ -308,7 +354,7 @@ let text="Subject: S841 Observing Request\n\n";
 top.forEach((t,i)=>{
 
 let mid=new Date(t.Tmid_utc);
-let dur=t.duration_hours*3600*1000;
+let dur=t.duration_hours*3600000;
 
 let s=new Date(mid.getTime()-dur/2);
 let e=new Date(mid.getTime()+dur/2);
@@ -319,32 +365,27 @@ ${t.name}
 Start: ${s.toISOString()}
 End: ${e.toISOString()}
 `;
+
 });
 
 prompt("Copy email:", text);
 }
 
-/* ✅ plot */
-function renderPlots(data){
-Plotly.newPlot("plot_breakdown", [{
-    x:data.slice(0,10).map(d=>d.name),
-    y:data.slice(0,10).map(d=>d.final_score),
-    type:'bar'
-}],{title:"Top Scores"});
-}
+/* ================= SCHEDULER ================= */
 
-/* ✅ scheduler */
 function downloadScheduler(){
+
 let csv="Name,RA,Dec,Start,End\n";
 
 filteredData.slice(0,5).forEach(r=>{
-    let mid=new Date(r.Tmid_utc);
-    let dur=r.duration_hours*3600*1000;
 
-    let s=new Date(mid.getTime()-dur/2).toISOString();
-    let e=new Date(mid.getTime()+dur/2).toISOString();
+let mid=new Date(r.Tmid_utc);
+let dur=r.duration_hours*3600000;
 
-    csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
+let s=new Date(mid.getTime()-dur/2).toISOString();
+let e=new Date(mid.getTime()+dur/2).toISOString();
+
+csv+=`${r.name},${r.ra},${r.dec},${s},${e}\n`;
 });
 
 let blob=new Blob([csv]);
