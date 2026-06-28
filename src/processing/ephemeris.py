@@ -19,6 +19,8 @@ def compute_time_since_last_obs(last_obs_jd):
 def expand_events(df, start_utc, end_utc):
     start = Time(start_utc)
     end = Time(end_utc)
+
+    events = [] 
     
     start_jd = start.tdb.jd
     end_jd = end.tdb.jd
