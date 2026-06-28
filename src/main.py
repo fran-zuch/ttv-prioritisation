@@ -46,6 +46,11 @@ def run():
 
     # --- Ephemeris calculation ---
     events = expand_events(df, start_str, end_str)
+    events = events.drop_duplicates(subset=['name', 'epoch'])
+    print("Total events:", len(events))
+    print("Unique events:", len(events[['name','epoch','Tmid_utc']].drop_duplicates()))
+    print("After dedup:", len(events))
+
 
     if events.empty:
         print("No observable events found in window.")
