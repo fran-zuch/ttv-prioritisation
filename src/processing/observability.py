@@ -101,12 +101,12 @@ def compute_observability(df, config):
         ra, dec, Tmid_utc
     """
     
-    # ✅ Convert to datetime first
-    df["Tmid_utc"] = pd.to_datetime(
-        df["Tmid_utc"],
-        format="ISO8601",   # preferred
-        errors="coerce"
-    )
+    # ✅ Convert to date#time first
+    #df["Tmid_utc"] = pd.to_datetime(
+    #    df["Tmid_utc"],
+    #    format="ISO8601",   # preferred
+    #    errors="coerce"
+    #)
 
     
     # ✅ Drop anything broken
