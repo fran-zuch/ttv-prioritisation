@@ -98,11 +98,13 @@ def expand_events(df, start_utc, end_utc):
     df_events = pd.DataFrame(events)
       
     # ✅ convert times OUTSIDE loop
-    df_events["Tmid_utc"] = Time(
-        df_events["Tmid"].values,
-        format="jd",
-        scale="tdb"
-    ).utc.isot
+    df_events["Tmid_utc"] = pd.to_datetime(
+        Time(
+            df_events["Tmid"].values,
+            format="jd",
+            scale="tdb"
+        ).utc.isot
+    )
     
     df_events = df_events.drop(columns=["Tmid"])
     
