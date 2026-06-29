@@ -19,9 +19,9 @@ from astropy.time import Time
 import astropy.units as u
 
 #Try and reduce the timeout errors
-from astropy.utils import iers
-iers.conf.auto_download = False
-iers.conf.use_network = False
+#from astropy.utils import iers
+#iers.conf.auto_download = False
+#iers.conf.use_network = False
 
 
 
