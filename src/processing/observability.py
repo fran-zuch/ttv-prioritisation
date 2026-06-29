@@ -121,7 +121,7 @@ def compute_observability(df, config):
 
     results = []
     
-    for _, row in df.iterrows():
+    for i, (_, row) in enumerate(df.iterrows()):
         if i % 10 == 0:
             print(f"Processing event {i}")
         
