@@ -58,6 +58,9 @@ def run():
         return
   
     # --- Observability ---
+    print(events.shape)
+    print(events[["name", "ra", "dec", "Tmid_utc"]].head()
+
     obs_config = {
         "lat": 28.3,
         "lon": -16.5,
@@ -109,13 +112,19 @@ def run():
     ]].head())
 
     # --- Science ---
+    print("Starting science")
     events = compute_science_features(events)
+    print("Science COMPLETE")
 
     # --- Synergy ---
+    print("Starting synergy")
     events = compute_synergy_features(events)
+    print("Synergy COMPLETE")
 
     # --- Scoring ---
+    print("Starting score calculation")
     events = compute_scores(events)
+    print("Scoring COMPLETE")
 
     # --- Interpretation ---
     events = add_dynamic_interpretation(events)
