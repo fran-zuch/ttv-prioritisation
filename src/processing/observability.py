@@ -108,9 +108,10 @@ def compute_observability(df, config):
     #    errors="coerce"
     #)
 
+    print("Observability rows:", len(df))
     
     # ✅ Drop anything broken
-    df = df.dropna(subset=["Tmid_utc"])
+    # df = df.dropna(subset=["Tmid_utc"])
 
     location = build_observatory(
         config["lat"],
@@ -121,6 +122,8 @@ def compute_observability(df, config):
     results = []
     
     for _, row in df.iterrows():
+        if i % 10 == 0:
+            print(f"Processing event {i}")
         
         try:
     
