@@ -31,8 +31,9 @@ def run():
     print("RUNNING UPDATED PIPELINE - VERSION 2")
 
     # --- Dynamic 30-day window ---
-    start = datetime.utcnow()
-    end = start + timedelta(days=30)
+    now = datetime.utcnow()
+    start = now + timedelta(days=28)
+    end = now + timedelta(days=30)
 
     start_str = start.strftime('%Y-%m-%d %H:%M')
     end_str = end.strftime('%Y-%m-%d %H:%M')
