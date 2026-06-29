@@ -59,7 +59,7 @@ def run():
   
     # --- Observability ---
     print(events.shape)
-    print(events[["name", "ra", "dec", "Tmid_utc"]].head()
+    print(events[["name", "ra", "dec", "Tmid_utc"]].head())
 
     obs_config = {
         "lat": 28.3,
