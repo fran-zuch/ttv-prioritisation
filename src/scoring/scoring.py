@@ -32,8 +32,7 @@ def compute_scores(df):
     df['S4'] = df['obs_frac'].apply(bin_observability)
 
     # --- S5: Science (priority + recency) ---
-    df['S5'] = df['science_priority_numeric']
-    df['S5'] += (1 - df['recent_activity_flag'].astype(int))
+    df['S5'] = (df['science_priority_numeric'] + df['science_recency_score'])
     df['S5'] = df['S5'].clip(upper=5)
 
     # --- S6: Synergy ---
