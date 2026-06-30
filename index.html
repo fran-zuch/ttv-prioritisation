@@ -209,6 +209,7 @@ const obsFracValue =
 obsFracFilter.addEventListener("input", () => {
     obsFracValue.textContent =
         Number(obsFracFilter.value).toFixed(2);
+}
 
 const scoreFilter =
     document.getElementById("scoreFilter");
@@ -220,6 +221,7 @@ const scoreValue =
 scoreFilter.addEventListener("input", () => {
     scoreValue.textContent =
         Number(scoreFilter.value).toFixed(2);
+}
 
 const ttvFilter =
     document.getElementById("ttvFilter");
@@ -532,18 +534,54 @@ function renderPlots(data){
 
 /* EXPORTS */
 function exportPlot(id){
- Plotly.toImage(document.getElementById(id),{
-  format:"svg",
-  width:1200,
-  height:700
- }).then(url=>{
-  let a=document.createElement("a");
-  a.href=url;
-  a.download=id+".svg";
-  a.click();
- });
-}
 
+    const plot = document.getElementById(id);
+
+    if (!plot) {
+        alert(`Plot ${id} not found`);
+        return;
+    }
+
+    const names = {
+        plot_top:  "TopScores",
+        plot_time: "ScoreVsTime",
+        plot_obs:  "ObservabilityVsDuration"
+    };
+
+    // Time stamp for file
+    const tag = new Date()
+        .toISOString()
+        .slice(0,10);   // YYYY-MM-DD
+
+    // Current value of observations filter for file name
+    const obsTag = Number(obsFracFilter.value).toFixed(2);
+    
+    // Current value of scoring filter for file name
+    const scoreTag = Number(scoreFilter.value).toFixed(2);
+
+    Plotly.toImage(plot,{
+        format: "svg",
+        width: 1200,
+        height: 700
+    }).then(url => {
+
+        let a = document.createElement("a");
+        a.href = url;
+
+        a.download =
+            `${names[id] || id}_${tag}_obs${obsTag}_score${scoreTag}.svg`;
+
+        a.click();
+
+    }).catch(err => {
+
+        console.error(
+            "Export failed:",
+            err
+        );
+
+    });
+}
 function downloadScheduler(){
     let csv = "Name,RA,Dec,Start,End\n";
     
