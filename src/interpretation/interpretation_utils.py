@@ -76,22 +76,31 @@ def add_synergy_explanations(df):
 
 
 # ==========================================================
-# 3. Recency labels
+# 3. Scientific labels (based on recent pbservations and priority status
 # ==========================================================
-def add_recency_labels(df):
-    df = df.copy()
+def interpret_science(r):
+    priority = str(r.get("exoclock_priority", "")).lower()
+    n = int(r.get("n_obs_recent", 0))
 
-    def format_days(days):
-        if days is None or not np.isfinite(days):
-            return "no recorded observation"
-        if days < 1: return "observed today"
-        elif days < 7: return f"{int(days)} days ago"
-        elif days < 30: return f"{int(days/7)} weeks ago"
-        elif days < 365: return f"{int(days/30)} months ago"
-        else: return f"{int(days/365)} years ago"
+    # Priority explanation
+    priority_text = {
+        "alert": "ExoClock alert target",
+        "high": "high ExoClock priority",
+        "medium": "medium ExoClock priority",
+        "low": "low ExoClock priority"
+    }.get(priority, "uncategorised target")
 
-    df['recency_text'] = df['time_since_last_obs_days'].apply(format_days)
-    return df
+    # Monitoring explanation
+    if n == 0:
+        monitoring = "no observations in the last year"
+    elif n <= 2:
+        monitoring = f"{n} observations in the last year"
+    elif n <= 5:
+        monitoring = f"{n} observations in the last year (moderately monitored)"
+    else:
+        monitoring = f"{n} observations in the last year (well monitored)"
+
+    return f"{priority_text}; {monitoring}"
 
 
 # ==========================================================
@@ -106,7 +115,7 @@ def build_score_breakdown(df):
             "score": r.get('final_score'),
             "visibility": r.get('obs_interpretation'),
             "ephemeris": r.get('ephemeris_interpretation'),
-            "last_obs": r.get('recency_text'),
+            "science": r.get('recency_text'),
             "coordination": r.get('synergy_explanation'),
             "network": bool(r.get('network_needed')),
             "campaign": bool(r.get('campaign_flag')),
