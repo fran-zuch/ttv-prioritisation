@@ -32,6 +32,7 @@ def prepare_catalog(df):
         "duration_hours",   # ✅ FIXED
         "depth_mmag",
         "mag_V",
+        "mag_R",
         "gaia_g_mag",
         "current_oc_min",
         "last_obs_jd",
