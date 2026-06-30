@@ -81,7 +81,7 @@ def expand_events(df, start_utc, end_utc):
                     "dec": r.get("dec"),
                     "n_obs_recent": r.get("n_obs_recent"),
     
-                    # Inherited metadata needed downstream for scoring
+                    # Inherited metadata needed downstream for scoring or other parts of the running script
                     "exoclock_priority": r.get("exoclock_priority"),
                     "recent_activity_flag": r.get("recent_activity_flag"),
                     "events_per_month": r.get("events_per_month"),
@@ -89,6 +89,7 @@ def expand_events(df, start_utc, end_utc):
                     "campaign_flag": r.get("campaign_flag"),
                     "ttv_flag": r.get("ttv_flag", 0),
                     "snr_proxy": r.get("snr_proxy"),
+                    "time_since_last_obs_days": compute_time_since_last_obs(r.get("last_obs_jd")),
                     "last_obs_jd": r.get("last_obs_jd"),
                 })
 
