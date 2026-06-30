@@ -26,10 +26,8 @@ def add_dynamic_interpretation(df):
         sigma = r.get("pred_sigma_min", 0)
         if pd.isna(sigma): return "ephemeris uncertainty unknown"
         if sigma > 30: return "high ephemeris uncertainty"
-            elif sigma > 10:
-                return "moderate ephemeris uncertainty"
-        else:
-            return "well constrained ephemeris"
+        elif sigma > 10: return "moderate ephemeris uncertainty"
+        else: return "well constrained ephemeris"
 
     def interpret_science(r):
         priority = str(r.get("exoclock_priority", "")).lower()
