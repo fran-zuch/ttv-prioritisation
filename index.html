@@ -310,39 +310,10 @@ function formatUTC(date){
     
 function parseExoClockUTC(str){
     
-    console.log(
-        "parseExoClockUTC input:",
-        str,
-        typeof str
-    );
-
     if (!str) return null;
 
-    const parts = str.trim().split(/\s+/);
-
-    if (parts.length < 2) return null;
-
-    const [datePart, timePart] = parts;
-
-    const [day, month, year] =
-        datePart.split("/").map(Number);
-
-    const timeBits =
-        timePart.split(":").map(Number);
-
-    const hour = timeBits[0] || 0;
-    const minute = timeBits[1] || 0;
-    const second = timeBits[2] || 0;
-
     return new Date(
-        Date.UTC(
-            year,
-            month - 1,
-            day,
-            hour,
-            minute,
-            second
-        )
+        str.replace(" ", "T") + "Z"
     );
 }
 
