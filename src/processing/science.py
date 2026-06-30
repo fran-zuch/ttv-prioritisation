@@ -5,12 +5,6 @@ def compute_science_features(df):
     # --- Priority mapping ---
     if 'exoclock_priority' not in df.columns:
         df['exoclock_priority'] = None
-        
-    # --- Recent observation mapping ---
-    if 'n_obs_recent' not in df.columns:
-        df['n_obs_recent'] = 0
-    else:
-        df['n_obs_recent'] = df['n_obs_recent'].fillna(0)
 
     def map_priority(status):
         if status is None:
@@ -28,8 +22,10 @@ def compute_science_features(df):
 
     # --- Updated Priority Calculation using last observation timestamp AND recent observational numebers ---
     # --- Ensure inputs exist ---
-    df['n_obs_recent'] = df.get('n_obs_recent', 0).fillna(0)
-    days = df.get('time_since_last_obs_days')
+    if 'n_obs_recent' not in df.columns:
+        df['n_obs_recent'] = 0
+
+    df['n_obs_recent'] = df['n_obs_recent'].fillna(0)
 
     # --- Observation scarcity (fewer obs = higher need) ---
     df['obs_density_score'] = 1 / (1 + df['n_obs_recent'])
@@ -40,7 +36,13 @@ def compute_science_features(df):
             return 1.0
         return np.clip(t / 1000, 0, 1)
 
-    df['time_recency_score'] = df['time_since_last_obs_days'].apply(recency_weight)
+    if 'time_since_last_obs_days' not in df.columns:
+        df['time_since_last_obs_days'] = np.nan
+    
+    df['time_recency_score'] = (
+        df['time_since_last_obs_days']
+        .apply(recency_weight)
+    )
 
     # --- Combined science recency ---
     df['science_recency_score'] = (
