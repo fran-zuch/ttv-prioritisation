@@ -309,6 +309,12 @@ function formatUTC(date){
 }
     
 function parseExoClockUTC(str){
+    
+    console.log(
+        "parseExoClockUTC input:",
+        str,
+        typeof str
+    );
 
     if (!str) return null;
 
@@ -454,8 +460,13 @@ let html="";
 
 filteredData.slice(0,5).forEach(t=>{
     let mid = parseExoClockUTC(t.Tmid_utc);
-    if (!mid || isNaN(mid.getTime())) 
-        return;
+    
+    console.log(
+        t.name,
+        t.Tmid_utc,
+        mid
+    );
+
 
  let dur=t.duration_hours*3600000;
 
@@ -497,8 +508,12 @@ let html=`<tr>
 page.forEach(r=>{
 
  let mid = parseExoClockUTC(r.Tmid_utc);
-    if (!mid || isNaN(mid.getTime())) 
-        return;
+    
+    console.log(
+        t.name,
+        t.Tmid_utc,
+        mid
+    );
 
  let dur=r.duration_hours*3600000;
 
