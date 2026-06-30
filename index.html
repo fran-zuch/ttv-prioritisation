@@ -80,10 +80,14 @@ button { margin:3px; }
 <!-- HOW TO USE -->
 <div class="panel">
 <h2>ℹ️ How to Use This Dashboard</h2>
+<p>This dasboad uses Exoclock data and the targets are ranked using six criteria:<br>
+<b>S1</b> ephemeris quality, <b>S2</b> TTV signal, <b>S3</b> instrument suitability (here specifically PIRATE), <b>S4</b> observability, <b>S5</b> scientific priority and <b>S6</b> campaign synergy.<br>
+</p>
+<p><b>Next, only targets with an observable fraction greater than 0.3 are displayed. This ensures a meaningful fraction of the transit is visible from PIRATE.</b>
 <p><b>Top Targets:</b> Shows the most urgent upcoming observations ranked by score and timing.</p>
 <p><b>Score vs Time Plot:</b> Use to identify high-value, urgent targets (top-right shaded region).</p>
 <p><b>Observability Plot:</b> Identify easiest observations (high visibility, short duration).</p>
-<p><b>Table:</b> Full list of targets (sortable, paginated). Click a row for detailed explanation.</p>
+<p><b>Table:</b> Full list of targets (sortable, paginated). Click a row for detailed explanation which is displayed below the table.</p>
 <p><b>Confidence:</b> Combines timing and uncertainty to indicate likelihood of successful follow-up.</p>
 </div>
 
@@ -261,6 +265,10 @@ tryLoad();
 function updateDashboard(){
 
 let min=parseFloat(scoreFilter.value);
+
+let base = base.filter(
+        r => (r.obs_frac ?? 0) > 0.3
+);
 
 let base=globalData.filter(r=>r.final_score>=min);
 
@@ -519,25 +527,19 @@ detailPanel.innerHTML=`
 <h3>${r.name}</h3>
 
 <div class="scorebox">
-<h4>Score Breakdown</h4>
+<h4>Score Interpretation</h4>
+
+<p>${r.summary_text}</p>
+
 <ul>
-<li><b>S1:</b> ${safe(r.S1)} – Ephemeris uncertainty (timing precision)</li>
+<li><b>S1:</b> ${safe(r.S1)} – Ephemeris uncertainty (timing precision): ${r.ephemeris_interpretation}</li>
 <li><b>S2:</b> ${safe(r.S2)} – TTV strength (${formatTTVLabel(r.ttv_significance_class)})</li>
-<li><b>S3:</b> ${safe(r.S3)} – Instrument suitability</li>
-<li><b>S4:</b> ${safe(r.S4)} – Observability (altitude + visibility)</li>
-<li><b>S5:</b> ${safe(r.S5)} – Science priority</li>
-<li><b>S6:</b> ${safe(r.S6)} – Campaign synergy</li>
+<li><b>S3:</b> ${safe(r.S3)} – Instrument suitability: ${r.instrument_flag} </li>
+<li><b>S4:</b> ${safe(r.S4)} – Observability (altitude + visibility) - ${r.obs_interpretation}</li>
+<li><b>S5:</b> ${safe(r.S5)} – Science priority: ${r.science_interpretation}</li>
+<li><b>S6:</b> ${safe(r.S6)} – Campaign synergy: ${r.synergy_interpretation}</li>
 </ul>
 </div>
-
-<p>
-<b>Interpretation:</b><br>
-Score reflects a balance between scientific value (TTV strength),
-observability conditions, and instrument suitability.
-Higher scores indicate targets that are both scientifically valuable
-and operationally feasible.
-</p>
-`;
 }
 
 </script>
