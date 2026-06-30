@@ -289,6 +289,19 @@ function formatDuration(hours){
     return `${h} h ${m} min`;
 }
 
+
+function getExposureTime(r){
+
+    let mag = Number(r.mag_r);
+
+    if(isNaN(mag)) return "-";
+
+    return Math.round(
+        0.88 * Math.exp(0.38 * mag)
+    );
+}
+
+
 /* ---------- LOAD (FIXED) ---------- */
 
 function tryLoad(daysBack=0){
@@ -620,7 +633,7 @@ function exportPlot(id){
     });
 }
 function downloadScheduler(){
-    let csv = "Name,RA,Dec,Start,End\n";
+    let csv = "Name,RA,Dec,Start UTC,End UTC\n";
     
     filteredData.slice(0,5).forEach(r=>{
         let mid=new Date(r.Tmid_utc);
@@ -634,7 +647,7 @@ function downloadScheduler(){
     let ra = r.ra ?? r.RA ?? "";
     let dec = r.dec ?? r.Dec ?? "";
     
-    csv += `${r.name},${ra},${dec},${s},${e}\n`;
+    csv += `${r.name},${ra},${dec},${s} UTC,${e} UTC\n`;;
 
 });
 
@@ -646,11 +659,75 @@ function downloadScheduler(){
 }
 
 function generateEmail(){
- let txt="Observing Request\\n\\n";
- filteredData.slice(0,3).forEach(r=>{
-  txt+=`${r.name}\\n`;
- });
- prompt("Copy:",txt);
+    let txt =
+`PIRATE Observing Request
+
+Generated from TTV Prioritisation Dashboard
+
+`;
+
+    filteredData.slice(0,5).forEach((r,i)=>{
+
+        let mid = new Date(r.Tmid_utc);
+
+        let dur =
+            r.duration_hours * 3600000;
+
+        let start =
+            new Date(mid.getTime() - dur/2);
+
+        let end =
+            new Date(mid.getTime() + dur/2);
+
+        txt +=
+`--------------------------------------------------
+
+${i+1}. ${r.name}
+
+Magnitude (R): ${safe(r.mag_r)}
+Transit Depth: ${safe(r.depth_mmag)} mmag
+
+Transit Start UTC:
+${start.toISOString()}
+
+Transit End UTC:
+${end.toISOString()}
+
+Transit Duration:
+${safe(r.duration_hours)} h
+
+RA:
+${safe(r.ra,2)}°
+
+Dec:
+${safe(r.dec,2)}°
+
+Observable Fraction:
+${(r.obs_frac*100).toFixed(0)}%
+
+Maximum Altitude:
+${safe(r.obs_max_alt)}°
+
+PIRATE Classification:
+${r.instrument_flag}
+
+TTV Classification:
+${formatTTVLabel(r.ttv_significance_class)}
+
+Recommended Exposure (R):
+${getExposureTime(r)} sec
+
+Priority:
+400
+
+Binning:
+1
+
+`;
+    });
+
+    prompt("Copy:", txt);
+}
 }
 
 /* DETAILS */
@@ -726,17 +803,51 @@ function showDetails(name){
     <li><b>Synergy:</b> ${r.synergy_explanation}</li>
     </ul>
     
-    <h4>📊 Score Breakdown (Details)</h4>
+    <h4>📊 Score Interpretation Framework</h4>
+    <p>
+    Scores are normalised onto a <b>0–5 scale</b>, where higher values indicate greater observational
+    or scientific importance. The final target score is derived from a weighted combination of the six
+    components below.
+    </p>
+    
     <ul>
-    <li><b>S1:</b> ${safe(r.S1)} – Ephemeris uncertainty (timing precision): ${r.ephemeris_interpretation}</li>
-    <li><b>S2:</b> ${safe(r.S2)} – TTV strength: ${formatTTVLabel(r.ttv_significance_class)}</li>
-    <li><b>S3:</b> ${safe(r.S3)} – Instrument suitability: ${r.instrument_flag} </li>
-    <li><b>S4:</b> ${safe(r.S4)} – Observability (altitude + visibility): ${r.obs_interpretation}</li>
-    <li><b>S5:</b> ${safe(r.S5)} – Science priority: ${r.science_interpretation}</li>
-    <li><b>S6:</b> ${safe(r.S6)} – Campaign synergy: ${r.synergy_explanation}</li>
+    <li>
+    <b>S1: Ephemeris Urgency (${safe(r.S1)}/5)</b><br>
+    Measures the need for ephemeris maintenance based on predicted timing uncertainty and time since observation.
+    ${r.ephemeris_interpretation}
+    </li>
+    
+    <li>
+    <b>S2: TTV Science (${safe(r.S2)}/5)</b><br>
+    Measures the scientific value of monitoring transit timing variations. Higher values indicate stronger
+    evidence for measurable TTV signals.
+    </li>
+    
+    <li>
+    <b>S3: Instrument Suitability (${safe(r.S3)}/5)</b><br>
+    Measures compatibility with the PIRATE telescope, including brightness and expected transit depth.
+    </li>
+    
+    <li>
+    <b>S4: Observability (${safe(r.S4)}/5)</b><br>
+    Measures how much of the transit is visible from the observatory and the overall observing conditions.
+    ${r.obs_interpretation}
+    </li>
+    
+    <li>
+    <b>S5: Science Priority (${safe(r.S5)}/5)</b><br>
+    Measures the scientific importance of the target based on Exoclock priorities and recent monitoring (past year).
+    Planned: Inclusion of literature mentions or wider scholar interest.
+    ${r.science_interpretation}
+    </li>
+    
+    <li>
+    <b>S6: Campaign Synergy (${safe(r.S6)}/5)</b><br>
+    Measures alignment with active observing campaigns and opportunities for coordinated follow-up.
+    ${r.synergy_explanation}
+    </li>
     </ul>
-    </div>
-    `;
+    ``
 }
 
 </script>
