@@ -454,6 +454,14 @@ filteredData.slice(0,5).forEach(t=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
     
+    const padding = 60 * 60 * 1000; // 1 hour
+    
+    let obsStart =
+        new Date(s.getTime() - padding);
+    
+    let obsEnd =
+        new Date(e.getTime() + padding);
+    
  html+=`
 <li>
 <b>${t.name}</b>
@@ -480,6 +488,7 @@ let html=`<tr>
 <th>Confidence</th>
 <th>Transit Window (UTC)</th>
 <th>Transit duration</th>
+<th>Observation Window (UTC)</th>
 <th>Observation fraction</th>
 <th>Alt</th>
 <th>PIRATE</th>
@@ -501,6 +510,14 @@ page.forEach(r=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
 
+    const padding = 60 * 60 * 1000; // 1 hour
+
+    let obsStart =
+        new Date(s.getTime() - padding);
+    
+    let obsEnd =
+        new Date(e.getTime() + padding);
+
  html+=`
 <tr onclick="showDetails('${r.name}')">
 <td>${r.name}</td>
@@ -508,6 +525,7 @@ page.forEach(r=>{
 <td>${getConfidenceScore(r).toFixed(2)}</td>
 <td>${formatUTC(s)}<br>→<br>${formatUTC(e)}</td>
 <td>${formatDuration(r.duration_hours)}</td>
+<td>${formatUTC(obsStart)}<br>→<br>${formatUTC(obsEnd)}</td>
 <td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td>
 <td>${safe(r.obs_max_alt)}</td>
 <td>${r.instrument_flag}</td>
@@ -677,14 +695,28 @@ function downloadScheduler(){
         if(isNaN(mid)) return;
 
     let dur=r.duration_hours*3600000;
-    let s=new Date(mid.getTime()-dur/2).toISOString();
-    let e=new Date(mid.getTime()+dur/2).toISOString();
+    let transitStart=new Date(mid.getTime()-dur/2).toISOString();
+    let transitEnd=new Date(mid.getTime()+dur/2).toISOString();
+
+    const padding = 60 * 60 * 1000; // 1 hour
+
+    let obsStart =
+        new Date(s.getTime() - padding);
+    
+    let obsEnd =
+        new Date(e.getTime() + padding);
     
     /* ✅ include RA / Dec safely */
     let ra = r.ra ?? r.RA ?? "";
     let dec = r.dec ?? r.Dec ?? "";
     
-    csv += `${r.name},${ra},${dec},${s} UTC,${e} UTC\n`;;
+    csv += `${r.name},${ra},${dec},
+            ${transitStart.toISOString()},
+            ${transitEnd.toISOString()},    
+            ${obsStart.toISOString()},
+            ${obsEnd.toISOString()}\n`;
+            `
+
 
 });
 
@@ -716,6 +748,14 @@ Generated from TTV Prioritisation Dashboard
         let end =
             new Date(mid.getTime() + dur/2);
 
+        const padding = 60 * 60 * 1000; // 1 hour
+
+        let obsStart =
+            new Date(start.getTime() - padding);
+        
+        let obsEnd =
+            new Date(end.getTime() + padding);
+
         txt +=
 `--------------------------------------------------
 
@@ -732,6 +772,12 @@ ${end.toISOString()}
 
 Transit Duration:
 ${safe(r.duration_hours)} h
+
+Observation Start UTC:
+${obsStart.toISOString()}
+
+Observation End UTC:
+${obsEnd.toISOString()}
 
 RA:
 ${safe(r.ra,2)}°
@@ -811,24 +857,38 @@ function showDetails(name){
     </tr>
     </table>
     
-    <h4>📅 Observation Window</h4>
+    <h4>📅 Transit Information</h4>
+       
+    <b>Transit Start:</b><br>
+    ${formatUTC(transitStart)}
     
+    <b>Transit Midpoint:</b><br>
+    ${formatUTC(mid)}
+    
+    <b>Transit End:</b><br>
+    ${formatUTC(transitEnd)}
+    
+    <b>Transit Duration:</b><br>
+    ${formatDuration(r.duration_hours)}
+
     <p>
-    <b>Start:</b><br>
-    ${new Date(
-        parseExoClockUTC(r.Tmid_utc).getTime() -
-        r.duration_hours * 3600000 / 2
-    ).toISOString()}
+
+    <h4>🔭 Recommended Observation Window</h4>
+
+    <p>
+    <b>Observation Start:</b><br>
+    ${formatUTC(obsStart)}
     </p>
     
     <p>
-    <b>End:</b><br>
-    ${new Date(
-        parseExoClockUTC(r.Tmid_utc).getTime() +
-        r.duration_hours * 3600000 / 2
-    ).toISOString()}
+    <b>Observation End:</b><br>
+    ${formatUTC(obsEnd)}
     </p>
     
+    <p>
+    <i>Includes one hour baseline before ingress and after egress.</i>
+    </p>
+      
     <h4>🧪 Scientific Context</h4>
     
     <p>${r.summary_text}</p>
