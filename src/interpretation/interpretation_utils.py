@@ -33,7 +33,10 @@ def add_dynamic_interpretation(df):
 
     def interpret_science(r):
         priority = str(r.get("exoclock_priority", "")).lower()
-        n = int(r.get("n_obs_recent", 0))
+        n = pd.to_numeric(r.get("n_obs_recent",0), errors="coerce")
+        
+        if pd.isna(n): n = 0
+        n = int(n)
 
         # Priority explanation
         priority_text = {
