@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 def compute_science_features(df):
 
