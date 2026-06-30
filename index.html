@@ -426,7 +426,7 @@ filteredData.slice(0,5).forEach(t=>{
 <li>
 <b>${t.name}</b>
 <br>Score: ${safe(t.final_score)}
-<br>🕒 ${s.toLocaleString()} → ${e.toLocaleString()}
+<br>🕒 ${s.toISOString()} → ${e.toISOString()}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
 <br>${formatTTVLabel(t.ttv_significance_class)} | ${t.instrument_flag}
 </li>`;
@@ -469,7 +469,7 @@ page.forEach(r=>{
 <td>${r.name}</td>
 <td>${safe(r.final_score)}</td>
 <td>${getConfidenceScore(r).toFixed(2)}</td>
-<td>${s.toLocaleString()}<br>→<br>${e.toLocaleString()}</td>
+<td>${s.toISOString()}<br>→<br>${e.toISOString()}</td>
 <td>${formatDuration(r.duration_hours)}</td>
 <td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td>
 <td>${safe(r.obs_max_alt)}</td>
@@ -781,7 +781,7 @@ function showDetails(name){
     ${new Date(
         new Date(r.Tmid_utc).getTime() -
         r.duration_hours * 3600000 / 2
-    ).toLocaleString()}
+    ).toISOString()}
     </p>
     
     <p>
@@ -789,7 +789,7 @@ function showDetails(name){
     ${new Date(
         new Date(r.Tmid_utc).getTime() +
         r.duration_hours * 3600000 / 2
-    ).toLocaleString()}
+    ).toISOString()}
     </p>
     
     <h4>🧪 Scientific Context</h4>
@@ -846,7 +846,7 @@ function showDetails(name){
     ${r.synergy_explanation}
     </li>
     </ul>
-    ``
+    `;
 }
 
 </script>
