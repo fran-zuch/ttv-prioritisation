@@ -27,6 +27,11 @@ def build_dynamic_summary(df):
         if ttv and ttv != "none":
             parts.append(f"TTV signal {ttv}")
 
+        # --- Science ---
+        science = r.get('science_interpretation')
+        if science:
+            parts.append(science)
+
         # --- Coordination ---
         if r.get('campaign_flag'):
             parts.append("part of an active campaign")
