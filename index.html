@@ -702,18 +702,18 @@ function downloadScheduler(){
     const padding = 60 * 60 * 1000; // 1 hour
 
     let obsStart =
-        new Date(s.getTime() - padding);
+        new Date(transitStart.getTime() - padding);
     
     let obsEnd =
-        new Date(e.getTime() + padding);
+        new Date(transitEnd.getTime() + padding);
     
     /* ✅ include RA / Dec safely */
     let ra = r.ra ?? r.RA ?? "";
     let dec = r.dec ?? r.Dec ?? "";
     
     csv += `${r.name},${ra},${dec},
-            ${transitStart.toISOString()},
-            ${transitEnd.toISOString()},    
+            ${transitStart},
+            ${transitEnd},    
             ${obsStart.toISOString()},
             ${obsEnd.toISOString()}\n`;
 
