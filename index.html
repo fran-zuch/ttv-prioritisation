@@ -263,15 +263,21 @@ tryLoad();
 
 function updateDashboard(){
 
-let min=parseFloat(scoreFilter.value);
+let minScore =
+    parseFloat(scoreFilter.value);
+
+let minObsFrac =
+    parseFloat(obsFracFilter.value);
 
 let base = globalData.filter(
-    r => r.final_score >= min
+    r => r.final_score >= minScore
 );
 
 base = base.filter(
-    r => Number(r.obs_frac || 0) > 0.3
+    r => Number(r.obs_frac || 0)
+         >= minObsFrac
 );
+
 
 if(ttvFilter.value !== "all"){
     base = base.filter(r => {
