@@ -878,31 +878,20 @@ function showDetails(name){
     
     <h4>📅 Transit Information</h4>
        
-    <b>Transit Start:</b><br>
-    ${formatUTC(transitStart)}
+    <p><b>Transit Start:</b><br> ${formatUTC(transitStart)}</p>
     
-    <b>Transit Midpoint:</b><br>
-    ${formatUTC(mid)}
+    <p><b>Transit Midpoint:</b><br> ${formatUTC(mid)}</p>
     
-    <b>Transit End:</b><br>
-    ${formatUTC(transitEnd)}
+    <p><b>Transit End:</b><br> ${formatUTC(transitEnd)}</p>
     
-    <b>Transit Duration:</b><br>
-    ${formatDuration(r.duration_hours)}
+    <p><b>Transit Duration:</b><br> ${formatDuration(r.duration_hours)}</p>
 
-    <p>
 
     <h4>🔭 Recommended Observation Window</h4>
 
-    <p>
-    <b>Observation Start:</b><br>
-    ${formatUTC(obsStart)}
-    </p>
+    <p><b>Observation Start:</b><br>  ${formatUTC(obsStart)}</p>
     
-    <p>
-    <b>Observation End:</b><br>
-    ${formatUTC(obsEnd)}
-    </p>
+    <p><b>Observation End:</b><br> ${formatUTC(obsEnd)}</p>
     
     <p>
     <i>Includes one hour baseline before ingress and after egress.</i>
