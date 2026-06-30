@@ -278,7 +278,16 @@ function formatTTVLabel(val){
 
     return val;
 }
-    
+
+function formatDuration(hours){
+
+    if(isNaN(hours)) return "-";
+
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+
+    return `${h} h ${m} min`;
+}
 
 /* ---------- LOAD (FIXED) ---------- */
 
@@ -425,6 +434,7 @@ let html=`<tr>
 <th>Score (1 - 5)</th>
 <th>Confidence</th>
 <th>Observation Window (UTC)</th>
+<th>Observation duration</th>
 <th>Observation fraction</th>
 <th>Alt</th>
 <th>PIRATE</th>
@@ -447,7 +457,8 @@ page.forEach(r=>{
 <td>${safe(r.final_score)}</td>
 <td>${getConfidenceScore(r).toFixed(2)}</td>
 <td>${s.toLocaleString()}<br>→<br>${e.toLocaleString()}</td>
-<td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td
+<td>${formatDuration(r.duration_hours)}</td>
+<td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td>
 <td>${safe(r.obs_max_alt)}</td>
 <td>${r.instrument_flag}</td>
 <td>${formatTTVLabel(r.ttv_significance_class)}</td>
@@ -651,10 +662,71 @@ function showDetails(name){
     <h3>${r.name}</h3>
 
     <div class="scorebox">
-    <h4>Score Interpretation</h4>
+    <h4>🔭 Observation Information</h4>
+
+    <table style="width:100%; margin-bottom:10px;">
+    <tr>
+        <td><b>RA</b></td>
+        <td>${safe(r.ra,2)}°</td>
+    
+        <td><b>Dec</b></td>
+        <td>${safe(r.dec,2)}°</td>
+    </tr>
+    
+    <tr>
+        <td><b>Observable Fraction</b></td>
+        <td>${isNaN(r.obs_frac) ? "-" : `${(r.obs_frac*100).toFixed(0)}%`}</td>
+    
+        <td><b>Max Altitude</b></td>
+        <td>${safe(r.obs_max_alt)}°</td>
+    </tr>
+    
+    <tr>
+        <td><b>Duration</b></td>
+        <td>${formatDuration(r.duration_hours)}</td>
+    
+        <td><b>PIRATE Class</b></td>
+        <td>${r.instrument_flag}</td>
+    </tr>
+    
+    <tr>
+        <td><b>TTV Class</b></td>
+        <td>${formatTTVLabel(r.ttv_significance_class)}</td>
+    
+        <td><b>Confidence</b></td>
+        <td>${getConfidenceScore(r).toFixed(2)} / 5</td>
+    </tr>
+    </table>
+    
+    <h4>📅 Observation Window</h4>
+    
+    <p>
+    <b>Start:</b><br>
+    ${new Date(
+        new Date(r.Tmid_utc).getTime() -
+        r.duration_hours * 3600000 / 2
+    ).toLocaleString()}
+    </p>
+    
+    <p>
+    <b>End:</b><br>
+    ${new Date(
+        new Date(r.Tmid_utc).getTime() +
+        r.duration_hours * 3600000 / 2
+    ).toLocaleString()}
+    </p>
+    
+    <h4>🧪 Scientific Context</h4>
     
     <p>${r.summary_text}</p>
     
+    <ul>
+    <li><b>Ephemeris:</b> ${r.ephemeris_interpretation}</li>
+    <li><b>Science:</b> ${r.science_interpretation}</li>
+    <li><b>Synergy:</b> ${r.synergy_explanation}</li>
+    </ul>
+    
+    <h4>📊 Score Breakdown (Details)</h4>
     <ul>
     <li><b>S1:</b> ${safe(r.S1)} – Ephemeris uncertainty (timing precision): ${r.ephemeris_interpretation}</li>
     <li><b>S2:</b> ${safe(r.S2)} – TTV strength: ${formatTTVLabel(r.ttv_significance_class)}</li>
