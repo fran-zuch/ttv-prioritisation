@@ -74,7 +74,7 @@ def expand_events(df, start_utc, end_utc):
                     # Core observing fields
                     "duration_hours": r.get("duration_hours"),
                     "mag_V": r.get("mag_V"),
-                    "mag_R": r.get("maf_R"),
+                    "mag_R": r.get("mag_R"),
                     "depth_mmag": r.get("depth_mmag"),
                     "current_oc_min": r.get("current_oc_min"),
                     "min_telescope_inches": r.get("min_telescope_inches"),
