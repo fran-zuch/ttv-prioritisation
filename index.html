@@ -292,7 +292,7 @@ function formatDuration(hours){
 
 function getExposureTime(r){
 
-    let mag = Number(r.mag_r);
+    let mag = Number(r.mag_R);
 
     if(isNaN(mag)) return "-";
 
@@ -300,6 +300,14 @@ function getExposureTime(r){
         0.88 * Math.exp(0.38 * mag)
     );
 }
+
+function formatUTC(date){
+
+    return date.toISOString()
+        .replace("T", " ")
+        .replace(".000Z", " UTC");
+}
+
 
 
 /* ---------- LOAD (FIXED) ---------- */
@@ -426,7 +434,7 @@ filteredData.slice(0,5).forEach(t=>{
 <li>
 <b>${t.name}</b>
 <br>Score: ${safe(t.final_score)}
-<br>🕒 ${s.toISOString()} → ${e.toISOString()}
+<br>🕒 ${formatUTC(s)} → ${formatUTC(e)}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
 <br>${formatTTVLabel(t.ttv_significance_class)} | ${t.instrument_flag}
 </li>`;
@@ -446,8 +454,8 @@ let html=`<tr>
 <th>Target</th>
 <th>Score (1 - 5)</th>
 <th>Confidence</th>
-<th>Observation Window (UTC)</th>
-<th>Observation duration</th>
+<th>Transit Window (UTC)</th>
+<th>Transit duration</th>
 <th>Observation fraction</th>
 <th>Alt</th>
 <th>PIRATE</th>
@@ -469,7 +477,7 @@ page.forEach(r=>{
 <td>${r.name}</td>
 <td>${safe(r.final_score)}</td>
 <td>${getConfidenceScore(r).toFixed(2)}</td>
-<td>${s.toISOString()}<br>→<br>${e.toISOString()}</td>
+<td>${formatUTC(s)}<br>→<br>${formatUTC(e)}</td>
 <td>${formatDuration(r.duration_hours)}</td>
 <td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td>
 <td>${safe(r.obs_max_alt)}</td>
@@ -684,7 +692,7 @@ Generated from TTV Prioritisation Dashboard
 
 ${i+1}. ${r.name}
 
-Magnitude (R): ${safe(r.mag_r)}
+Magnitude (R): ${safe(r.mag_R)}
 Transit Depth: ${safe(r.depth_mmag)} mmag
 
 Transit Start UTC:
