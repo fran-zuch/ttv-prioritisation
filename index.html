@@ -817,6 +817,24 @@ Binning:
 
 function showDetails(name){
     let r=filteredData.find(d=>d.name===name);
+   
+    let mid = parseExoClockUTC(r.Tmid_utc);
+    
+    let dur =r.duration_hours * 3600000;
+    
+    let transitStart =
+            new Date(mid.getTime() - dur/2);
+    let transitEnd =
+            new Date(mid.getTime() + dur/2);
+
+    const padding = 60 * 60 * 1000;
+    
+    let obsStart =
+            new Date(transitStart.getTime() - padding);
+    
+    let obsEnd =
+            new Date(transitEnd.getTime() + padding);
+    
     
     detailPanel.innerHTML=`
     <h3>${r.name}</h3>
