@@ -208,21 +208,6 @@ function formatTTVLabel(val){
 
     return val;
 }
-
-    function isNightObservation(start, end){
-
-    let s = new Date(start);
-    let e = new Date(end);
-
-    let sHour = s.getHours();
-    let eHour = e.getHours();
-
-    /* ✅ simple local night model (adjustable) */
-    return (
-        (sHour >= 18 || sHour <= 6) &&
-        (eHour >= 18 || eHour <= 6)
-    );
-}
     
 
 /* ---------- LOAD (FIXED) ---------- */
@@ -313,8 +298,6 @@ filteredData.slice(0,5).forEach(t=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
     
- if(!isNightObservation(s, e)) return;
-
  html+=`
 <li>
 <b>${t.name}</b>
