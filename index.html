@@ -265,11 +265,13 @@ function updateDashboard(){
 
 let min=parseFloat(scoreFilter.value);
 
-let base = base.filter(
-        r => (r.obs_frac ?? 0) > 0.3
+let base = globalData.filter(
+    r => r.final_score >= min
 );
 
-let base=globalData.filter(r=>r.final_score>=min);
+base = base.filter(
+    r => Number(r.obs_frac || 0) > 0.3
+);
 
 if(ttvFilter.value !== "all"){
     base = base.filter(r => {
