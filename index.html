@@ -93,7 +93,7 @@ button { margin:3px; }
 <!-- CONTROLS (UNCHANGED) -->
 <div class="controls">
 
-Min Score <input type="range" id="scoreFilter" value="3.5" min="0" max="5" step="0.1">
+Min Score <input type="range" id="scoreFilter" value="3.0" min="0" max="5" step="0.1">
 
 TTV:
 <select id="ttvFilter">
@@ -111,6 +111,17 @@ PIRATE:
 <option value="Marginal">Marginal</option>
 <option value="Not suitable">Not suitable</option>
 </select>
+
+Observable Fraction
+<input
+    type="range"
+    id="obsFracFilter"
+    value="0.3"
+    min="0"
+    max="1"
+    step="0.05">
+<span id="obsFracValue">0.30</span>
+
 
 <button onclick="updateDashboard()">Apply</button>
 <button onclick="downloadScheduler()">📡 CSV</button>
@@ -544,7 +555,7 @@ detailPanel.innerHTML=`
 <li><b>S3:</b> ${safe(r.S3)} – Instrument suitability: ${r.instrument_flag} </li>
 <li><b>S4:</b> ${safe(r.S4)} – Observability (altitude + visibility) - ${r.obs_interpretation}</li>
 <li><b>S5:</b> ${safe(r.S5)} – Science priority: ${r.science_interpretation}</li>
-<li><b>S6:</b> ${safe(r.S6)} – Campaign synergy: ${r.synergy_interpretation}</li>
+<li><b>S6:</b> ${safe(r.S6)} – Campaign synergy: ${r.synergy_explanation}</li>
 </ul>
 </div>
 }
