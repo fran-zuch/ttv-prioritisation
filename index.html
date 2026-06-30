@@ -466,6 +466,12 @@ page.forEach(r=>{
 
  let mid = new Date(r.Tmid_utc);
     if (isNaN(mid)) return;
+
+if(r.name === "HAT-P-2b"){
+    console.log("Raw Tmid_utc:", r.Tmid_utc);
+    console.log("Parsed date:", mid.toISOString());
+}
+
     
  let dur=r.duration_hours*3600000;
 
