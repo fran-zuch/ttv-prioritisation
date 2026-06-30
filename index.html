@@ -252,7 +252,7 @@ function safe(x,d=2){
 }
 
 function getTimeToWindowDays(r){
- let d = new Date(r.Tmid_utc);
+ let d = parseExoClockUTC(r.Tmid_utc);
  if(isNaN(d)) return 999;
  return (d - new Date()) / 86400000;
 }
@@ -308,6 +308,30 @@ function formatUTC(date){
         .replace(".000Z", " UTC");
 }
 
+function parseExoClockUTC(str){
+
+    if (!str) return null;
+
+    const [datePart, timePart] =
+        str.trim().split(/\s+/);
+
+    const [day, month, year] =
+        datePart.split("/").map(Number);
+
+    const [hour, minute, second] =
+        timePart.split(":").map(Number);
+
+    return new Date(
+        Date.UTC(
+            year,
+            month - 1,
+            day,
+            hour,
+            minute,
+            second
+        )
+    );
+}
 
 
 /* ---------- LOAD (FIXED) ---------- */
@@ -422,7 +446,7 @@ function renderTopTargets(){
 let html="";
 
 filteredData.slice(0,5).forEach(t=>{
-    let mid = new Date(t.Tmid_utc);
+    let mid = parseExoClockUTC(t.Tmid_utc);
     if (isNaN(mid)) return;
 
  let dur=t.duration_hours*3600000;
@@ -464,15 +488,10 @@ let html=`<tr>
 
 page.forEach(r=>{
 
- let mid = new Date(r.Tmid_utc);
+ let mid = parseExoClockUTC(r.Tmid_utc);
     if (isNaN(mid)) return;
 
-if(r.name === "HAT-P-2b"){
-    console.log("Raw Tmid_utc:", r.Tmid_utc);
-    console.log("Parsed date:", mid.toISOString());
-}
-
-    
+  
  let dur=r.duration_hours*3600000;
 
  let s=new Date(mid.getTime()-dur/2);
@@ -650,7 +669,7 @@ function downloadScheduler(){
     let csv = "Name,RA,Dec,Start UTC,End UTC\n";
     
     filteredData.slice(0,5).forEach(r=>{
-        let mid=new Date(r.Tmid_utc);
+        let mid=parseExoClockUTC(r.Tmid_utc);
         if(isNaN(mid)) return;
 
     let dur=r.duration_hours*3600000;
@@ -682,7 +701,7 @@ Generated from TTV Prioritisation Dashboard
 
     filteredData.slice(0,5).forEach((r,i)=>{
 
-        let mid = new Date(r.Tmid_utc);
+        let mid = parseExoClockUTC(r.Tmid_utc);
 
         let dur =
             r.duration_hours * 3600000;
@@ -793,7 +812,7 @@ function showDetails(name){
     <p>
     <b>Start:</b><br>
     ${new Date(
-        new Date(r.Tmid_utc).getTime() -
+        parseExoClockUTC(r.Tmid_utc).getTime() -
         r.duration_hours * 3600000 / 2
     ).toISOString()}
     </p>
@@ -801,7 +820,7 @@ function showDetails(name){
     <p>
     <b>End:</b><br>
     ${new Date(
-        new Date(r.Tmid_utc).getTime() +
+        parseExoClockUTC(r.Tmid_utc).getTime() +
         r.duration_hours * 3600000 / 2
     ).toISOString()}
     </p>
