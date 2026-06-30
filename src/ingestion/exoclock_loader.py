@@ -44,6 +44,7 @@ def fetch_exoclock():
     rename_map = {
         "planet_name": "name",
         "v_mag": "mag_V",
+        "r_mag": "mag_R",
         "depth_r_mmag": "depth_mmag",
         "ephem_mid_time": "last_obs_jd",
         "min_telescope_inches": "min_telescope_inches",
