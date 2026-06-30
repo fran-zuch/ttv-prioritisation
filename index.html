@@ -93,7 +93,7 @@ button { margin:3px; }
 <!-- CONTROLS (UNCHANGED) -->
 <div class="controls">
 
-Min Score <input type="range" id="scoreFilter" value="3.0" min="0" max="5" step="0.1">
+Min Score <input type="range" id="scoreFilter" value="3.0" min="0" max="5" step="0.1"><span id="scoreValue">3.0</span>
 
 TTV:
 <select id="ttvFilter">
@@ -104,7 +104,7 @@ TTV:
 <option value="none">None</option>
 </select>
 
-PIRATE:
+PIRATE
 <select id="pirateClassFilter">
 <option value="all">All</option>
 <option value="OK">OK</option>
@@ -122,11 +122,21 @@ Observable Fraction
     step="0.05">
 <span id="obsFracValue">0.30</span>
 
+Target Count
+<div id="targetCount"
+     style="display:inline-block;
+            margin-left:20px;
+            font-weight:bold;
+            color:#1f4e79;">
+</div>
 
-<button onclick="updateDashboard()">Apply</button>
+
 <button onclick="downloadScheduler()">📡 CSV</button>
 <button onclick="generateEmail()">✉ Email</button>
-<button onclick="exportPlot('plot_time')">⬇ SVG</button>
+<button onclick="exportPlot('plot_top')">📊 Top Scores</button>
+<button onclick="exportPlot('plot_time')">📈 Score vs Time</button>
+<button onclick="exportPlot('plot_obs')">🔭 Observability vs Duration</button>
+
 
 </div>
 
@@ -195,13 +205,21 @@ const obsFracFilter =
 const obsFracValue =
     document.getElementById("obsFracValue");
     
-/* initialise displayed value */
+/* initialise displayed value change for observable fraction changes */
 obsFracFilter.addEventListener("input", () => {
     obsFracValue.textContent =
         Number(obsFracFilter.value).toFixed(2);
 
 const scoreFilter =
     document.getElementById("scoreFilter");
+
+const scoreValue =
+    document.getElementById("scoreValue");
+
+/* initialise score slider displayed value to change the page upon changes */
+scoreFilter.addEventListener("input", () => {
+    scoreValue.textContent =
+        Number(scoreFilter.value).toFixed(2);
 
 const ttvFilter =
     document.getElementById("ttvFilter");
@@ -332,6 +350,9 @@ filteredData=base.sort((a,b)=>b.final_score-a.final_score);
 
 console.log("Filtered rows:", filteredData.length);
 
+document.getElementById("targetCount").innerHTML =
+    `${filteredData.length} of ${globalData.length} targets visible`;
+
 renderTopTargets();
 renderTable();
 }
@@ -455,7 +476,7 @@ function renderPlots(data){
 
     /* TOP SCORES */
     Plotly.newPlot("plot_top",[{
-        x: data.map(d => d.name),
+        x: data.map(d => d.event_id),
         y: data.map(d => d.final_score),
         type: "bar"
     }]);
