@@ -208,8 +208,10 @@ const obsFracValue =
 /* initialise displayed value change for observable fraction changes */
 obsFracFilter.addEventListener("input", () => {
     obsFracValue.textContent =
-        Number(obsFracFilter.value).toFixed(2);
-}
+        Number(obsFracFilter.value).toFixed(2);  
+    updateDashboard();
+});
+
 
 const scoreFilter =
     document.getElementById("scoreFilter");
@@ -221,16 +223,15 @@ const scoreValue =
 scoreFilter.addEventListener("input", () => {
     scoreValue.textContent =
         Number(scoreFilter.value).toFixed(2);
-}
+    updateDashboard();
+});
 
 const ttvFilter =
     document.getElementById("ttvFilter");
 
 const pirateClassFilter =
     document.getElementById("pirateClassFilter");
-    
-        updateDashboard();
-    });
+
 
 
 /* ---------- HELPERS ---------- */
