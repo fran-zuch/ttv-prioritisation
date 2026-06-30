@@ -2,55 +2,46 @@ import numpy as np
 
 def compute_science_features(df):
 
-    # --- Priority mapping ---
     if 'exoclock_priority' not in df.columns:
         df['exoclock_priority'] = None
 
     def map_priority(status):
-        if status is None:
+
+        if pd.isna(status):
             return 0
+
         status = str(status).lower()
+
         mapping = {
             "alert": 5,
             "high": 4,
             "medium": 3,
             "low": 2
         }
+
         return mapping.get(status, 1)
 
-    df['science_priority_numeric'] = df['exoclock_priority'].apply(map_priority)
-
-    # --- Updated Priority Calculation using last observation timestamp AND recent observational numebers ---
-    # --- Ensure inputs exist ---
-    if 'n_obs_recent' not in df.columns:
-        df['n_obs_recent'] = 0
-
-    df['n_obs_recent'] = df['n_obs_recent'].fillna(0)
-
-    # --- Observation scarcity (fewer obs = higher need) ---
-    df['obs_density_score'] = 1 / (1 + df['n_obs_recent'])
-
-    # --- Time-based recency (older = more valuable) ---
-    def recency_weight(t):
-        if t is None or not np.isfinite(t):
-            return 1.0
-        return np.clip(t / 1000, 0, 1)
-
-    if 'time_since_last_obs_days' not in df.columns:
-        df['time_since_last_obs_days'] = np.nan
-    
-    df['time_recency_score'] = (
-        df['time_since_last_obs_days']
-        .apply(recency_weight)
+    df['science_priority_numeric'] = (
+        df['exoclock_priority']
+        .apply(map_priority)
     )
 
-    # --- Combined science recency ---
-    df['science_recency_score'] = (
-        0.6 * df['time_recency_score'] +
-        0.4 * df['obs_density_score']
+    if "n_obs_recent" not in df.columns:
+        df["n_obs_recent"] = 0
+
+    df["n_obs_recent"] = (
+        pd.to_numeric(
+            df["n_obs_recent"],
+            errors="coerce"
+        )
+        .fillna(0)
     )
 
-    # --- Placeholder for recent scientific paper mention, that still needs to be explored
+    # Targets with fewer recent observations receive higher science priority.
+    df["science_recency_score"] = (
+        1 / (1 + df["n_obs_recent"])
+    )
 
+    # Still to come is a check around recent Scientific mentioning
 
     return df
