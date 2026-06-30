@@ -9,7 +9,7 @@
 <style>
 body { font-family: Arial; margin:20px;}
 
-.controls {
+.controls {f
     background:#f4f4f4;
     padding:10px;
     border-radius:8px;
@@ -80,9 +80,9 @@ button { margin:3px; }
 <!-- HOW TO USE -->
 <div class="panel">
 <h2>ℹ️ How to Use This Dashboard</h2>
-<h3>This dashboad uses Exoclock data and ranks the targets using six criteria:</h3>
-<p><b>S1</b> ephemeris quality (25%), <b>S2</b> TTV signal (20%), <b>S3</b> instrument suitability (here specifically PIRATE) (15%), <b>S4</b> observability (15%), <b>S5</b> scientific priority (15%) and <b>S6</b> campaign synergy (10%).<br></p>
-<p>Next, only targets with an <b>observable fraction greater than 0.3 or 30%</b> and <b>min Score greater than 3 </b>are displayed per default, though these values can be changed by the sliders. This ensures a meaningful fraction of the transit is visible from PIRATE.</b></p>
+<h3>This dashboard uses Exoclock data and ranks the targets using six criteria:</h3>
+<p><b>S1</b> Ephemeris Quality (25%), <b>S2</b> TTV signal (20%), <b>S3</b> Instrument Suitability (here specifically PIRATE) (15%), <b>S4</b> Observability (15%), <b>S5</b> Scientific Priority (15%) and <b>S6</b> Campaign Synergy (10%).<br></p>
+<p>Note, that only targets with a<b>transit observability greater than 30%</b> and <b>with a minimum Score greater than 3.0 </b>are displayed per default, though these values can be changed by the sliders. This ensures a meaningful fraction of the transit is visible from PIRATE.</b></p>
 <p><b>Top Targets:</b> Shows the most urgent upcoming observations ranked by score and timing. These will change based on the other variables, as will the graphs and table.</p>
 <p><b>Score vs Time Plot:</b> Use to identify high-value, urgent targets (top-right shaded region).</p>
 <p><b>Observability Plot:</b> Identify easiest observations (high visibility, short duration).</p>
@@ -303,9 +303,19 @@ function getExposureTime(r){
 
 function formatUTC(date){
 
-    return date.toISOString()
-        .replace("T", " ")
-        .replace(".000Z", " UTC");
+    const y = date.getUTCFullYear();
+    const m = String(date.getUTCMonth()+1)
+        .padStart(2,"0");
+    const d = String(date.getUTCDate())
+        .padStart(2,"0");
+
+    const h = String(date.getUTCHours())
+        .padStart(2,"0");
+
+    const min = String(date.getUTCMinutes())
+        .padStart(2,"0");
+
+    return `${d}/${m}/${y} ${h}:${min} UTC`;
 }
     
 function parseExoClockUTC(str){
