@@ -23,14 +23,39 @@ def add_dynamic_interpretation(df):
 
     # Ephemeris
     def interpret_ephemeris(r):
-        t = r.get('time_since_last_obs_days')
-        
-        if t > 3000: return "ephemeris likely degraded"
-        elif t > 1000: return "ephemeris uncertainty increasing"
-        elif t > 100: return "moderately recent observations"
-        else: return "recently observed"
+        sigma = r.get("pred_sigma_min", 0)
+        if pd.isna(sigma): return "ephemeris uncertainty unknown"
+        if sigma > 30: return "high ephemeris uncertainty"
+            elif sigma > 10:
+                return "moderate ephemeris uncertainty"
+        else:
+            return "well constrained ephemeris"
 
-    # Score
+    def interpret_science(r):
+        priority = str(r.get("exoclock_priority", "")).lower()
+        n = int(r.get("n_obs_recent", 0))
+
+        # Priority explanation
+        priority_text = {
+            "alert": "ExoClock alert target",
+            "high": "high ExoClock priority",
+            "medium": "medium ExoClock priority",
+            "low": "low ExoClock priority"
+        }.get(priority, "uncategorised target")
+    
+        # Monitoring explanation
+        if n == 0:
+            monitoring = "no observations in the last year"
+        elif n <= 2:
+            monitoring = f"{n} observations in the last year"
+        elif n <= 5:
+            monitoring = f"{n} observations in the last year (moderately monitored)"
+        else:
+            monitoring = f"{n} observations in the last year (well monitored)"
+    
+        return f"{priority_text}; {monitoring}"
+    
+    # General Sore interpretation
     def interpret_score(r):
         p = r.get('final_score_pct')
         if pd.isna(p): return "score unavailable"
@@ -42,6 +67,7 @@ def add_dynamic_interpretation(df):
     df['obs_interpretation'] = df.apply(interpret_obs, axis=1)
     df['ephemeris_interpretation'] = df.apply(interpret_ephemeris, axis=1)
     df['score_interpretation'] = df.apply(interpret_score, axis=1)
+    df['science_interpretation'] = df.apply(interpret_science,axis=1)
 
     return df
 
@@ -75,35 +101,7 @@ def add_synergy_explanations(df):
 
 
 # ==========================================================
-# 3. Scientific labels (based on recent pbservations and priority status
-# ==========================================================
-def interpret_science(r):
-    priority = str(r.get("exoclock_priority", "")).lower()
-    n = int(r.get("n_obs_recent", 0))
-
-    # Priority explanation
-    priority_text = {
-        "alert": "ExoClock alert target",
-        "high": "high ExoClock priority",
-        "medium": "medium ExoClock priority",
-        "low": "low ExoClock priority"
-    }.get(priority, "uncategorised target")
-
-    # Monitoring explanation
-    if n == 0:
-        monitoring = "no observations in the last year"
-    elif n <= 2:
-        monitoring = f"{n} observations in the last year"
-    elif n <= 5:
-        monitoring = f"{n} observations in the last year (moderately monitored)"
-    else:
-        monitoring = f"{n} observations in the last year (well monitored)"
-
-    return f"{priority_text}; {monitoring}"
-
-
-# ==========================================================
-# 4. Score breakdown
+# 3. Score breakdown
 # ==========================================================
 def build_score_breakdown(df):
     df = df.copy()
@@ -114,7 +112,7 @@ def build_score_breakdown(df):
             "score": r.get('final_score'),
             "visibility": r.get('obs_interpretation'),
             "ephemeris": r.get('ephemeris_interpretation'),
-            "science": r.get('recency_text'),
+            "science": r.get('science_interpretation'),
             "coordination": r.get('synergy_explanation'),
             "network": bool(r.get('network_needed')),
             "campaign": bool(r.get('campaign_flag')),
