@@ -34,13 +34,22 @@ jobs:
           PYTHONPATH=src python src/main.py
       
       # ✅ 5. Commit updated outputs
-      - name: Commit outputs
+      - name: Commit and push outputs
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add output/*.csv
           git commit -m "Update outputs" || echo "No changes"
-          git push
+          for i in {1..3}; do
+            if git pull --rebase origin main && git push; then
+              echo "Push succeeded"
+              exit 0
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+          echo "Push failed after retries"
+          exit 1
 
       # ✅ 6. Upload output CSVs as artifacts
       - name: Upload output CSVs
