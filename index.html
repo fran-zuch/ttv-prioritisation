@@ -687,6 +687,7 @@ function exportPlot(id){
 
     });
 }
+    
 function downloadScheduler(){
     let csv = "Name,RA,Dec,Start UTC,End UTC\n";
     
@@ -715,8 +716,6 @@ function downloadScheduler(){
             ${transitEnd.toISOString()},    
             ${obsStart.toISOString()},
             ${obsEnd.toISOString()}\n`;
-            `
-
 
 });
 
@@ -727,6 +726,7 @@ function downloadScheduler(){
     a.click();
 }
 
+    
 function generateEmail(){
     let txt =
 `PIRATE Observing Request
@@ -748,11 +748,12 @@ Generated from TTV Prioritisation Dashboard
         let end =
             new Date(mid.getTime() + dur/2);
 
-        const padding = 60 * 60 * 1000; // 1 hour
+        const padding =
+            60 * 60 * 1000;
 
         let obsStart =
             new Date(start.getTime() - padding);
-        
+
         let obsEnd =
             new Date(end.getTime() + padding);
 
@@ -765,19 +766,19 @@ Magnitude (R): ${safe(r.mag_R)}
 Transit Depth: ${safe(r.depth_mmag)} mmag
 
 Transit Start UTC:
-${start.toISOString()}
+${formatUTC(start)}
 
 Transit End UTC:
-${end.toISOString()}
+${formatUTC(end)}
 
 Transit Duration:
 ${safe(r.duration_hours)} h
 
 Observation Start UTC:
-${obsStart.toISOString()}
+${formatUTC(obsStart)}
 
 Observation End UTC:
-${obsEnd.toISOString()}
+${formatUTC(obsEnd)}
 
 RA:
 ${safe(r.ra,2)}°
@@ -812,7 +813,7 @@ Binning:
     prompt("Copy:", txt);
 }
 
-/* DETAILS */
+// DETAILS // 
 
 function showDetails(name){
     let r=filteredData.find(d=>d.name===name);
