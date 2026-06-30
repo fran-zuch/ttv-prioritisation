@@ -18,7 +18,6 @@ from scoring.scoring import compute_scores
 from interpretation.interpretation_utils import (
     add_dynamic_interpretation,
     add_synergy_explanations,
-    add_recency_labels,
     build_score_breakdown
 )
 from interpretation.score_interpretation import (
@@ -129,7 +128,6 @@ def run():
     # --- Interpretation ---
     events = add_dynamic_interpretation(events)
     events = add_synergy_explanations(events)
-    events = add_recency_labels(events)
     events = build_score_breakdown(events)
     events = build_dynamic_summary(events)
 
