@@ -307,19 +307,26 @@ function formatUTC(date){
         .replace("T", " ")
         .replace(".000Z", " UTC");
 }
-
+    
 function parseExoClockUTC(str){
 
     if (!str) return null;
 
-    const [datePart, timePart] =
-        str.trim().split(/\s+/);
+    const parts = str.trim().split(/\s+/);
+
+    if (parts.length < 2) return null;
+
+    const [datePart, timePart] = parts;
 
     const [day, month, year] =
         datePart.split("/").map(Number);
 
-    const [hour, minute, second] =
+    const timeBits =
         timePart.split(":").map(Number);
+
+    const hour = timeBits[0] || 0;
+    const minute = timeBits[1] || 0;
+    const second = timeBits[2] || 0;
 
     return new Date(
         Date.UTC(
@@ -447,7 +454,8 @@ let html="";
 
 filteredData.slice(0,5).forEach(t=>{
     let mid = parseExoClockUTC(t.Tmid_utc);
-    if (isNaN(mid)) return;
+    if (!mid || isNaN(mid.getTime())) 
+        return;
 
  let dur=t.duration_hours*3600000;
 
@@ -489,9 +497,9 @@ let html=`<tr>
 page.forEach(r=>{
 
  let mid = parseExoClockUTC(r.Tmid_utc);
-    if (isNaN(mid)) return;
+    if (!mid || isNaN(mid.getTime())) 
+        return;
 
-  
  let dur=r.duration_hours*3600000;
 
  let s=new Date(mid.getTime()-dur/2);
