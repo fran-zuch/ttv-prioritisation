@@ -24,8 +24,7 @@ def add_dynamic_interpretation(df):
     # Ephemeris
     def interpret_ephemeris(r):
         t = r.get('time_since_last_obs_days')
-        if t is None or not np.isfinite(t):
-            return "no prior observations"
+        
         if t > 3000: return "ephemeris likely degraded"
         elif t > 1000: return "ephemeris uncertainty increasing"
         elif t > 100: return "moderately recent observations"
