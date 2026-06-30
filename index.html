@@ -702,10 +702,10 @@ function downloadScheduler(){
     const padding = 60 * 60 * 1000; // 1 hour
 
     let obsStart =
-        new Date(transitStart - padding);
+        new Date(transitStart.getTime() - padding).toISOString;
     
     let obsEnd =
-        new Date(transitEnd+ padding);
+        new Date(transitEnd.getTime() + padding).toISOString;
     
     /* ✅ include RA / Dec safely */
     let ra = r.ra ?? r.RA ?? "";
