@@ -3,10 +3,10 @@
 ## Overview
 Modular pipeline for ExoClock-based transit prioritisation.
 
-ExoClock Data
-        ↓
-Feature Engineering
-        ↓
+'ExoClock Data'
+      '↓'
+'Feature Engineering'
+      '↓'
 Observability Calculations
         ↓
 S1-S6 Scoring System
