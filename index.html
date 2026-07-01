@@ -691,23 +691,23 @@ function exportPlot(id){
 }
     
 function downloadScheduler(){
-    let csv = "Name,RA,Dec,Start UTC,End UTC,Duration,Transit Start UTC,Transit End UTC\n";
+    let csv = "Name,RA,Dec,Observation Start UTC,Observation End UTC,Transit Duration,Transit Start UTC,Transit End UTC\n";
     
     filteredData.slice(0,5).forEach(r=>{
         let mid=parseExoClockUTC(r.Tmid_utc);
         if(isNaN(mid)) return;
 
     let dur=r.duration_hours*3600000;
-    let start=new Date(mid.getTime()-dur/2).toISOString();
-    let end=new Date(mid.getTime()+dur/2).toISOString();
+    let transitStart=new Date(mid.getTime()-dur/2);
+    let transitEnd=new Date(mid.getTime()+dur/2);
 
     const padding = 60 * 60 * 1000; // 1 hour
 
     let obsStart =
-        new Date(start.getTime() - padding).toISOString;
+        new Date(transitStart.getTime() - padding).toISOString;
     
     let obsEnd =
-        new Date(end.getTime() + padding).toISOString;
+        new Date(transitEnd.getTime() + padding).toISOString;
     
     /* ✅ include RA / Dec safely */
     let ra = r.ra ?? r.RA ?? "";
@@ -716,9 +716,9 @@ function downloadScheduler(){
     csv += `${r.name},${ra},${dec}, 
             ${formatUTC(obsStart)},
             ${formatUTC(obsEnd)},
-            ${dur},
-            ${formatUTC(start)},
-            ${formatUTC(end)}, \n`;
+            ${formatDuration(r.duration_hours)},
+            ${formatUTC(transitStart)},
+            ${formatUTC(transitEnd)}, \n`;
 
 });
 
