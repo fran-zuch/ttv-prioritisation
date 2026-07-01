@@ -60,9 +60,9 @@ body { font-family: Arial; margin:20px;}
 
 /* colours */
 .high { color:green; font-weight:bold; }
-.ttv_high { color:green; }
-.ttv_medium { color:#d48800; }
-.ttv_low { color:red; }
+.ttv_high { color:green; font-weight:bold; }
+.ttv_medium { color:#d48800; font-weight:bold; }
+.ttv_low { color:red; font-weight:bold; }
 
 /* table */
 table { width:100%; border-collapse:collapse;}
@@ -335,6 +335,19 @@ function parseExoClockUTC(str){
     );
 }
 
+function getTTVClass(val){
+
+    let v = (val || "").toLowerCase();
+
+    if(v.includes("strong")) return "ttv_high";
+    if(v.includes("moderate")) return "ttv_medium";
+    if(v.includes("weak")) return "ttv_low";
+    if(v.includes("none")) return "";
+
+    return "";
+}
+
+
 
 /* ---------- LOAD (FIXED) ---------- */
 
@@ -537,7 +550,7 @@ page.forEach(r=>{
 <td>${isNaN(r.obs_frac)?"-":`${(r.obs_frac * 100).toFixed(0)}%`}</td>
 <td>${safe(r.obs_max_alt)}</td>
 <td>${r.instrument_flag}</td>
-<td>${formatTTVLabel(r.ttv_significance_class)}</td>
+<td class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</td>
 </tr>`;
 });
 
