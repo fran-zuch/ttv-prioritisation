@@ -87,7 +87,7 @@ button { margin:3px; }
 <p><b>Score vs Time Plot:</b> Use to identify high-value, urgent targets (top-right shaded region).</p>
 <p><b>Observability Plot:</b> Identify easiest observations (high visibility, short duration).</p>
 <p><b>Table:</b> Full list of targets (sortable, paginated). Click a row for detailed explanation about the scoring and observational information which is displayed below the table.</p>
-<p><b>Confidence:</b> Combines timing and uncertainty to indicate likelihood of successful follow-up.</p>
+<p><b>Confidence:</b> A 0–5 measure of confidence in the predicted transit timing, derived from ephemeris uncertainty.</p>
 <p><i>The dashboard refreshes daily and will show data for the next 30 days</i></p>
 </div>
 
@@ -258,13 +258,19 @@ function getTimeToWindowDays(r){
 }
 
 function getConfidenceScore(r){
- let sigma=r.pred_sigma_min||60;
- let days=getTimeToWindowDays(r);
 
- let s=Math.max(0,5-sigma/10);
- let t=Math.max(0,5-days);
+    let sigma = Number(r.pred_sigma_min);
 
- return Math.max(0,Math.min(5,(s+t)/2));
+    if(isNaN(sigma))
+        sigma = 60;
+
+    return Math.max(
+        0,
+        Math.min(
+            5,
+            5 * (1 - sigma / 60)
+        )
+    );
 }
 
 function formatTTVLabel(val){
