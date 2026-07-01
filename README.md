@@ -3,18 +3,29 @@
 ## Overview
 Modular pipeline for ExoClock-based transit prioritisation.
 
-'ExoClock Data'
-      '↓'
-'Feature Engineering'
-      '↓'
+```
+Regular code block
+```
+
+```javascript
+// Code block with syntax highlighting
+function hello() {
+    console.log("Hello, World!");
+}
+```
+
+ExoClock Data
+       ↓
+Feature Engineering
+       ↓ 
 Observability Calculations
-        ↓
+       ↓
 S1-S6 Scoring System
-        ↓
+       ↓
 Interpretation Engine
-        ↓
+       ↓
 CSV Output
-        ↓
+       ↓
 Interactive Dashboard
 
 
