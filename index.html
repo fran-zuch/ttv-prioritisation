@@ -296,10 +296,12 @@ function getExposureTime(r){
 
     if(isNaN(mag)) return "-";
 
-    return Math.round(
-        0.88 * Math.exp(0.38 * mag)
-    );
+    let exposure =
+        0.88 * Math.exp(0.38 * mag);
+
+    return Math.round(exposure / 5) * 5;
 }
+
 
 function formatUTC(date){
 
