@@ -713,14 +713,7 @@ function downloadScheduler(){
     let ra = r.ra ?? r.RA ?? "";
     let dec = r.dec ?? r.Dec ?? "";
     
-    csv += `${r.name},${ra},${dec}, 
-            ${formatUTC(obsStart)},
-            ${formatUTC(obsEnd)},
-            ${formatDuration(r.duration_hours)},
-            ${formatUTC(transitStart)},
-            ${formatUTC(transitEnd)}, \n`;
-
-});
+    csv += `${r.name},${ra},${dec},${formatUTC(obsStart)},${formatUTC(obsEnd)},${formatDuration(r.duration_hours)},${formatUTC(transitStart)},${formatUTC(transitEnd)},\n`;});
 
     let blob=new Blob([csv]);
     let a=document.createElement("a");
