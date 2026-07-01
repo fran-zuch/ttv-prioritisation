@@ -489,7 +489,7 @@ filteredData.slice(0,5).forEach(t=>{
 <br>Score: ${safe(t.final_score)}
 <br>🕒 ${formatUTC(s)} → ${formatUTC(e)}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
-<br><span class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</span> | ${t.instrument_flag}
+<br><span class="${getTTVClass(t.ttv_significance_class)}">${formatTTVLabel(t.ttv_significance_class)}</span> | ${t.instrument_flag}
 </li>`;
 });
 
