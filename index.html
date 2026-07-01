@@ -489,7 +489,7 @@ filteredData.slice(0,5).forEach(t=>{
 <br>Score: ${safe(t.final_score)}
 <br>🕒 ${formatUTC(s)} → ${formatUTC(e)}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
-<br>class="${getTTVClass(r.ttv_significance_class)}">=${formatTTVLabel(r.ttv_significance_class)} | ${t.instrument_flag}
+<br><span class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</span> | ${t.instrument_flag}
 </li>`;
 });
 
@@ -884,7 +884,7 @@ function showDetails(name){
     
     <tr>
         <td><b>TTV Class</b></td>
-        <td>${formatTTVLabel(r.ttv_significance_class)}</td>
+        <td><span class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</span></td>
     
         <td><b>Confidence</b></td>
         <td>${getConfidenceScore(r).toFixed(2)} / 5</td>
