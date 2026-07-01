@@ -14,5 +14,6 @@ This pipeline was developed to provide an interface for exploring, filtering, va
 python src/main.py
 
 ## Output
-CSV of ranked targets which are then displayed via the interactive Dashboard to via and analyse the information
-fran-zuch.github.io/ttv-prioritisation/
+CSV of ranked targets which are then displayed via the interactive Dashboard to analyse the information.
+
+[TTV Prioritisation Dashboard](https://fran-zuch.github.io/ttv-prioritisation/ "TTV Dashboard")
