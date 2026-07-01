@@ -3,12 +3,9 @@
 ## Overview
 Modular pipeline for ExoClock-based transit prioritisation.
 
-```
-Regular code block
-```
-
 ```javascript
-// Code block with syntax highlighting
+//Code block with syntax highlighting
+
 function hello() {
     console.log("Hello, World!");
 }
