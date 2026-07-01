@@ -691,33 +691,34 @@ function exportPlot(id){
 }
     
 function downloadScheduler(){
-    let csv = "Name,RA,Dec,Start UTC,End UTC\n";
+    let csv = "Name,RA,Dec,Start UTC,End UTC,Duration,Transit Start UTC,Transit End UTC\n";
     
     filteredData.slice(0,5).forEach(r=>{
         let mid=parseExoClockUTC(r.Tmid_utc);
         if(isNaN(mid)) return;
 
     let dur=r.duration_hours*3600000;
-    let transitStart=new Date(mid.getTime()-dur/2).toISOString();
-    let transitEnd=new Date(mid.getTime()+dur/2).toISOString();
+    let start=new Date(mid.getTime()-dur/2).toISOString();
+    let end=new Date(mid.getTime()+dur/2).toISOString();
 
     const padding = 60 * 60 * 1000; // 1 hour
 
     let obsStart =
-        new Date(transitStart.getTime() - padding).toISOString;
+        new Date(start.getTime() - padding).toISOString;
     
     let obsEnd =
-        new Date(transitEnd.getTime() + padding).toISOString;
+        new Date(end.getTime() + padding).toISOString;
     
     /* ✅ include RA / Dec safely */
     let ra = r.ra ?? r.RA ?? "";
     let dec = r.dec ?? r.Dec ?? "";
     
-    csv += `${r.name},${ra},${dec},
-            ${transitStart},
-            ${transitEnd},    
-            ${obsStart.toISOString()},
-            ${obsEnd.toISOString()}\n`;
+    csv += `${r.name},${ra},${dec}, 
+            ${formatUTC(obsStart)},
+            ${formatUTC(obsEnd)},
+            ${dur},
+            ${formatUTC(start)},
+            ${formatUTC(end)}, \n`;
 
 });
 
