@@ -424,14 +424,20 @@ function getTTVClass(val){
 
 function getLiteratureBadge(r){
 
-    const papers =
+    const p12 =
         Number(r.papers_last_12m || 0);
 
-    if(papers >= 5)
-        return "🔥 High Activity";
+    const p36 =
+        Number(r.papers_last_36m || 0);
 
-    if(papers >= 1)
-        return "📚 Active";
+    if(p12 >= 5)
+        return `🔥 High Activity (${p12})`;
+
+    if(p12 >= 1)
+        return `📚 Active (${p12})`;
+
+    if(p36 >= 5)
+        return `🗂 Historic Interest`;
 
     return "📄 Quiet";
 }
@@ -597,7 +603,9 @@ filteredData.slice(0,5).forEach(t=>{
  html+=`
 <li>
 <b>${t.name}</b>
+<span class="${getLiteratureClass(t)}">${getLiteratureBadge(t)}</span>
 <br>Score: ${safe(t.final_score)}
+<br>📚 ${t.papers_last_12m || 0} papers (12m)
 <br>🕒 ${formatUTC(s)} → ${formatUTC(e)}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
 <br><span class="${getTTVClass(t.ttv_significance_class)}">${formatTTVLabel(t.ttv_significance_class)}</span> | ${t.instrument_flag}
@@ -616,6 +624,7 @@ let page=filteredData.slice(start,start+rowsPerPage);
 
 let html=`<tr>
 <th>Target</th>
+<th>Lit.</th>
 <th>Score (1 - 5)</th>
 <th>Confidence</th>
 <th>Transit Window (UTC)</th>
@@ -653,6 +662,7 @@ page.forEach(r=>{
  html+=`
 <tr onclick="showDetails('${r.name}')">
 <td>${r.name}</td>
+<td title="${Number(r.papers_last_12m || 0)} papers in last 12 months">${getLiteratureIcon(r)}</td>
 <td>${safe(r.final_score)}</td>
 <td>${getConfidenceScore(r).toFixed(2)}</td>
 <td>${formatUTC(s)}<br>→<br>${formatUTC(e)}</td>
