@@ -1,4 +1,45 @@
-#on:
-#  schedule:
-#    - cron: "0 2 * * 1"
-#  workflow_dispatch:
+name: Update Literature Activity
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"  
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-literature:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Update literature activity
+        env:
+          ADS_API_TOKEN: ${{ secrets.ADS_API_TOKEN }}
+        run: |
+          PYTHONPATH=src python scripts/update_literature_flags.py
+
+      - name: Commit updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add output/literature_flags.csv
+          git add output/literature_cache.json
+
+          git commit -m "Weekly ADS literature update" || echo "No changes"
+
+          git push
