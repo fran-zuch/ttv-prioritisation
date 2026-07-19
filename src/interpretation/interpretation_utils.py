@@ -23,11 +23,36 @@ def add_dynamic_interpretation(df):
 
     # Ephemeris
     def interpret_ephemeris(r):
-        sigma = r.get("pred_sigma_min", 0)
-        if pd.isna(sigma): return "The ephemeris uncertainty is unknown"
-        if sigma > 30: return "This target has high ephemeris uncertainty"
-        elif sigma > 10: return "This target has a moderate ephemeris uncertainty"
-        else: return "This is a well constrained ephemeris"
+
+        sigma = r.get("pred_sigma_min")
+        days = r.get("time_since_last_obs_days")
+    
+        if pd.isna(sigma):
+            return (
+                "Insufficient information is available to assess "
+                "ephemeris maintenance priority."
+            )
+    
+        if sigma > 15:
+            return (
+                f"Predicted transit timing uncertainty has grown to "
+                f"approximately {sigma:.1f} minutes, indicating that "
+                f"additional observations would improve ephemeris precision."
+            )
+    
+        if pd.notna(days) and days > 365:
+            return (
+                f"The ephemeris remains relatively well constrained "
+                f"({sigma:.1f} minute uncertainty), but the target has not "
+                f"been observed recently and would benefit from maintenance "
+                f"observations."
+            )
+    
+        return (
+            f"The ephemeris is currently well constrained with an estimated "
+            f"timing uncertainty of approximately {sigma:.1f} minutes."
+        )
+        
 
     def interpret_science(r):
         priority = str(r.get("exoclock_priority", "")).lower()
