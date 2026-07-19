@@ -1,171 +1,152 @@
 {
   "55Cnce": {
-    "papers_last_12m": 1,
-    "last_paper_date": "2025-09-00",
-    "bibcodes": [
-      "2025epsc.conf.1367M"
-    ],
-    "last_checked": "2026-07-19T19:48:42.484720"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:21.515434"
   },
   "AUMicb": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:43.458963"
+    "last_checked": "2026-07-19T20:16:22.305655"
   },
   "AUMicc": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:44.274332"
+    "last_checked": "2026-07-19T20:16:23.019298"
   },
   "CoRoT-1b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:45.430249"
+    "last_checked": "2026-07-19T20:16:23.852648"
   },
   "CoRoT-2b": {
-    "papers_last_12m": 3,
-    "last_paper_date": "2026-06-00",
-    "bibcodes": [
-      "2026ASTCS..1140302K",
-      "2026AJ....171..333S",
-      "2026arXiv260617304K"
-    ],
-    "last_checked": "2026-07-19T19:48:46.443741"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:24.711961"
   },
   "CoRoT-3b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:47.546074"
+    "last_checked": "2026-07-19T20:16:25.692496"
   },
   "CoRoT-5b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:48.414609"
+    "last_checked": "2026-07-19T20:16:26.742385"
   },
   "CoRoT-10b": {
-    "papers_last_12m": 1,
-    "last_paper_date": "2025-09-00",
-    "bibcodes": [
-      "2025epsc.conf..173L"
-    ],
-    "last_checked": "2026-07-19T19:48:49.356996"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:27.450722"
   },
   "CoRoT-11b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:50.272755"
+    "last_checked": "2026-07-19T20:16:28.282614"
   },
   "CoRoT-19b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:51.108242"
+    "last_checked": "2026-07-19T20:16:29.034080"
   },
   "CoRoT-36b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:52.165998"
+    "last_checked": "2026-07-19T20:16:29.953296"
   },
   "DSTucAb": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:53.143570"
+    "last_checked": "2026-07-19T20:16:30.702924"
   },
   "EPIC211945201b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:54.069817"
+    "last_checked": "2026-07-19T20:16:31.535053"
   },
   "EPIC246851721b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:54.915597"
+    "last_checked": "2026-07-19T20:16:32.268268"
   },
   "G9-40b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:55.852676"
+    "last_checked": "2026-07-19T20:16:33.137728"
   },
   "GJ357b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:56.733437"
+    "last_checked": "2026-07-19T20:16:33.896317"
   },
   "GJ367b": {
-    "papers_last_12m": 1,
-    "last_paper_date": "2026-06-00",
-    "bibcodes": [
-      "2026arXiv260618336B"
-    ],
-    "last_checked": "2026-07-19T19:48:57.592009"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:34.619448"
   },
   "GJ436b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:58.480350"
+    "last_checked": "2026-07-19T20:16:35.345086"
   },
   "GJ486b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:48:59.369991"
+    "last_checked": "2026-07-19T20:16:36.076823"
   },
   "GJ1132b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:49:00.245169"
+    "last_checked": "2026-07-19T20:16:36.779229"
   },
   "GJ1214b": {
-    "papers_last_12m": 6,
-    "last_paper_date": "2026-06-00",
-    "bibcodes": [
-      "2026ASTCS..1130204T",
-      "2026A&A...710A..29N",
-      "2026ApJ...999..214T",
-      "2026AAS...24715202T",
-      "2025epsc.conf.1656B",
-      "2025arXiv250808012T"
-    ],
-    "last_checked": "2026-07-19T19:49:01.082372"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:37.490560"
   },
   "GJ1252b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:49:01.901584"
+    "last_checked": "2026-07-19T20:16:38.297446"
   },
   "GJ3090b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:49:02.740490"
+    "last_checked": "2026-07-19T20:16:38.986273"
   },
   "GJ3470b": {
-    "papers_last_12m": 1,
-    "last_paper_date": "2026-06-00",
-    "bibcodes": [
-      "2026arXiv260620464D"
-    ],
-    "last_checked": "2026-07-19T19:49:03.564955"
+    "papers_last_12m": 0,
+    "last_paper_date": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:16:39.718552"
   },
   "GJ3473b": {
     "papers_last_12m": 0,
     "last_paper_date": null,
     "bibcodes": [],
-    "last_checked": "2026-07-19T19:49:04.437481"
+    "last_checked": "2026-07-19T20:16:40.473810"
   }
 }
