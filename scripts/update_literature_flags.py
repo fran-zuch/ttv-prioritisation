@@ -118,6 +118,7 @@ def process_target(target_name):
         papers_last_36m = result_36m["response"]["numFound"]
         
         docs_12m = result_12m["response"]["docs"]
+        docs_36m = result_36m["response"]["docs"]
         
         latest_title = None
         latest_bibcode = None
