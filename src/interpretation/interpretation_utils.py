@@ -48,7 +48,7 @@ def add_dynamic_interpretation(df):
         if n == 0:
             monitoring = "There have been no observations in the last years"
         elif n <= 2:
-            monitoring = f"{n} observations recroded in the last year"
+            monitoring = f"{n} observations recorded in the last year"
         elif n <= 5:
             monitoring = f"{n} observations in the last year (moderately monitored)"
         else:
@@ -83,10 +83,10 @@ def add_synergy_explanations(df):
         parts = []
 
         if r.get('network_needed'):
-            parts.append("for this target, multi-site coordination is recommended.")
+            parts.append("For this target, multi-site coordination is recommended.")
 
         if r.get('campaign_flag'):
-            parts.append("This target has been part of an active campaign.")
+            parts.append("This target has been - or currently is - part of an active campaign.")
 
         obs = r.get('obs_frac')
         if obs is not None and np.isfinite(obs) and obs < 0.5:
@@ -95,7 +95,7 @@ def add_synergy_explanations(df):
         if not parts:
             return "There is no special coordination required."
 
-        return "; ".join(parts)
+        return ".join(parts)
 
     df['synergy_explanation'] = df.apply(explain, axis=1)
     return df
