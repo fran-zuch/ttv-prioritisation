@@ -149,7 +149,7 @@ def main():
 
     #targets = fetch_exoclock()
     
-    targets = pd.DataFrame({"planet_name": ["K2-139b"]})
+    targets = pd.DataFrame({"planet_name": ["K2-237b"]})
 
     print(
     f"Loaded {len(targets)} targets",
