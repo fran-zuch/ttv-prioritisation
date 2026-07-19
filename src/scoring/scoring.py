@@ -6,16 +6,16 @@ def compute_scores(df):
 
     # --- S1: Ephemeris urgency ---
     def urgency(r):
-        s = r['pred_sigma_min']
-        t = r['time_since_last_obs_days']
+        sigma = r['pred_sigma_min']
+        days_since = r['time_since_last_obs_days']
 
-        if not pd.notna(s):
+        if not pd.notna(sigma):
             return 0
     
         # smoother scaling than hard cap
-        time_factor = 1 + np.log1p(t / 100)
+        time_factor = 1 + 0.3 * np.log1p(days_since / 100)
     
-        return s * time_factor
+        return sigma * time_factor
 
 
     df['S1'] = df.apply(urgency, axis=1).apply(bin_ephemeris)
