@@ -123,21 +123,21 @@ def process_target(target_name):
         latest_title = None
         latest_bibcode = None
         
-        if docs:
+        if docs_12m:
             latest_title = (
-                docs[0].get("title", [""])[0]
-                if docs[0].get("title")
+                docs_12m[0].get("title", [""])[0]
+                if docs_12m[0].get("title")
                 else None
             )
 
-        latest_bibcode = docs[0].get("bibcode")
+        latest_bibcode = docs_12m[0].get("bibcode")
 
         print(
             f"{target_name}: {result_12m['response']['numFound']} matches",
             flush=True
         )
         
-        for d in docs[:3]:
+        for d in docs_12m[:3]:
             print(
                 f"  {d.get('pubdate')} | {d.get('title')}",
                 flush=True
@@ -145,13 +145,13 @@ def process_target(target_name):
 
         pubdates = [
             d.get("pubdate")
-            for d in docs
+            for d in docs_12m
             if d.get("pubdate")
         ]
 
         bibcodes = [
             d.get("bibcode")
-            for d in docs
+            for d in docs_12m
             if d.get("bibcode")
         ]
 
@@ -160,7 +160,14 @@ def process_target(target_name):
             if pubdates
             else None
         )
-    
+        #Temporary debugging
+        print(
+            f"{target_name}: "
+            f"{papers_last_12m} papers (12m), "
+            f"{papers_last_36m} papers (36m)",
+            flush=True
+        )
+        
         return {
             "name": target_name,
             "papers_last_12m": papers_last_12m,
@@ -173,13 +180,16 @@ def process_target(target_name):
         }
 
     except Exception as e:
-
+    
         print(f"Error: {target_name} -> {e}")
-
+    
         return {
             "name": target_name,
             "papers_last_12m": 0,
+            "papers_last_36m": 0,
             "last_paper_date": None,
+            "latest_title": None,
+            "latest_bibcode": None,
             "recent_activity_flag": False,
             "bibcodes": []
         }
