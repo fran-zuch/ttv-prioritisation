@@ -15,19 +15,19 @@ def add_dynamic_interpretation(df):
     # Observability
     def interpret_obs(r):
         p = r.get('obs_frac_pct')
-        if pd.isna(p): return "The visibility is unknown."
-        if p > 0.8: return "There is excellent visibility."
-        elif p > 0.5: return "There is mmoderate visibility."
-        elif p > 0.3: return "There is going to be limited visibility."
-        else: return "The visibility is poor."
+        if pd.isna(p): return "The visibility is unknown"
+        if p > 0.8: return "There is excellent visibility"
+        elif p > 0.5: return "There is mmoderate visibility"
+        elif p > 0.3: return "There is going to be limited visibility"
+        else: return "The visibility is poor"
 
     # Ephemeris
     def interpret_ephemeris(r):
         sigma = r.get("pred_sigma_min", 0)
-        if pd.isna(sigma): return "The ephemeris uncertainty is unknown."
-        if sigma > 30: return "This target has high ephemeris uncertainty."
-        elif sigma > 10: return "This target has a moderate ephemeris uncertainty."
-        else: return "This is a well constrained ephemeris."
+        if pd.isna(sigma): return "The ephemeris uncertainty is unknown"
+        if sigma > 30: return "This target has high ephemeris uncertainty"
+        elif sigma > 10: return "This target has a moderate ephemeris uncertainty"
+        else: return "This is a well constrained ephemeris"
 
     def interpret_science(r):
         priority = str(r.get("exoclock_priority", "")).lower()
@@ -38,32 +38,32 @@ def add_dynamic_interpretation(df):
 
         # Priority explanation
         priority_text = {
-            "alert": "This is an ExoClock alert target.",
-            "high": "This target has a high ExoClock priority.",
-            "medium": "This target has a medium ExoClock priority.",
-            "low": "Thas target has a low ExoClock priority."
-        }.get(priority, "This is an uncategorised target.")
+            "alert": "This is an ExoClock alert target",
+            "high": "This target has a high ExoClock priority",
+            "medium": "This target has a medium ExoClock priority",
+            "low": "This target has a low ExoClock priority"
+        }.get(priority, "This is an uncategorised target")
     
         # Monitoring explanation
         if n == 0:
-            monitoring = "There have been no observations in the last years."
+            monitoring = "There have been no observations in the last years"
         elif n <= 2:
-            monitoring = f"{n} observations recroded in the last year."
+            monitoring = f"{n} observations recroded in the last year"
         elif n <= 5:
-            monitoring = f"{n} observations in the last year (moderately monitored)."
+            monitoring = f"{n} observations in the last year (moderately monitored)"
         else:
-            monitoring = f"{n} observations in the last year (well monitored)."
+            monitoring = f"{n} observations in the last year (well monitored)"
     
         return f"{priority_text}; {monitoring}"
     
     # General Sore interpretation
     def interpret_score(r):
         p = r.get('final_score_pct')
-        if pd.isna(p): return "This score is unavailable."
-        if p > 0.8: return "This is a top priority target."
-        elif p > 0.6: return "This is a high priority target."
-        elif p > 0.4: return "This is a moderate priority target."
-        else: return "This is a lower priority target."
+        if pd.isna(p): return "This score is unavailable"
+        if p > 0.8: return "This is a top priority target"
+        elif p > 0.6: return "This is a high priority target"
+        elif p > 0.4: return "This is a moderate priority target"
+        else: return "This is a lower priority target"
 
     df['obs_interpretation'] = df.apply(interpret_obs, axis=1)
     df['ephemeris_interpretation'] = df.apply(interpret_ephemeris, axis=1)
