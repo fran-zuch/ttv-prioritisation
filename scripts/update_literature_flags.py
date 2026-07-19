@@ -14,6 +14,7 @@ Requires:
 
 which has been set as a GitHub Actions secret.
 """
+print("=== ADS Literature Update Starting ===", flush=True)
 
 import json
 import os
@@ -148,10 +149,20 @@ def main():
 
     targets = fetch_exoclock()
 
+    print(
+    f"Loaded {len(targets)} targets",
+    flush=True
+    )
+    
+    print(
+        f"Columns: {targets.columns.tolist()}",
+        flush=True
+    )
+
     if "planet_name" in targets.columns:
-        names = targets["planet_name"].dropna().unique()
+        names = targets["planet_name"].dropna().unique()[:5]
     elif "name" in targets.columns:
-        names = targets["name"].dropna().unique()
+        names = targets["name"].dropna().unique()[:5]
     else:
         raise RuntimeError(
             "Could not find target names in ExoClock data."
