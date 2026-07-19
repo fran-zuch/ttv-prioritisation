@@ -962,7 +962,7 @@ function showDetails(name){
     
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 ${r.ttv_interpretation}
+        💡 <span class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</span>
     </div>
     </li>
     
@@ -973,7 +973,7 @@ function showDetails(name){
     
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 ${r.instrument_interpretation}
+        💡 ${r.instrument_flag}
     </div>
     </li>
     
@@ -1009,7 +1009,7 @@ function showDetails(name){
     
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 ${r.synergy_interpretation}
+        💡 ${r.synergy_explanation}
     </div>
     </li>
     </ul>
