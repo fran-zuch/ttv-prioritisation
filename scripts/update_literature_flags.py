@@ -164,9 +164,9 @@ def main():
 
     print("Loading ExoClock targets...")
 
-    #targets = fetch_exoclock()
+    targets = fetch_exoclock()
     
-    targets = pd.DataFrame({"planet_name": ["K2-237b"]})
+    #targets = pd.DataFrame({"planet_name": ["K2-237b"]})
 
     print(
     f"Loaded {len(targets)} targets",
@@ -179,9 +179,9 @@ def main():
     )
 
     if "planet_name" in targets.columns:
-        names = targets["planet_name"].dropna().unique()[:5]
+        names = targets["planet_name"].dropna().unique()[:25]
     elif "name" in targets.columns:
-        names = targets["name"].dropna().unique()[:5]
+        names = targets["name"].dropna().unique()[:25]
     else:
         raise RuntimeError(
             "Could not find target names in ExoClock data."
