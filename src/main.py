@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import os
 
 from ingestion.exoclock_loader import fetch_exoclock
+from ingestion.literature_loader import load_literature_flags
 from processing.catalog import prepare_catalog
 from processing.ephemeris import expand_events
 from processing.observability import compute_observability
@@ -41,8 +42,44 @@ def run():
 
     # --- Ingestion ---
     df = prepare_catalog(fetch_exoclock())
+
+    # --- Literature enrichment ---
+    literature = load_literature_flags()
     
-    print(df[["name", "min_telescope_inches"]].head())
+    if not literature.empty:
+    
+        print(
+            f"Loaded {len(literature)} literature records"
+        )
+    
+        df = df.merge(
+            literature,
+            on="name",
+            how="left"
+        )
+    
+    else:
+    
+        print(
+            "No literature file found"
+        )
+
+    for col in [
+        "papers_last_12m",
+        "papers_last_36m"
+    ]:
+        if col in df.columns:
+            df[col] = df[col].fillna(0)
+
+    for col in [
+        "latest_title",
+        "latest_bibcode",
+        "last_paper_date"
+    ]:
+        if col in df.columns:
+            df[col] = df[col].fillna("")
+        
+    print(df[["name", "min_telescope_inches", "papers_last_12m","papers_last_36m"]].head())
 
     # --- Ephemeris calculation ---
     events = expand_events(df, start_str, end_str)
