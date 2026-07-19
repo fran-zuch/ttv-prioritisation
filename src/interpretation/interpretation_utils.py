@@ -120,7 +120,7 @@ def add_synergy_explanations(df):
         if not parts:
             return "There is no special coordination required."
 
-        return ".join(parts)
+        return " ".join(parts)
 
     df['synergy_explanation'] = df.apply(explain, axis=1)
     return df
