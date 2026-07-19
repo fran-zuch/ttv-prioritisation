@@ -214,9 +214,9 @@ def main():
     )
 
     if "planet_name" in targets.columns:
-        names = targets["planet_name"].dropna().unique()[:25]
+        names = targets["planet_name"].dropna().unique()
     elif "name" in targets.columns:
-        names = targets["name"].dropna().unique()[:25]
+        names = targets["name"].dropna().unique()
     else:
         raise RuntimeError(
             "Could not find target names in ExoClock data."
