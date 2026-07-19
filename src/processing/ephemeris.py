@@ -92,6 +92,13 @@ def expand_events(df, start_utc, end_utc):
                     "snr_proxy": r.get("snr_proxy"),
                     "time_since_last_obs_days": compute_time_since_last_obs(r.get("last_obs_jd")),
                     "last_obs_jd": r.get("last_obs_jd"),
+
+                    # Literature flags
+                    "papers_last_12m": r.get("papers_last_12m"),
+                    "papers_last_36m": r.get("papers_last_36m"),
+                    "latest_title": r.get("latest_title"),
+                    "latest_bibcode": r.get("latest_bibcode"),
+                    "last_paper_date": r.get("last_paper_date"),
                 })
 
             # ✅ move forward
