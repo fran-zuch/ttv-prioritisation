@@ -59,17 +59,30 @@ def build_query(target_name: str) -> str:
         astronomy database
         refereed papers
         last 12 months
+        last 36 months
     """
 
     twelve_months_ago = (
         datetime.utcnow() - timedelta(days=365)
     ).strftime("%Y-%m-01")
 
-    return (
+    three_years_ago = (
+        datetime.utcnow() - timedelta(days=365*3)
+    ).strftime("%Y-%m-01")
+
+    query_12m = (
         f'(title:"{target_name}" OR abstract:"{target_name}") '
         f'AND database:astronomy '
         f'AND pubdate:[{twelve_months_ago} TO *]'
     )
+    
+    query_36m = (
+        f'(title:"{target_name}" OR abstract:"{target_name}") '
+        f'AND database:astronomy '
+        f'AND pubdate:[{three_years_ago} TO *]'
+    )
+    
+    return query_12m, query_36m
 
 
 def query_ads(target_name: str):
@@ -107,6 +120,18 @@ def process_target(target_name):
         result = query_ads(target_name)
 
         docs = result["response"]["docs"]
+        
+        latest_title = None
+        latest_bibcode = None
+        
+        if docs:
+            latest_title = (
+                docs[0].get("title", [""])[0]
+                if docs[0].get("title")
+                else None
+            )
+
+        latest_bibcode = docs[0].get("bibcode")
 
         print(
             f"{target_name}: {result['response']['numFound']} matches",
@@ -139,13 +164,16 @@ def process_target(target_name):
             else None
         )
 
-        return {
-            "name": target_name,
-            "papers_last_12m": paper_count,
-            "last_paper_date": latest_date,
-            "recent_activity_flag": paper_count > 0,
-            "bibcodes": bibcodes
-        }
+    return {
+        "name": target_name,
+        "papers_last_12m": papers_last_12m,
+        "papers_last_36m": papers_last_36m,
+        "last_paper_date": latest_date,
+        "latest_title": latest_title,
+        "latest_bibcode": latest_bibcode,
+        "recent_activity_flag": papers_last_12m > 0,
+        "bibcodes": bibcodes
+    }
 
     except Exception as e:
 
