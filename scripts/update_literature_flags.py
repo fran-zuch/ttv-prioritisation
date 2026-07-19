@@ -66,17 +66,23 @@ def build_query(target_name: str) -> str:
     ).strftime("%Y-%m-01")
 
     return (
-        f'title:"{target_name}" '
+        f'(title:"{target_name}" OR abstract:"{target_name}") '
         f'AND database:astronomy '
-        f'AND property:refereed '
         f'AND pubdate:[{twelve_months_ago} TO *]'
     )
 
 
 def query_ads(target_name: str):
+    
+    query = build_query(target_name)
+
+    print(
+        f"ADS Query: {query}",
+        flush=True
+    )
 
     params = {
-        "q": build_query(target_name),
+        "q": query,
         "fl": "bibcode,title,pubdate",
         "rows": 50,
         "sort": "date desc"
@@ -102,7 +108,18 @@ def process_target(target_name):
 
         docs = result["response"]["docs"]
 
-        paper_count = len(docs)
+        print(
+            f"{target_name}: {result['response']['numFound']} matches",
+            flush=True
+        )
+        
+        for d in docs[:3]:
+            print(
+                f"  {d.get('pubdate')} | {d.get('title')}",
+                flush=True
+            )
+
+        paper_count = result["response"]["numFound"]
 
         pubdates = [
             d.get("pubdate")
@@ -194,5 +211,38 @@ def main():
             "bibcodes": result["bibcodes"],
             "last_checked": datetime.utcnow().isoformat()
         }
+    
+       # Be nice to ADS
+        time.sleep(0.5)
 
-        # be nice to 
+    print(
+        f"Completed queries for {len(rows)} targets",
+        flush=True
+    )
+
+    df = pd.DataFrame(rows)
+
+    print(
+        f"Writing {len(df)} rows to CSV",
+        flush=True
+    )
+
+    df.to_csv(CSV_OUT, index=False)
+
+    with open(JSON_OUT, "w") as f:
+        json.dump(cache, f, indent=2)
+
+    print(
+        f"Saved: {CSV_OUT}",
+        flush=True
+    )
+
+    print(
+        f"Saved: {JSON_OUT}",
+        flush=True
+    )
+
+if __name__ == "__main__":
+    main()
+
+
