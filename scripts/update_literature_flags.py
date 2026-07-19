@@ -163,17 +163,17 @@ def process_target(target_name):
             if pubdates
             else None
         )
-
-    return {
-        "name": target_name,
-        "papers_last_12m": papers_last_12m,
-        "papers_last_36m": papers_last_36m,
-        "last_paper_date": latest_date,
-        "latest_title": latest_title,
-        "latest_bibcode": latest_bibcode,
-        "recent_activity_flag": papers_last_12m > 0,
-        "bibcodes": bibcodes
-    }
+    
+        return {
+            "name": target_name,
+            "papers_last_12m": papers_last_12m,
+            "papers_last_36m": papers_last_36m,
+            "last_paper_date": latest_date,
+            "latest_title": latest_title,
+            "latest_bibcode": latest_bibcode,
+            "recent_activity_flag": papers_last_12m > 0,
+            "bibcodes": bibcodes
+        }
 
     except Exception as e:
 
