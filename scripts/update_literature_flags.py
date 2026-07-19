@@ -147,7 +147,9 @@ def main():
 
     print("Loading ExoClock targets...")
 
-    targets = fetch_exoclock()
+    #targets = fetch_exoclock()
+    
+    targets = pd.DataFrame({"planet_name": ["K2-139b"]})
 
     print(
     f"Loaded {len(targets)} targets",
