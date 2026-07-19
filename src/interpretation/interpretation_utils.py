@@ -46,7 +46,7 @@ def add_dynamic_interpretation(df):
     
         # Monitoring explanation
         if n == 0:
-            monitoring = "There have been no observations in the last years"
+            monitoring = "there have been no observations in the last years"
         elif n <= 2:
             monitoring = f"{n} observations recorded in the last year"
         elif n <= 5:
