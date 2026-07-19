@@ -86,7 +86,7 @@ button { margin:3px; }
 
 <body>
 
-<h1>🔭 TTV Target Prioritisation Dashboard</h1>
+<h1>🔭 Target Prioritisation Dashboard</h1>
 
 <!-- HOW TO USE -->
 <div class="panel">
@@ -96,8 +96,8 @@ button { margin:3px; }
 <p>Note, that only targets with a <b>transit observability greater than 30%</b> and <b>with a minimum Score greater than 3.0 </b>are displayed per default, though these values can be changed by the sliders. This ensures a meaningful fraction of the transit is visible from PIRATE.</b></p>
 <p><b>Top Targets:</b> Show the most urgent upcoming observations ranked by score and timing. These will change based on the other variables, as will the graphs and table.</p>
 <p><b>Score vs Time Plot:</b> Use to identify high-value, urgent targets (top-right shaded region).</p>
-<p><b>Observability Plot:</b> Identify easiest observations (high visibility, short duration).</p>
-<p><b>Table:</b> Full list of targets (sortable, paginated). Click a row for detailed explanation about the scoring and observational information which is displayed below the table.</p>
+<p><b>Observability Plot:</b> Identify easy observations (high visibility, short duration).</p>
+<p><b>Table:</b> Full list of targets (sortable, paginated). Click a row for a detailed explanation about the scoring and observational information, which is displayed below the table.</p>
 <p><b>Confidence:</b> A 0–5 measure of confidence in the predicted transit timing, derived from ephemeris uncertainty.</p>
 <p><i>The dashboard refreshes daily and will show data for the next 30 days</i></p>
 </div>
@@ -194,7 +194,7 @@ The shaded region highlights high-priority targets with strong scientific value 
 
 <div class="figure-caption">
 <b>Figure 2:</b> Observational feasibility space.  
-Targets with higher observable fraction and shorter duration lie in the shaded region, representing efficient observations.  
+Targets with higher observable fractions and shorter durations lie in the shaded region, representing efficient observations.  
 Marker size reflects confidence in successful follow-up.
 </div>
 
@@ -1004,7 +1004,7 @@ function showDetails(name){
     <li>
     <b>S6: Campaign Synergy (${safe(r.S6)}/5.00)</b><br>
     Measures the value of coordinated follow-up observations and alignment with active observing campaigns. 
-    The key is to prioritise campaign targets where possible and encourage multi-side obsevations.   
+    The key is to prioritise campaign targets where possible and encourage multi-site observations.   
        
     <div class="score-reason">
         <b>Reason:</b><br>
