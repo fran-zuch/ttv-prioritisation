@@ -85,14 +85,7 @@ def build_query(target_name: str) -> str:
     return query_12m, query_36m
 
 
-def query_ads(target_name: str):
-    
-    query = build_query(target_name)
-
-    print(
-        f"ADS Query: {query}",
-        flush=True
-    )
+def query_ads(query):
 
     params = {
         "q": query,
@@ -116,10 +109,15 @@ def query_ads(target_name: str):
 def process_target(target_name):
 
     try:
+        query_12m, query_36m = build_query(target_name)
 
-        result = query_ads(target_name)
-
-        docs = result["response"]["docs"]
+        result_12m = query_ads(query_12m)
+        result_36m = query_ads(query_36m)
+        
+        papers_last_12m = result_12m["response"]["numFound"]
+        papers_last_36m = result_36m["response"]["numFound"]
+        
+        docs_12m = result_12m["response"]["docs"]
         
         latest_title = None
         latest_bibcode = None
@@ -229,13 +227,19 @@ def main():
         rows.append({
             "name": result["name"],
             "papers_last_12m": result["papers_last_12m"],
+            "papers_last_36m": result["papers_last_36m"],
             "last_paper_date": result["last_paper_date"],
+            "latest_title": result["latest_title"],
+            "latest_bibcode": result["latest_bibcode"],
             "recent_activity_flag": result["recent_activity_flag"]
         })
 
         cache[target] = {
             "papers_last_12m": result["papers_last_12m"],
+            "papers_last_36m": result["papers_last_36m"],
             "last_paper_date": result["last_paper_date"],
+            "latest_title": result["latest_title"],
+            "latest_bibcode": result["latest_bibcode"],
             "bibcodes": result["bibcodes"],
             "last_checked": datetime.utcnow().isoformat()
         }
