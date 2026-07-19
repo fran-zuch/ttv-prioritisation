@@ -24,7 +24,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-from src.ingestion.exoclock_loader import fetch_exoclock
+from ingestion.exoclock_loader import fetch_exoclock
 
 
 ADS_URL = "https://api.adsabs.harvard.edu/v1/search/query"
