@@ -133,7 +133,7 @@ def process_target(target_name):
         latest_bibcode = docs[0].get("bibcode")
 
         print(
-            f"{target_name}: {result['response']['numFound']} matches",
+            f"{target_name}: {result_12m['response']['numFound']} matches",
             flush=True
         )
         
@@ -142,8 +142,6 @@ def process_target(target_name):
                 f"  {d.get('pubdate')} | {d.get('title')}",
                 flush=True
             )
-
-        paper_count = result["response"]["numFound"]
 
         pubdates = [
             d.get("pubdate")
