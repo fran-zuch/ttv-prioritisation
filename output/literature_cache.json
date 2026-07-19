@@ -1,13 +1,246 @@
 {
-  "K2-237b": {
+  "55Cnce": {
+    "papers_last_12m": 1,
+    "papers_last_36m": 1,
+    "last_paper_date": "2025-09-00",
+    "latest_title": "Volatile\u2212Rich Magma\u2500Atmosphere Equilibria on Hot Rocky Exoplanets",
+    "latest_bibcode": "2025epsc.conf.1367M",
+    "bibcodes": [
+      "2025epsc.conf.1367M"
+    ],
+    "last_checked": "2026-07-19T20:58:49.217209"
+  },
+  "AUMicb": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:50.294496"
+  },
+  "AUMicc": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:51.386550"
+  },
+  "CoRoT-1b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:52.923247"
+  },
+  "CoRoT-2b": {
+    "papers_last_12m": 3,
+    "papers_last_36m": 3,
+    "last_paper_date": "2026-06-00",
+    "latest_title": "Unraveling the Mystery of the Western Hotspot Offset on the Young Hot Jupiter CoRoT-2b with Phase-Resolved High-Resolution Spectroscopy",
+    "latest_bibcode": "2026ASTCS..1140302K",
+    "bibcodes": [
+      "2026ASTCS..1140302K",
+      "2026AJ....171..333S",
+      "2026arXiv260617304K"
+    ],
+    "last_checked": "2026-07-19T20:58:54.048904"
+  },
+  "CoRoT-3b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:55.873584"
+  },
+  "CoRoT-5b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:57.008231"
+  },
+  "CoRoT-10b": {
+    "papers_last_12m": 1,
+    "papers_last_36m": 1,
+    "last_paper_date": "2025-09-00",
+    "latest_title": "Exoplanet observations and TTV, transit timing variation interesting cases",
+    "latest_bibcode": "2025epsc.conf..173L",
+    "bibcodes": [
+      "2025epsc.conf..173L"
+    ],
+    "last_checked": "2026-07-19T20:58:58.437087"
+  },
+  "CoRoT-11b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:58:59.422336"
+  },
+  "CoRoT-19b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:00.642622"
+  },
+  "CoRoT-36b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:01.774016"
+  },
+  "DSTucAb": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:02.842916"
+  },
+  "EPIC211945201b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:03.880731"
+  },
+  "EPIC246851721b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:04.918041"
+  },
+  "G9-40b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:06.102430"
+  },
+  "GJ357b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:07.142626"
+  },
+  "GJ367b": {
+    "papers_last_12m": 1,
+    "papers_last_36m": 1,
+    "last_paper_date": "2026-06-00",
+    "latest_title": "The Maximum Density of a Collisionally-Produced Planet is A Function of its Mass and Orbital Period",
+    "latest_bibcode": "2026arXiv260618336B",
+    "bibcodes": [
+      "2026arXiv260618336B"
+    ],
+    "last_checked": "2026-07-19T20:59:08.119413"
+  },
+  "GJ436b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:21.785151"
+  },
+  "GJ486b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:22.805623"
+  },
+  "GJ1132b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:23.737964"
+  },
+  "GJ1214b": {
+    "papers_last_12m": 6,
+    "papers_last_36m": 11,
+    "last_paper_date": "2026-06-00",
+    "latest_title": "Exploring atmospheric escape from hot-Jupiters and water-rich sub-Neptunes with full-atmosphere models",
+    "latest_bibcode": "2026ASTCS..1130204T",
+    "bibcodes": [
+      "2026ASTCS..1130204T",
+      "2026A&A...710A..29N",
+      "2026ApJ...999..214T",
+      "2026AAS...24715202T",
+      "2025epsc.conf.1656B",
+      "2025arXiv250808012T"
+    ],
+    "last_checked": "2026-07-19T20:59:24.844150"
+  },
+  "GJ1252b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:25.842046"
+  },
+  "GJ3090b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:26.875567"
+  },
+  "GJ3470b": {
     "papers_last_12m": 1,
     "papers_last_36m": 2,
-    "last_paper_date": "2025-10-00",
-    "latest_title": "PLATOSpec's first results: Planets WASP-35b and TOI-622b are on aligned orbits, and K2-237b is on a polar orbit",
-    "latest_bibcode": "2025A&A...702A.266Z",
+    "last_paper_date": "2026-06-00",
+    "latest_title": "Atmospheric diversity of sub-Neptunes from formation with rock, water, and soot",
+    "latest_bibcode": "2026arXiv260620464D",
     "bibcodes": [
-      "2025A&A...702A.266Z"
+      "2026arXiv260620464D"
     ],
-    "last_checked": "2026-07-19T20:54:08.138942"
+    "last_checked": "2026-07-19T20:59:27.790676"
+  },
+  "GJ3473b": {
+    "papers_last_12m": 0,
+    "papers_last_36m": 0,
+    "last_paper_date": null,
+    "latest_title": null,
+    "latest_bibcode": null,
+    "bibcodes": [],
+    "last_checked": "2026-07-19T20:59:28.959773"
   }
 }
