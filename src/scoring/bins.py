@@ -20,16 +20,16 @@ def bin_from_norm(x):
 
 def bin_ephemeris(x):
     """
-    Lower uncertainty = better (higher bin).
+    Higher uncertainty = better (higher bin), this ensures targets which are not well constraint are scored higher.
     """
     if x is None or not np.isfinite(x):
         return 1
     return (
-        5 if x < 2 else
-        4 if x < 5 else
+        1 if x < 2 else
+        2 if x < 5 else
         3 if x < 10 else
-        2 if x < 15 else
-        1
+        4 if x < 15 else
+        5
     )
 
 
