@@ -80,6 +80,70 @@ table { width:100%; border-collapse:collapse;}
 th,td { border:1px solid #ddd; padding:6px; text-align:center;}
 th { background:#eee; cursor:pointer;}
 
+/* Literature badges */
+.literature-panel{
+    margin-top:12px;
+    padding:12px;
+    background:#fffdf7;
+    border:1px solid #ead9a1;
+    border-left:4px solid #f4b400;
+    border-radius:6px;
+}
+
+.literature-header{
+    font-weight:bold;
+    font-size:15px;
+    margin-bottom:10px;
+}
+
+.lit-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:8px;
+}
+
+.lit-table td{
+    border:none;
+    padding:4px;
+}
+
+.lit-title{
+    margin-top:8px;
+    font-style:italic;
+    color:#333;
+    background:#ffffff;
+    padding:8px;
+    border-radius:4px;
+    border:1px solid #ddd;
+}
+
+.lit-high{
+    background:#ffe5e5;
+    color:#b30000;
+    font-weight:bold;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
+}
+
+.lit-medium{
+    background:#e8f4ff;
+    color:#0057b8;
+    font-weight:bold;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
+}
+
+.lit-low{
+    background:#f1f1f1;
+    color:#666;
+    font-weight:bold;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
+}
+
 button { margin:3px; }
 </style>
 </head>
@@ -358,7 +422,43 @@ function getTTVClass(val){
     return "";
 }
 
+function getLiteratureBadge(r){
 
+    const papers =
+        Number(r.papers_last_12m || 0);
+
+    if(papers >= 5)
+        return "🔥 High Activity";
+
+    if(papers >= 1)
+        return "📚 Active";
+
+    return "📄 Quiet";
+}
+
+function getLiteratureClass(r){
+    const papers =
+        Number(r.papers_last_12m || 0);
+
+    if(papers >= 5)
+        return "lit-high";
+
+    if(papers >= 1)
+        return "lit-medium";
+
+    return "lit-low";
+}
+
+function getLiteratureIcon(r){
+
+    const papers =
+        Number(r.papers_last_12m || 0);
+
+    if(papers >= 5) return "🔥";
+    if(papers >= 1) return "📚";
+
+    return "📄";
+}
 
 /* ---------- LOAD (FIXED) ---------- */
 
@@ -978,25 +1078,44 @@ function showDetails(name){
     </li>
     
     <li>
-    <b>S4: Observability (${safe(r.S4)}/5.00)</b><br>
-    Measures how much of the transit is visible from the observatory and the overall observing conditions
-    such as altitude, moon brightness and separation. 
-       
-    <div class="score-reason">
-        <b>Reason:</b><br>
-        💡 ${r.obs_interpretation}
-    </div>
-    <br><br>
-    </li>
-    
-    <li>
     <b>S5: Science Priority (${safe(r.S5)}/5.00)</b><br>
-    Measures the scientific importance of the target based on ExoClock priorities, recent monitoring activity, 
-    and (planned) literature activity indicators.
+    Measures the scientific importance of the target based on ExoClock priorities,
+    recent monitoring activity and community research interest.
     
     <div class="score-reason">
         <b>Reason:</b><br>
         💡 ${r.science_interpretation}
+    </div>
+    
+    <div class="literature-panel">
+    
+        <div class="literature-header">
+            📚 Literature Activity
+            <span class="${getLiteratureClass(r)}">
+                ${getLiteratureBadge(r)}
+            </span>
+        </div>
+    
+        <table class="lit-table">
+            <tr>
+                <td><b>Past 12 Months</b></td>
+                <td>${r.papers_last_12m || 0}</td>
+            </tr>
+    
+            <tr>
+                <td><b>Past 36 Months</b></td>
+                <td>${r.papers_last_36m || 0}</td>
+            </tr>
+    
+            <tr>
+                <td><b>Latest Publication</b></td>
+                <td>${r.last_paper_date || "-"}</td>
+            </tr>
+        </table>
+    
+        <div class="lit-title">
+            ${r.latest_title || "No recent literature found."}
+        </div>
     </div>
     <br><br>
     </li>
