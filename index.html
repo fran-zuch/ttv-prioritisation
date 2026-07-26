@@ -1137,7 +1137,7 @@ function showDetails(name){
     
     <li>
     <b>S3: Instrument Suitability (${safe(r.S3)}/5.00)</b><br>
-    Measures compatibility with the PIRATE telescope, including brightness and expected transit depth. 
+    Measures compatibility with the PIRATE telescope, including brightness of the target and expected transit depth. 
         
     <div class="score-reason">
         <b>Reason:</b><br>
@@ -1150,8 +1150,9 @@ function showDetails(name){
     
     <b>S4: Observability (${safe(r.S4)}/5.00)</b><br>
     
-    Measures how much of the transit is visible from the observing site,
-    taking into account altitude, darkness and observing constraints.
+    Measures how much of the transit is visible from the observing site, taking into account altitude, darkness and observing constraints. 
+    Higher altitude and lower airmass are generally associated with improved photometric precision because the target is observed through 
+    less atmosphere, reducing extinction, scintillation and atmospheric noise.
     
     <div class="score-reason">
     
