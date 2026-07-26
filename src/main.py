@@ -153,6 +153,7 @@ def run():
     # --- Science ---
     print("Starting science")
     events = compute_science_features(events)
+    events = literature_score(events)
     print("Science COMPLETE")
 
     # --- Synergy ---
