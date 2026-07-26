@@ -131,7 +131,7 @@ def query_ads(query):
         "sort": "date desc"
     }
 
-    for attempt in range(5):
+    for attempt in range(8):
         response = requests.get(
             ADS_URL,
             headers=HEADERS,
@@ -140,7 +140,7 @@ def query_ads(query):
         )
 
         if response.status_code == 429:
-            wait = (attempt + 1) * 10
+            wait = min(60, (attempt + 1) * 15)
             print(
                 f"Rate limited. Waiting {wait}s...",
                 flush=True
@@ -165,39 +165,19 @@ def process_target(target_name):
             f"{generate_aliases(target_name)}",
             flush=True
         )
-        
-        aliases = generate_aliases(target_name)
 
-        best_alias = target_name
+        query_12m, query_36m = build_query(target_name)
+
+        result_12m = query_ads(query_12m)
+        result_36m = query_ads(query_36m)
         
-        best_12m = None
-        best_36m = None
+        best_alias = ", ".join(generate_aliases(target_name))
         
-        max_hits = -1
+        papers_last_12m = result_12m["response"]["numFound"]
+        papers_last_36m = result_36m["response"]["numFound"]
         
-        for alias in aliases:
-        
-            query_12m, query_36m = build_query(alias)
-        
-            result_12m = query_ads(query_12m)
-            result_36m = query_ads(query_36m)
-        
-            hits = result_12m["response"]["numFound"]
-        
-            if hits > max_hits:
-        
-                max_hits = hits
-        
-                best_alias = alias
-        
-                best_12m = result_12m
-                best_36m = result_36m
-        
-        papers_last_12m = best_12m["response"]["numFound"]
-        papers_last_36m = best_36m["response"]["numFound"]
-        
-        docs_12m = best_12m["response"]["docs"]
-        docs_36m = best_36m["response"]["docs"]
+        docs_12m = result_12m["response"]["docs"]
+        docs_36m = result_36m["response"]["docs"]
         
         latest_title = None
         latest_bibcode = None
