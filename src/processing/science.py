@@ -6,6 +6,26 @@ def compute_science_features(df):
     if 'exoclock_priority' not in df.columns:
         df['exoclock_priority'] = None
 
+    def literature_score(row):
+        p12 = row["papers_last_12m"]
+        p36 = row["papers_last_36m"]
+    
+        score = 1
+        
+        if p12 >= 1:
+            score += 1
+    
+        if p12 >= 5:
+            score += 1
+    
+        if p36 >= 10:
+            score += 1
+    
+        if p36 >= 25:
+            score += 1
+    
+        return min(score, 5)
+
     def map_priority(status):
 
         if pd.isna(status):
@@ -43,26 +63,7 @@ def compute_science_features(df):
         1 / (1 + df["n_obs_recent"])
     )
 
-    # Still to come is a check around recent Scientific mentioning
+    # Recent Scientific mentioning
+    df["literature_score"] = (df.apply(literature_score, axis=1))
 
     return df
-
-def literature_score(row):
-    p12 = row["papers_last_12m"]
-    p36 = row["papers_last_36m"]
-
-    score = 1
-    
-    if p12 >= 1:
-        score += 1
-
-    if p12 >= 5:
-        score += 1
-
-    if p36 >= 10:
-        score += 1
-
-    if p36 >= 25:
-        score += 1
-
-    return min(score, 5)
