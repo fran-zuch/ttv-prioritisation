@@ -237,7 +237,7 @@ def process_target(target_name):
         
         return {
             "name": target_name,
-            "matched_aliases": best_alias,
+            "matched_alias": best_alias,
             "papers_last_12m": papers_last_12m,
             "papers_last_36m": papers_last_36m,
             "last_paper_date": latest_date,
