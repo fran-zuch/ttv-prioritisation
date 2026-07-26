@@ -919,8 +919,7 @@ Generated from TTV Prioritisation Dashboard
         let end =
             new Date(mid.getTime() + dur/2);
 
-        const padding =
-            60 * 60 * 1000;
+        const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000;
 
         let obsStart =
             new Date(start.getTime() - padding);
@@ -1094,14 +1093,11 @@ function showDetails(name){
     </div>
 
     ${needsExtendedCoverage(r) ? `
-    
     <div class="ephem-warning">
-    
     ⚠ Large timing uncertainty detected.
-    
     Extended pre-transit and post-transit coverage is strongly recommended.
-    
     </div>
+    ` : ""}
     
     <h4>🧪 Scientific Context</h4>
     <p>${r.summary_text}</p>
@@ -1151,7 +1147,7 @@ function showDetails(name){
         
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 ${r.instrument_interpretation}
+        💡 ${r.Instrument_interpretation}
     </div>
     <br><br>
     </li>
