@@ -12,14 +12,120 @@ def add_dynamic_interpretation(df):
     df['obs_frac_pct'] = df['obs_frac'].rank(pct=True)
     df['final_score_pct'] = df['final_score'].rank(pct=True)
 
+    # Instrument explanation
+    def interpret_instrument(r):
+        flag = r.get("instrument_flag")
+    
+        aperture = r.get("required_aperture")
+        mag = r.get("mag_V")
+        depth = r.get("depth_mmag")
+    
+        if flag == "OK":
+    
+            return (
+                f"Compatible with PIRATE. "
+                f"Target brightness is V={mag:.1f} and "
+                f"the expected transit depth is {depth:.1f} mmag. "
+                f"Estimated minimum aperture is {aperture:.0f} inches."
+            )
+    
+        elif flag == "Marginal":
+    
+            return (
+                f"Marginal for PIRATE observations. "
+                f"Target brightness is V={mag:.1f} and "
+                f"the expected transit depth is {depth:.1f} mmag. "
+                f"Estimated minimum aperture is {aperture:.0f} inches."
+            )
+    
+        return (
+            f"Not suitable for routine PIRATE observations. "
+            f"Target brightness is V={mag:.1f} and "
+            f"the expected transit depth is {depth:.1f} mmag. "
+            f"Estimated minimum aperture is {aperture:.0f} inches."
+        )
+
+    # TTV explainer
+    def interpret_ttv(r):
+        amp = r.get("ttv_amplitude_min", 0)
+    
+        if amp > 20:
+            return (
+                f"Strong transit timing variation signal detected. "
+                f"Current timing offset is approximately {amp:.1f} minutes."
+            )
+    
+        elif amp > 10:
+            return (
+                f"Moderate transit timing variation signal detected. "
+                f"Current timing offset is approximately {amp:.1f} minutes."
+            )
+    
+        elif amp > 5:
+            return (
+                f"Weak transit timing variation signal detected. "
+                f"Current timing offset is approximately {amp:.1f} minutes."
+            )
+    
+        return (
+            "No significant transit timing variation signal currently detected."
+        )
+    
+
     # Observability
     def interpret_obs(r):
-        p = r.get('obs_frac_pct')
-        if pd.isna(p): return "The visibility is unknown"
-        if p > 0.8: return "There is excellent visibility"
-        elif p > 0.5: return "There is mmoderate visibility"
-        elif p > 0.3: return "There is going to be limited visibility"
-        else: return "The visibility is poor"
+        frac = r.get("obs_frac")
+        max_alt = r.get("obs_max_alt")
+        airmass = r.get("obs_mean_airmass")
+    
+        if pd.isna(frac):
+            return "Observability could not be assessed."
+    
+        visible_pct = frac * 100
+    
+        # --- Visibility assessment ---
+        if frac > 0.8:
+            summary = (
+                f"Excellent observability. Approximately "
+                f"{visible_pct:.0f}% of the transit is observable.")
+    
+        elif frac > 0.5:
+            summary = (
+                f"Moderate observability. Approximately "
+                f"{visible_pct:.0f}% of the transit is observable.")
+    
+        elif frac > 0.3:
+            summary = (
+                f"Limited observability. Approximately "
+                f"{visible_pct:.0f}% of the transit is observable.")
+    
+        else:
+            summary = (
+                f"Poor observability. Only "
+                f"{visible_pct:.0f}% of the transit is observable.")
+    
+        # --- Additional context ---
+        details = []
+
+        if pd.notna(max_alt):    
+            details.append(
+                f"Peak altitude reaches {max_alt:.0f}°.")
+    
+        if pd.notna(airmass):
+            if airmass < 1.5:
+                quality = "excellent"
+            elif airmass < 2.0:
+                quality = "good"
+            elif airmass < 3.0:
+                quality = "marginal"
+            else:
+                quality = "poor"
+    
+            details.append(
+                f"Average airmass is {airmass:.2f} "
+                f"({quality} observing conditions).")
+    
+        return summary + " " + " ".join(details)
 
     # Ephemeris
     def interpret_ephemeris(r):
@@ -56,30 +162,101 @@ def add_dynamic_interpretation(df):
 
     def interpret_science(r):
         priority = str(r.get("exoclock_priority", "")).lower()
-        n = pd.to_numeric(r.get("n_obs_recent",0), errors="coerce")
-        
-        if pd.isna(n): n = 0
-        n = int(n)
-
-        # Priority explanation
+        n = pd.to_numeric(r.get("n_obs_recent", 0), errors="coerce")
+    
+        p12 = pd.to_numeric(r.get("papers_last_12m", 0), errors="coerce")
+        p36 = pd.to_numeric(r.get("papers_last_36m", 0), errors="coerce")
+    
+        latest_title = (str(r.get("latest_title", "")).strip())
+    
+        if pd.isna(n):
+            n = 0
+    
+        if pd.isna(p12):
+            p12 = 0
+    
+        if pd.isna(p36):
+            p36 = 0
+    
+        # --------------------------------------------------
+        # ExoClock Priority
+        # --------------------------------------------------
+    
         priority_text = {
-            "alert": "This is an ExoClock alert target",
-            "high": "This target has a high ExoClock priority",
-            "medium": "This target has a medium ExoClock priority",
-            "low": "This target has a low ExoClock priority"
-        }.get(priority, "This is an uncategorised target")
+            "alert":
+                "This is an ExoClock alert target.",
+            "high":
+                "This target has a high ExoClock priority.",
+            "medium":
+                "This target has a medium ExoClock priority.",
+            "low":
+                "This target has a low ExoClock priority."
+        }.get(
+            priority,
+            "This target is not currently assigned an ExoClock priority."
+        )
     
-        # Monitoring explanation
+        # --------------------------------------------------
+        # Monitoring Activity
+        # --------------------------------------------------
+    
         if n == 0:
-            monitoring = "there have been no observations in the last years"
-        elif n <= 2:
-            monitoring = f"{n} observations recorded in the last year"
-        elif n <= 5:
-            monitoring = f"{n} observations in the last year (moderately monitored)"
-        else:
-            monitoring = f"{n} observations in the last year (well monitored)"
+            monitoring = (
+                "No recent transit observations have "
+                "been reported.")
     
-        return f"{priority_text}; {monitoring}"
+        elif n <= 2:    
+            monitoring = (
+                f"{n} recent transit observations "
+                "have been recorded.")
+    
+        elif n <= 5:
+            monitoring = (
+                f"{n} recent observations indicate "
+                "moderate monitoring coverage.")
+    
+        else:
+            monitoring = (
+                f"{n} recent observations indicate "
+                "strong monitoring coverage.")
+    
+        # --------------------------------------------------
+        # Literature Activity
+        # --------------------------------------------------
+    
+        if p12 == 0 and p36 == 0:
+            literature = (
+                "No recent literature activity was identified.")
+    
+        elif p12 > 0:    
+            literature = (
+                f"{int(p12)} papers were identified "
+                f"in the last 12 months and "
+                f"{int(p36)} papers in the last "
+                f"36 months.")
+    
+        else:
+            literature = (
+                f"No papers were identified in the "
+                f"last 12 months, but "
+                f"{int(p36)} publications were found "
+                f"over the last 36 months.")
+    
+        # --------------------------------------------------
+        # Latest Publication
+        # --------------------------------------------------
+    
+        if latest_title:
+            latest_pub = (
+                f'Latest publication: "{latest_title}".')
+        else:
+            latest_pub = ""
+        return (
+            f"{priority_text} "
+            f"{monitoring} "
+            f"{literature} "
+            f"{latest_pub}"
+        ).strip()
     
     # General Sore interpretation
     def interpret_score(r):
@@ -90,10 +267,12 @@ def add_dynamic_interpretation(df):
         elif p > 0.4: return "This is a moderate priority target"
         else: return "This is a lower priority target"
 
+    df['TTV_interpretation'] = df.apply(interpret_ttv, axis=1)
+    df['Instrument_interpretation'] = df.apply(interpret_instrument, axis=1)
     df['obs_interpretation'] = df.apply(interpret_obs, axis=1)
     df['ephemeris_interpretation'] = df.apply(interpret_ephemeris, axis=1)
-    df['score_interpretation'] = df.apply(interpret_score, axis=1)
     df['science_interpretation'] = df.apply(interpret_science,axis=1)
+    df['score_interpretation'] = df.apply(interpret_score, axis=1)
 
     return df
 
