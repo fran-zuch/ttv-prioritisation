@@ -124,7 +124,6 @@ def build_query(target_name: str) -> str:
 
 
 def query_ads(query):
-
     params = {
         "q": query,
         "fl": "bibcode,title,pubdate",
@@ -132,16 +131,30 @@ def query_ads(query):
         "sort": "date desc"
     }
 
-    response = requests.get(
-        ADS_URL,
-        headers=HEADERS,
-        params=params,
-        timeout=60
+    for attempt in range(5):
+        response = requests.get(
+            ADS_URL,
+            headers=HEADERS,
+            params=params,
+            timeout=60
+        )
+
+        if response.status_code == 429:
+            wait = (attempt + 1) * 10
+            print(
+                f"Rate limited. Waiting {wait}s...",
+                flush=True
+            )
+            time.sleep(wait)
+            continue
+
+        response.raise_for_status()
+
+        return response.json()
+
+    raise RuntimeError(
+        "ADS rate limit exceeded repeatedly"
     )
-
-    response.raise_for_status()
-
-    return response.json()
 
 
 def process_target(target_name):
