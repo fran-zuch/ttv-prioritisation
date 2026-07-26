@@ -59,12 +59,29 @@ def expand_events(df, start_utc, end_utc):
     
                 sigma = propagate_uncertainty(T0, P, T0_sig, P_sig, tmid) * 1440
 
+                # ------------------------------------------------------------------
+                # Recommended observing coverage
+                # ------------------------------------------------------------------
+                
+                # Existing baseline:
+                # 1 hour pre-transit
+                # 1 hour post-transit
+                
+                base_buffer_min = 60
+                
+                # Additional uncertainty-driven buffer
+                uncertainty_buffer_min = max(30, np.ceil(sigma))
+                recommended_buffer_min = (base_buffer_min + uncertainty_buffer_min)
+                recommended_window_hr = (r.get("duration_hours", 0) + (2 * recommended_buffer_min / 60))
+
                 events.append({
                     "event_id": f"{r.get('name')}_{N}",
                     "name": r.get("name"),
                     "Tmid": tmid,
                     "epoch": N,
                     "pred_sigma_min": sigma,
+                    "recommended_buffer_min": recommended_buffer_min,
+                    "recommended_window_hr": recommended_window_hr,
 
                     # ✅ Add (optional but recommended)
                     "T0": T0,
