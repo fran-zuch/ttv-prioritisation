@@ -14,35 +14,54 @@ def add_dynamic_interpretation(df):
 
     # Instrument explanation
     def interpret_instrument(r):
-        flag = r.get("instrument_flag")
-    
-        aperture = r.get("required_aperture")
         mag = r.get("mag_V")
         depth = r.get("depth_mmag")
+        aperture = r.get("required_aperture")
+        flag = r.get("instrument_flag", "Unknown")
     
-        if flag == "OK":
+        if pd.isna(mag) or pd.isna(depth):
+            return "Instrument suitability could not be assessed."
     
-            return (
-                f"Compatible with PIRATE. "
-                f"Target brightness is V={mag:.1f} and "
-                f"the expected transit depth is {depth:.1f} mmag. "
-                f"Estimated minimum aperture is {aperture:.0f} inches."
+        # Brightness assessment
+        if mag < 11:
+            mag_text = (
+                f"The target is bright (V={mag:.1f}), "
+                "which supports high signal-to-noise photometry."
+            )
+        elif mag < 13:
+            mag_text = (
+                f"The target has moderate brightness (V={mag:.1f}), "
+                "making precision photometry achievable with PIRATE."
+            )
+        else:
+            mag_text = (
+                f"The target is relatively faint (V={mag:.1f}), "
+                "which may reduce photometric precision and require longer exposures."
             )
     
-        elif flag == "Marginal":
-    
-            return (
-                f"Marginal for PIRATE observations. "
-                f"Target brightness is V={mag:.1f} and "
-                f"the expected transit depth is {depth:.1f} mmag. "
-                f"Estimated minimum aperture is {aperture:.0f} inches."
+        # Transit depth assessment
+        if depth >= 10:
+            depth_text = (
+                f"The transit depth is large ({depth:.1f} mmag), "
+                "producing a strong observational signal."
+            )
+        elif depth >= 3:
+            depth_text = (
+                f"The transit depth is moderate ({depth:.1f} mmag), "
+                "providing a detectable signal under good observing conditions."
+            )
+        else:
+            depth_text = (
+                f"The transit depth is shallow ({depth:.1f} mmag), "
+                "requiring higher photometric precision for reliable detection."
             )
     
         return (
-            f"Not suitable for routine PIRATE observations. "
-            f"Target brightness is V={mag:.1f} and "
-            f"the expected transit depth is {depth:.1f} mmag. "
-            f"Estimated minimum aperture is {aperture:.0f} inches."
+            f"{flag}. "
+            f"{mag_text} "
+            f"{depth_text} "
+            f"Estimated minimum aperture requirement is "
+            f"{aperture:.0f} inches."
         )
 
     # TTV explainer
