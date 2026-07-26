@@ -29,8 +29,7 @@ import re
 
 def generate_aliases(target_name):
     """
-    Generate common literature aliases
-    used in ADS publications.
+    Generate common literature aliases used in ADS publications.
     """
 
     aliases = {target_name}
@@ -196,8 +195,8 @@ def process_target(target_name):
                 if docs_12m[0].get("title")
                 else None
             )
-
-        latest_bibcode = docs_12m[0].get("bibcode")
+            
+            latest_bibcode = docs_12m[0].get("bibcode")
 
         print(
             f"{target_name}: {best_12m['response']['numFound']} matches",
@@ -253,6 +252,7 @@ def process_target(target_name):
     
         return {
             "name": target_name,
+            "matched_alias": target_name,
             "papers_last_12m": 0,
             "papers_last_36m": 0,
             "last_paper_date": None,
