@@ -1,7 +1,9 @@
 import json
+import time
 import urllib.request
+import urllib.error
 import pandas as pd
-import numpy as np
+import numpy as npf
 
 EXOCLOCK_URL = "https://www.exoclock.space/database/planets_json"
 
@@ -37,7 +39,7 @@ def fetch_exoclock():
             ) as f:
                 data = json.load(f)
                 return pd.DataFrame(data)
-        except Exception as e:
+        except urllib.error.URLError as e::
             wait = 10 * (attempt + 1)
             print(
                 f"ExoClock download failed "
