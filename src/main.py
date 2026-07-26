@@ -13,7 +13,10 @@ from processing.instrument import (
     add_instrument_penalty
 )
 from processing.science import compute_science_features
+from processing.science import literature_score
+
 from processing.synergy import compute_synergy_features
+
 from scoring.scoring import compute_scores
 
 from interpretation.interpretation_utils import (
