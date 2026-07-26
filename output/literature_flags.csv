@@ -3,7 +3,7 @@ name,papers_last_12m,papers_last_36m,last_paper_date,latest_title,latest_bibcode
 AUMicb,0,0,,,,False
 AUMicc,0,0,,,,False
 CoRoT-1b,0,0,,,,False
-CoRoT-2b,3,3,2026-06-00,Unraveling the Mystery of the Western Hotspot Offset on the Young Hot Jupiter CoRoT-2b with Phase-Resolved High-Resolution Spectroscopy,2026ASTCS..1140302K,True
+CoRoT-2b,4,4,2026-07-00,Unraveling the Mystery of the Western Hotspot Offset on the CoRoT-2b with Phase-Resolved High-Resolution Spectroscopy,2026AAS...24820805K,True
 CoRoT-3b,0,0,,,,False
 CoRoT-5b,0,0,,,,False
 CoRoT-10b,1,1,2025-09-00,"Exoplanet observations and TTV, transit timing variation interesting cases",2025epsc.conf..173L,True
@@ -169,7 +169,7 @@ HD63935b,0,0,,,,False
 HD63935c,0,0,,,,False
 HD73583b,0,0,,,,False
 HD73583c,0,0,,,,False
-HD80606b,1,1,2026-02-00,Blast From the Past: A Spectroscopic Look at the Flash Heating of HD80606b with JWST MIRI/LRS,2026AAS...24713402K,True
+HD80606b,2,2,2026-07-00,Flash-Heating a Roasted Planet: Time-Resolved Characterization of HD 80606b with JWST/MIRI,2026AAS...24820804K,True
 HD86226c,0,0,,,,False
 HD89345b,0,0,,,,False
 HD93963Ac,0,0,,,,False
@@ -194,7 +194,7 @@ HD191939c,0,0,,,,False
 HD191939d,0,0,,,,False
 HD202772Ab,1,1,2025-12-00,Detailed spectroscopic and photometric analysis of the remarkable planet-hosting wide binary system HD 202772A/B,2025MNRAS.544.3994J,True
 HD207496b,1,3,2026-04-00,Core-Powered Mass-Loss of the Primary Atmospheres of Mini-Neptunes: Influence of Water Content in the Planet Interior and Evolution of the Host Star,2026SoSyR..60...23E,True
-HD209458b,21,54,2026-06-00,The Diversity of Winds in Hot Jupiter Atmospheres: how to match GCM's and high resolution spectroscopy,2026ASTCS..1100101V,True
+HD209458b,21,54,2026-06-00,Exploring atmospheric escape from hot-Jupiters and water-rich sub-Neptunes with full-atmosphere models,2026ASTCS..1130204T,True
 HD219134b,0,0,,,,False
 HD219666b,0,0,,,,False
 HD221416b,0,0,,,,False
@@ -213,7 +213,7 @@ HIP116454b,0,0,,,,False
 HR858b,0,0,,,,False
 K2-3b,0,0,,,,False
 K2-3c,0,0,,,,False
-K2-18b,34,56,2026-08-00,Hydrocarbon Hazes on Temperate Sub-Neptune K2-18b Supported by Data from the James Webb Space Telescope,2026AJ....172...70L,True
+K2-18b,33,55,2026-08-00,Hydrocarbon Hazes on Temperate Sub-Neptune K2-18b Supported by Data from the James Webb Space Telescope,2026AJ....172...70L,True
 K2-19b,0,0,,,,False
 K2-19c,0,0,,,,False
 K2-21c,0,0,,,,False
@@ -356,9 +356,9 @@ LTT1445Ab,0,0,,,,False
 LTT1445Ac,0,0,,,,False
 LTT3780b,1,1,2026-07-00,A search for narrowband technosignatures from LTT 3780 with the Allen Telescope Array and the Karl G. Jansky Very Large Array,2026arXiv260707182T,True
 LTT3780c,1,2,2026-07-00,A search for narrowband technosignatures from LTT 3780 with the Allen Telescope Array and the Karl G. Jansky Very Large Array,2026arXiv260707182T,True
-LTT9779b,3,4,2026-06-00,Carbon and Water in the Atmosphere of the Hottest Exo-Neptune,2026ASTCS..1140104B,True
+LTT9779b,3,4,2026-07-00,Glossy Silicate Clouds on the Scorched Dayside of LTT9779b,2026ApJ..1005L..79S,True
 MASCARA-4b,0,0,,,,False
-MASCARA-1b,2,5,2026-07-00,Atmospheric characterization of six ultra-hot Jupiters from $K$-band high-resolution spectroscopy,2026arXiv260703992F,True
+MASCARA-1b,1,4,2026-07-00,Atmospheric characterization of six ultra-hot Jupiters from $K$-band high-resolution spectroscopy,2026arXiv260703992F,True
 NGTS-1b,0,0,,,,False
 NGTS-2b,1,1,2026-06-00,BOWIE-ALIGN: exploring degeneracies in the muted transmission spectrum of the aligned hot Jupiter NGTS-2b with NIRSpec/G395H,2026MNRAS.548ag528F,True
 NGTS-5b,2,2,2026-03-00,Evidence for stellar contamination and water absorption in NGTS-5b's transmission spectra with GTC/OSIRIS,2026A&A...707A.315W,True
@@ -523,7 +523,7 @@ TOI-2076b,0,0,,,,False
 TOI-2076c,0,0,,,,False
 TOI-2076d,0,0,,,,False
 TOI-2081b,0,0,,,,False
-TOI-2109b,3,9,2026-06-00,"(Nearly) Rolling on its Star: A JWST NIRSpec Phase Curve of the Shortest Orbital Period Transiting Gas Giant Known, TOI-2109b",2026ASTCS..1160044I,True
+TOI-2109b,3,9,2026-06-00,A GHOST Search for Atmospheric Chemistry: Retrieval of Ti and Fe signatures in TOI-2109 b,2026ASTCS..1100122C,True
 TOI-2136b,0,0,,,,False
 TOI-2145b,0,0,,,,False
 TOI-2152Ab,0,0,,,,False
@@ -590,9 +590,9 @@ TRAPPIST-1b,4,17,2026-06-00,Next-Generation Analytic Modeling of Rocky Planet At
 TRAPPIST-1c,1,11,2025-09-00,A new energy balance model to map the habitability of tidally locked rocky planets: application to the Ariel target list,2025epsc.conf.1010S,True
 TRAPPIST-1d,2,5,2025-12-00,A Search for Transit Duration Variations in M dwarf Multi-Planet Systems,2025arXiv251208530B,True
 TRAPPIST-1e,16,55,2026-06-00,Resistive MHD simulations of stellar wind─magnetosphere coupling in TRAPPIST-1e,2026MNRAS.549ag638G,True
-TRAPPIST-1f,3,7,2026-05-00,"Interior-Atmosphere Coupling on TRAPPIST-1 f, g, and h: Cryovolcanic Water Exospheres and Infrared Detectability",2026arXiv260526694K,True
+TRAPPIST-1f,3,7,2026-07-00,"Interior─atmosphere coupling on TRAPPIST-1f, g, and h: cryovolcanic water exospheres and infrared detectability",2026A&A...711A.178K,True
 TRAPPIST-1g,0,0,,,,False
-TRAPPIST-1h,2,4,2026-05-00,"Interior-Atmosphere Coupling on TRAPPIST-1 f, g, and h: Cryovolcanic Water Exospheres and Infrared Detectability",2026arXiv260526694K,True
+TRAPPIST-1h,2,4,2026-07-00,"Interior─atmosphere coupling on TRAPPIST-1f, g, and h: cryovolcanic water exospheres and infrared detectability",2026A&A...711A.178K,True
 TrES-1b,0,0,,,,False
 TrES-2b,1,3,2025-09-00,Probing Transit Timing Variations Amid Heteroscedasticity: Lessons from HAT-P-7b and TrES-2b,2025epsc.conf.1287B,True
 TrES-3b,0,0,,,,False
@@ -636,7 +636,7 @@ WASP-35b,1,2,2025-10-00,"PLATOSpec's first results: Planets WASP-35b and TOI-622
 WASP-36b,0,0,,,,False
 WASP-37b,0,0,,,,False
 WASP-38b,0,0,,,,False
-WASP-39b,28,66,2026-06-00,ASTER - Agentic Science Toolkit for Exoplanet Research,2026ASTCS..1100102P,True
+WASP-39b,30,68,2026-07-00,Atmospheric retrieval evidence for water isotopologue HDO on exoplanet WASP-39b,2026arXiv260719579G,True
 WASP-41b,0,0,,,,False
 WASP-42b,0,0,,,,False
 WASP-43b,3,27,2026-06-00,Investigating the Link Between Photometric Variability in Kepler Phase Curves and Dynamic Cloud Formation,2026ASTCS..1100115E,True
@@ -696,7 +696,7 @@ WASP-98b,0,0,,,,False
 WASP-99b,0,0,,,,False
 WASP-100b,0,0,,,,False
 WASP-101b,0,0,,,,False
-WASP-103b,2,7,2025-09-00,Circulation models and JWST observations of inflated ultra-hot Jupiters,2025epsc.conf.1623A,True
+WASP-103b,2,7,2025-09-00,How rotation rate influences the phase curve of hot Jupiters: theory and observations,2025epsc.conf..907E,True
 WASP-104b,0,0,,,,False
 WASP-105b,0,0,,,,False
 WASP-106b,0,0,,,,False
@@ -763,7 +763,7 @@ WASP-184b,0,0,,,,False
 WASP-185b,0,0,,,,False
 WASP-186b,0,0,,,,False
 WASP-187b,0,0,,,,False
-WASP-189b,10,14,2026-07-00,Atmospheric characterization of six ultra-hot Jupiters from $K$-band high-resolution spectroscopy,2026arXiv260703992F,True
+WASP-189b,10,14,2026-07-00,The breaking of cold traps and onset of titanium in ultra-hot Jupiter atmospheres: WASP-189b in context,2026A&A...711A.119P,True
 WASP-190b,0,0,,,,False
 WASP-192b,0,0,,,,False
 Wolf503b,0,0,,,,False
