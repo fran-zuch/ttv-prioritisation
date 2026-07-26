@@ -125,24 +125,71 @@ def add_dynamic_interpretation(df):
     
         # --- Additional context ---
         details = []
-
-        if pd.notna(max_alt):    
-            details.append(
-                f"Peak altitude reaches {max_alt:.0f}°.")
+    
+        if pd.notna(max_alt):
+    
+            if max_alt >= 70:
+    
+                details.append(
+                    f"Peak altitude reaches {max_alt:.0f}°, placing the target "
+                    "high in the sky where atmospheric effects are minimal."
+                )
+    
+            elif max_alt >= 50:
+    
+                details.append(
+                    f"Peak altitude reaches {max_alt:.0f}°, meaning the target "
+                    "rises well above the horizon and should provide good "
+                    "observing conditions."
+                )
+    
+            elif max_alt >= 30:
+    
+                details.append(
+                    f"Peak altitude reaches {max_alt:.0f}°, providing adequate "
+                    "visibility, although atmospheric effects will be greater "
+                    "than for higher-altitude targets."
+                )
+    
+            else:
+    
+                details.append(
+                    f"Peak altitude reaches only {max_alt:.0f}°, so observations "
+                    "may be affected by increased atmospheric extinction and "
+                    "turbulence."
+                )
     
         if pd.notna(airmass):
-            if airmass < 1.5:
-                quality = "excellent"
-            elif airmass < 2.0:
-                quality = "good"
-            elif airmass < 3.0:
-                quality = "marginal"
-            else:
-                quality = "poor"
     
-            details.append(
-                f"Average airmass is {airmass:.2f} "
-                f"({quality} observing conditions).")
+            if airmass < 1.5:
+    
+                details.append(
+                    f"Average airmass is {airmass:.2f}, indicating excellent "
+                    "observing conditions because the target is viewed through "
+                    "relatively little atmosphere."
+                )
+    
+            elif airmass < 2.0:
+    
+                details.append(
+                    f"Average airmass is {airmass:.2f}, indicating good observing "
+                    "conditions with only modest atmospheric attenuation."
+                )
+    
+            elif airmass < 3.0:
+    
+                details.append(
+                    f"Average airmass is {airmass:.2f}, suggesting moderate "
+                    "atmospheric effects which may reduce photometric precision."
+                )
+    
+            else:
+    
+                details.append(
+                    f"Average airmass is {airmass:.2f}, indicating that the target "
+                    "is observed through a large column of atmosphere, potentially "
+                    "degrading data quality."
+                )
     
         return summary + " " + " ".join(details)
 
