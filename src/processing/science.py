@@ -48,12 +48,11 @@ def compute_science_features(df):
     return df
 
 def literature_score(row):
-
     p12 = row["papers_last_12m"]
     p36 = row["papers_last_36m"]
 
     score = 1
-
+    
     if p12 >= 1:
         score += 1
 
