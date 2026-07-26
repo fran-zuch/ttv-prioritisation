@@ -39,7 +39,7 @@ def fetch_exoclock():
             ) as f:
                 data = json.load(f)
                 return pd.DataFrame(data)
-        except urllib.error.URLError as e::
+        except urllib.error.URLError as e:
             wait = 10 * (attempt + 1)
             print(
                 f"ExoClock download failed "
