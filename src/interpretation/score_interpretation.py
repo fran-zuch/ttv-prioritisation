@@ -2,50 +2,82 @@ import pandas as pd
 import numpy as np
 
 def build_dynamic_summary(df):
+
     df = df.copy()
 
+    def clean_text(text):
+        """
+        Remove trailing full stops and whitespace so that
+        the summary builder can safely join sentences.
+        """
+
+        if pd.isna(text):
+            return ""
+
+        text = str(text).strip()
+
+        # remove trailing "." characters
+        text = text.rstrip(". ")
+
+        return text
+
     def make_summary(r):
+
         parts = []
 
         # --- Priority ---
-        priority = r.get('score_interpretation')
+        priority = clean_text(
+            r.get('score_interpretation')
+        )
         if priority:
-            parts.append(f"{priority}")
+            parts.append(priority)
 
         # --- Ephemeris ---
-        ephem = r.get('ephemeris_interpretation')
+        ephem = clean_text(
+            r.get('ephemeris_interpretation')
+        )
         if ephem:
             parts.append(ephem)
 
         # --- Visibility ---
-        obs = r.get('obs_interpretation')
+        obs = clean_text(
+            r.get('obs_interpretation')
+        )
         if obs:
             parts.append(obs)
 
         # --- TTV ---
-        ttv = r.get('ttv_significance_class')
-        if ttv and ttv != "none":
-            parts.append(f"TTV signal {ttv}")
+        ttv = clean_text(
+            r.get('TTV_interpretation')
+        )
+        if ttv:
+            parts.append(ttv)
 
         # --- Science ---
-        science = r.get('science_interpretation')
+        science = clean_text(
+            r.get('science_interpretation')
+        )
         if science:
             parts.append(science)
 
         # --- Coordination ---
         if r.get('campaign_flag'):
-            parts.append("part of an active campaign")
+            parts.append("This target is part of an active campaign")
 
         if r.get('network_needed'):
-            parts.append("requires multi-site coordination")
+            parts.append(
+                "Multi-site coordination is recommended"
+            )
 
         # --- Fallback ---
         if not parts:
-            return "No strong prioritisation signals"
+            return "No strong prioritisation signals."
 
         return ". ".join(parts) + "."
 
-    df['summary_text'] = df.apply(make_summary, axis=1)
+    df['summary_text'] = (
+        df.apply(make_summary, axis=1)
+    )
 
     return df
     
