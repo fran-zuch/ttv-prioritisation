@@ -46,3 +46,24 @@ def compute_science_features(df):
     # Still to come is a check around recent Scientific mentioning
 
     return df
+
+def literature_score(row):
+
+    p12 = row["papers_last_12m"]
+    p36 = row["papers_last_36m"]
+
+    score = 1
+
+    if p12 >= 1:
+        score += 1
+
+    if p12 >= 5:
+        score += 1
+
+    if p36 >= 10:
+        score += 1
+
+    if p36 >= 25:
+        score += 1
+
+    return min(score, 5)
