@@ -35,7 +35,7 @@ def run():
     # --- Dynamic 30-day window ---
     now = datetime.utcnow()
     start = now + timedelta(days=0)
-    end = now + timedelta(days=1)
+    end = now + timedelta(days=30)
 
     start_str = start.strftime('%Y-%m-%d %H:%M')
     end_str = end.strftime('%Y-%m-%d %H:%M')
