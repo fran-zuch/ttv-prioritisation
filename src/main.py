@@ -13,7 +13,6 @@ from processing.instrument import (
     add_instrument_penalty
 )
 from processing.science import compute_science_features
-from processing.science import literature_score
 
 from processing.synergy import compute_synergy_features
 
@@ -153,7 +152,6 @@ def run():
     # --- Science ---
     print("Starting science")
     events = compute_science_features(events)
-    events = literature_score(events)
     print("Science COMPLETE")
 
     # --- Synergy ---
