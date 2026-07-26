@@ -144,6 +144,37 @@ th { background:#eee; cursor:pointer;}
     font-size:12px;
 }
 
+.obs-guidance-panel{
+    margin-top:12px;
+    padding:12px;
+    background:#f8fbff;
+    border-left:4px solid #2c7be5;
+    border-radius:6px;
+}
+
+.obs-guidance-header{
+    font-weight:bold;
+    margin-bottom:8px;
+    color:#2c7be5;
+}
+
+.guidance-table{
+    width:100%;
+}
+
+.guidance-table td{
+    padding:4px;
+}
+
+.ephem-warning{
+    margin-top:10px;
+    padding:10px;
+    background:#fff3cd;
+    border-left:4px solid #f39c12;
+    border-radius:4px;
+    color:#856404;
+}
+    
 button { margin:3px; }
 </style>
 </head>
@@ -370,7 +401,6 @@ function formatDuration(hours){
     return `${h} h ${m} min`;
 }
 
-
 function getExposureTime(r){
 
     let mag = Number(r.mag_R);
@@ -382,7 +412,6 @@ function getExposureTime(r){
 
     return Math.round(exposure / 5) * 5;
 }
-
 
 function formatUTC(date){
 
@@ -464,6 +493,11 @@ function getLiteratureIcon(r){
     if(papers >= 1) return "📚";
 
     return "📄";
+}
+
+function needsExtendedCoverage(r){
+
+    return Number(r.pred_sigma_min || 0) > 30;
 }
 
 /* ---------- LOAD (FIXED) ---------- */
@@ -592,7 +626,7 @@ filteredData.slice(0,5).forEach(t=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
     
-    const padding = 60 * 60 * 1000; // 1 hour
+    const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000; 
     
     let obsStart =
         new Date(s.getTime() - padding);
@@ -606,6 +640,7 @@ filteredData.slice(0,5).forEach(t=>{
 <span class="${getLiteratureClass(t)}">${getLiteratureBadge(t)}</span>
 <br>Score: ${safe(t.final_score)}
 <br>📚 ${t.papers_last_12m || 0} papers (12m)
+<br>🔭 Window: ${safe(t.recommended_window_hr,1)} h
 <br>🕒 ${formatUTC(s)} → ${formatUTC(e)}
 <br>🎯 Conf: ${getConfidenceScore(t).toFixed(2)}
 <br><span class="${getTTVClass(t.ttv_significance_class)}">${formatTTVLabel(t.ttv_significance_class)}</span> | ${t.instrument_flag}
@@ -651,7 +686,7 @@ page.forEach(r=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
 
-    const padding = 60 * 60 * 1000; // 1 hour
+    const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000;
 
     let obsStart =
         new Date(s.getTime() - padding);
@@ -841,7 +876,7 @@ function downloadScheduler(){
     let transitStart=new Date(mid.getTime()-dur/2);
     let transitEnd=new Date(mid.getTime()+dur/2);
 
-    const padding = 60 * 60 * 1000; // 1 hour
+    const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000;
 
     let obsStart =
         new Date(transitStart.getTime() - padding);
@@ -963,7 +998,7 @@ function showDetails(name){
     let transitEnd =
             new Date(mid.getTime() + dur/2);
 
-    const padding = 60 * 60 * 1000;
+    const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000;
     
     let obsStart =
             new Date(transitStart.getTime() - padding);
@@ -1025,16 +1060,50 @@ function showDetails(name){
 
     <h4>🔭 Recommended Observation Window</h4>
 
-    <p><b>Observation Start:</b><br>  ${formatUTC(obsStart)}</p>
+    <p><b>Observation Start:</b><br>${formatUTC(obsStart)}</p>
+    <p><b>Observation End:</b><br>${formatUTC(obsEnd)}</p>
     
-    <p><b>Observation End:</b><br> ${formatUTC(obsEnd)}</p>
+    <div class="obs-guidance-panel">
+
+        <div class="obs-guidance-header">🕒 Observing Guidance</div>
     
-    <p>
-    <i>Includes one hour baseline before ingress and after egress.</i>
-    </p>
-      
+        <table class="guidance-table">
+    
+            <tr>
+                <td><b>Transit Duration</b></td>
+                <td>${safe(r.duration_hours)} h</td>
+            </tr>
+    
+            <tr>
+                <td><b>Timing Uncertainty</b></td>
+                <td>±${safe(r.pred_sigma_min,1)} min</td>
+            </tr>
+    
+            <tr>
+                <td><b>Additional Ephemeris Margin</b></td>
+                <td>±${safe(r.recommended_buffer_min,0)} min</td>
+            </tr>
+    
+            <tr>
+                <td><b>Recommended Total Window</b></td>
+                <td>${safe(r.recommended_window_hr,1)} h</td>
+            </tr>
+    
+        </table>
+    
+    </div>
+
+    ${needsExtendedCoverage(r) ? `
+    
+    <div class="ephem-warning">
+    
+    ⚠ Large timing uncertainty detected.
+    
+    Extended pre-transit and post-transit coverage is strongly recommended.
+    
+    </div>
+    
     <h4>🧪 Scientific Context</h4>
-    
     <p>${r.summary_text}</p>
     
     <ul>
@@ -1071,7 +1140,7 @@ function showDetails(name){
        
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 <span class="${getTTVClass(r.ttv_significance_class)}">${formatTTVLabel(r.ttv_significance_class)}</span>
+        💡 ${r.TTV_interpretation}
     </div>
     <br><br>
     </li>
@@ -1082,9 +1151,28 @@ function showDetails(name){
         
     <div class="score-reason">
         <b>Reason:</b><br>
-        💡 ${r.instrument_flag}
+        💡 ${r.instrument_interpretation}
     </div>
     <br><br>
+    </li>
+
+    <li>
+    
+    <b>S4: Observability (${safe(r.S4)}/5.00)</b><br>
+    
+    Measures how much of the transit is visible from the observing site,
+    taking into account altitude, darkness and observing constraints.
+    
+    <div class="score-reason">
+    
+        <b>Reason:</b><br>
+    
+        💡 ${r.obs_interpretation}
+    
+    </div>
+    
+    <br><br>
+    
     </li>
     
     <li>
