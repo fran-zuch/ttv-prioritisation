@@ -31,8 +31,9 @@ def compute_scores(df):
     # --- S4: Observability ---
     df['S4'] = df['obs_frac'].apply(bin_observability)
 
-    # --- S5: Science (priority + recency) ---
-    df['S5'] = (df['science_priority_numeric'] + df['science_recency_score'])
+    # --- S5: Science (priority + recency + literature component) ---
+    # This way I keep ExoClock dominant and treat regency and literature as a modifier which can give a little boost to the score.
+    df['S5'] = (0.70 * df['science_priority_numeric'] + 0.15 * df['science_recency_score'] + 0.15 * df['literature_score'])
     df['S5'] = df['S5'].clip(upper=5)
 
     # --- S6: Synergy ---
