@@ -25,6 +25,33 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+import re
+
+def generate_aliases(target_name):
+    """
+    Generate common literature aliases
+    used in ADS publications.
+    """
+
+    aliases = {target_name}
+
+    # TOI-1759b -> TOI-1759 b
+    spaced_planet = re.sub(
+        r'(\d)([bcdefghijklmnop])$',
+        r'\1 \2',
+        target_name
+    )
+
+    aliases.add(spaced_planet)
+
+    # TOI-1759 b -> TOI 1759 b
+    aliases.add(
+        spaced_planet.replace("-", " ")
+    )
+
+    return sorted(list(aliases))
+
+
 from ingestion.exoclock_loader import fetch_exoclock
 
 
@@ -70,14 +97,26 @@ def build_query(target_name: str) -> str:
         datetime.utcnow() - timedelta(days=365*3)
     ).strftime("%Y-%m-01")
 
+    aliases = generate_aliases(target_name)
+
+    search_terms = []
+
+    for alias in aliases:
+    
+        search_terms.append(f'title:"{alias}"')
+        search_terms.append(f'abstract:"{alias}"')
+        search_terms.append(f'keyword:"{alias}"')
+    
+    target_clause = "(" + " OR ".join(search_terms) + ")"
+
     query_12m = (
-        f'(title:"{target_name}" OR abstract:"{target_name}") '
+        f'{target_clause} '
         f'AND database:astronomy '
         f'AND pubdate:[{twelve_months_ago} TO *]'
     )
-    
+
     query_36m = (
-        f'(title:"{target_name}" OR abstract:"{target_name}") '
+        f'{target_clause} '
         f'AND database:astronomy '
         f'AND pubdate:[{three_years_ago} TO *]'
     )
@@ -109,16 +148,44 @@ def query_ads(query):
 def process_target(target_name):
 
     try:
-        query_12m, query_36m = build_query(target_name)
+        print(
+            f"{target_name} aliases: "
+            f"{generate_aliases(target_name)}",
+            flush=True
+        )
+        
+        aliases = generate_aliases(target_name)
 
-        result_12m = query_ads(query_12m)
-        result_36m = query_ads(query_36m)
+        best_alias = target_name
         
-        papers_last_12m = result_12m["response"]["numFound"]
-        papers_last_36m = result_36m["response"]["numFound"]
+        best_12m = None
+        best_36m = None
         
-        docs_12m = result_12m["response"]["docs"]
-        docs_36m = result_36m["response"]["docs"]
+        max_hits = -1
+        
+        for alias in aliases:
+        
+            query_12m, query_36m = build_query(alias)
+        
+            result_12m = query_ads(query_12m)
+            result_36m = query_ads(query_36m)
+        
+            hits = result_12m["response"]["numFound"]
+        
+            if hits > max_hits:
+        
+                max_hits = hits
+        
+                best_alias = alias
+        
+                best_12m = result_12m
+                best_36m = result_36m
+        
+        papers_last_12m = best_12m["response"]["numFound"]
+        papers_last_36m = best_36m["response"]["numFound"]
+        
+        docs_12m = best_12m["response"]["docs"]
+        docs_36m = best_36m["response"]["docs"]
         
         latest_title = None
         latest_bibcode = None
@@ -133,7 +200,7 @@ def process_target(target_name):
         latest_bibcode = docs_12m[0].get("bibcode")
 
         print(
-            f"{target_name}: {result_12m['response']['numFound']} matches",
+            f"{target_name}: {best_12m['response']['numFound']} matches",
             flush=True
         )
         
@@ -170,6 +237,7 @@ def process_target(target_name):
         
         return {
             "name": target_name,
+            "matched_aliases": best_alias,
             "papers_last_12m": papers_last_12m,
             "papers_last_36m": papers_last_36m,
             "last_paper_date": latest_date,
@@ -235,6 +303,7 @@ def main():
 
         rows.append({
             "name": result["name"],
+            "matched_alias": result["matched_alias"],
             "papers_last_12m": result["papers_last_12m"],
             "papers_last_36m": result["papers_last_36m"],
             "last_paper_date": result["last_paper_date"],
@@ -244,6 +313,7 @@ def main():
         })
 
         cache[target] = {
+            "matched_alias": result["matched_alias"],
             "papers_last_12m": result["papers_last_12m"],
             "papers_last_36m": result["papers_last_36m"],
             "last_paper_date": result["last_paper_date"],
