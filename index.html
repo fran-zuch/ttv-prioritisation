@@ -626,7 +626,7 @@ filteredData.slice(0,5).forEach(t=>{
  let s=new Date(mid.getTime()-dur/2);
  let e=new Date(mid.getTime()+dur/2);
     
-    const padding = Number(r.recommended_buffer_min || 60) * 60 * 1000; 
+    const padding = Number(t.recommended_buffer_min || 60) * 60 * 1000; 
     
     let obsStart =
         new Date(s.getTime() - padding);
