@@ -192,7 +192,7 @@ def process_target(target_name):
             latest_bibcode = docs_12m[0].get("bibcode")
 
         print(
-            f"{target_name}: {best_12m['response']['numFound']} matches",
+            f"{target_name}: {result_12m['response']['numFound']} matches",
             flush=True
         )
         
