@@ -32,7 +32,7 @@ def dms_to_deg(dms):
 
 def fetch_exoclock():
     with urllib.request.urlopen(EXOCLOCK_URL, timeout=30) as f:
-    data = json.loads(f.read().decode("utf-8"))
+        data = json.loads(f.read().decode("utf-8"))
 
     rows = []
     for k, v in data.items():
