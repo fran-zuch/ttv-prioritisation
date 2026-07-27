@@ -78,8 +78,11 @@ JSON_OUT = OUTPUT_DIR / "literature_cache.json"
 
 def build_query(target_name: str) -> str:
     """
-    Version 1:
-        Search target name in TITLE only.
+    Version 2:
+        Search target name and aliases in 
+            title
+            abstract
+            keyword
 
     Restrict to:
         astronomy database
@@ -317,7 +320,7 @@ def main():
         }
     
        # Be nice to ADS
-        time.sleep(0.5)
+        time.sleep(1.0)
 
     print(
         f"Completed queries for {len(rows)} targets",
