@@ -30,7 +30,7 @@ This pipeline was developed to provide an interface for exploring, filtering, va
 ✅ PIRATE-aware target selection (this could be enhanced for other telescopes and locations)  
 ✅ Interactive plotting (based on filtering selection)  
 ✅ Observation planning support with detailed observing information and  
-✅ Observation windows (+1 h baseline and further adjustment for higher ephemeris targets)  
+✅ Observation windows (+1 h baseline and further adjustment for higher ephemeris values)  
 ✅ UTC-validated transit calculations and  
 ✅ Transit windows verified against ExoClock  
 ✅ Scientific explainability: details on each scoring component and how those can be interpreted  
