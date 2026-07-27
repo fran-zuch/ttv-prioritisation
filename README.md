@@ -33,10 +33,10 @@ This pipeline was developed to provide an interface for exploring, filtering, va
 ✅ Observation windows (+1 h baseline and further adjustment for higher ephemeris targets)  
 ✅ UTC-validated transit calculations and  
 ✅ Transit windows verified against ExoClock  
-✅ Scientific explainability: details on each scoring component and how those can be interpreted 
-✅ SVG figure export and therefore Dissertation-ready visualisations
-✅ Weekly literature search now implemented (uses ADS API request, searches keyword, title and abstract using name and aliases)
-✅ GitHub Pages deployment (automated after the data pipeline ingestion has completed
+✅ Scientific explainability: details on each scoring component and how those can be interpreted  
+✅ SVG figure export and therefore Dissertation-ready visualisations 
+✅ Weekly literature search now implemented (uses ADS API request, searches keyword, title and abstract using name and aliases)  
+✅ GitHub Pages deployment (automated after the data pipeline ingestion has completed  
 
 ## Run
 python src/main.py
