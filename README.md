@@ -34,7 +34,7 @@ This pipeline was developed to provide an interface for exploring, filtering, va
 ✅ UTC-validated transit calculations and  
 ✅ Transit windows verified against ExoClock  
 ✅ Scientific explainability: details on each scoring component and how those can be interpreted 
-✅ SVG figure export and therefore Dissertation-ready visualisations  
+✅ SVG figure export and therefore Dissertation-ready visualisations
 ✅ Weekly literature search now implemented (uses ADS API request, searches keyword, title and abstract using name and aliases)
 ✅ GitHub Pages deployment (automated after the data pipeline ingestion has completed
 
