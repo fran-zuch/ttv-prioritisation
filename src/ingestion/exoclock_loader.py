@@ -31,22 +31,8 @@ def dms_to_deg(dms):
 
 
 def fetch_exoclock():
-    for attempt in range(3):
-        try:
-            with urllib.request.urlopen(
-                EXOCLOCK_URL,
-                timeout=60
-            ) as f:
-                data = json.load(f)
-                return pd.DataFrame(data)
-        except urllib.error.URLError as e:
-            wait = 10 * (attempt + 1)
-            print(
-                f"ExoClock download failed "
-                f"(attempt {attempt+1}/3): {e}"
-            )
-            time.sleep(wait)
-        raise RuntimeError("Failed to download ExoClock catalogue")
+    with urllib.request.urlopen(EXOCLOCK_URL, timeout=30) as f:
+    data = json.loads(f.read().decode("utf-8"))
 
     rows = []
     for k, v in data.items():
