@@ -3,7 +3,7 @@ import time
 import urllib.request
 import urllib.error
 import pandas as pd
-import numpy as npf
+import numpy as np
 
 EXOCLOCK_URL = "https://www.exoclock.space/database/planets_json"
 
