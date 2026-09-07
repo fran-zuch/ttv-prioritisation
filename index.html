@@ -508,8 +508,7 @@ function tryLoad(daysBack=0){
  d.setDate(d.getDate()-daysBack);
 
  let tag=d.toISOString().slice(0,10).replace(/-/g,"");
-    let path=`output/outputs_20260701.csv`;
- /*let path=`output/outputs_${tag}.csv`;*/
+ let path=`output/outputs_${tag}.csv`;
 
  Papa.parse(path,{
   download:true,
