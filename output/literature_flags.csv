@@ -194,7 +194,7 @@ HD191939c,"HD191939 c, HD191939c",0,0,,,,False
 HD191939d,"HD191939 d, HD191939d",0,0,,,,False
 HD202772Ab,HD202772Ab,1,1,2025-12-00,Detailed spectroscopic and photometric analysis of the remarkable planet-hosting wide binary system HD 202772A/B,2025MNRAS.544.3994J,True
 HD207496b,"HD207496 b, HD207496b",1,3,2026-04-00,Core-Powered Mass-Loss of the Primary Atmospheres of Mini-Neptunes: Influence of Water Content in the Planet Interior and Evolution of the Host Star,2026SoSyR..60...23E,True
-HD209458b,"HD209458 b, HD209458b",14,51,2026-08-00,"Using High-Resolution Spectroscopy to Study the Composition, Temperature, and Dynamics of Exoplanet Atmospheres",2026arXiv260800520Y,True
+HD209458b,"HD209458 b, HD209458b",14,51,2026-08-00,Magnesium Silicate Clouds in the Atmosphere of HD 209458b from a Rule-based Tree-structured Data Reduction,2026AJ....172..106C,True
 HD219134b,"HD219134 b, HD219134b",0,1,,,,False
 HD219666b,"HD219666 b, HD219666b",0,0,,,,False
 HD221416b,"HD221416 b, HD221416b",0,0,,,,False
@@ -213,7 +213,7 @@ HIP116454b,"HIP116454 b, HIP116454b",0,0,,,,False
 HR858b,"HR858 b, HR858b",0,0,,,,False
 K2-3b,"K2 3 b, K2-3 b, K2-3b",1,1,2026-09-00,Uncovering temperate worlds: an updated look at the K2-3 system with ESPRESSO,2026arXiv260917792S,True
 K2-3c,"K2 3 c, K2-3 c, K2-3c",1,1,2026-09-00,Uncovering temperate worlds: an updated look at the K2-3 system with ESPRESSO,2026arXiv260917792S,True
-K2-18b,"K2 18 b, K2-18 b, K2-18b",58,134,2026-09-00,Energy deposition in planetary and exoplanetary atmospheres induced by cosmic rays,2026arXiv260910688P,True
+K2-18b,"K2 18 b, K2-18 b, K2-18b",58,134,2026-09-00,A Homogeneous Survey of JWST-MIRI Transmission Spectra of 10 Exoplanets,2026ApJ..1008L..42B,True
 K2-19b,"K2 19 b, K2-19 b, K2-19b",2,2,2026-01-00,A Decade of Transit-timing Measurements Confirm Resonance in the K2-19 System,2026AJ....171...46E,True
 K2-19c,"K2 19 c, K2-19 c, K2-19c",0,0,,,,False
 K2-21c,"K2 21 c, K2-21 c, K2-21c",0,0,,,,False
@@ -371,7 +371,7 @@ NGTS-12b,"NGTS 12 b, NGTS-12 b, NGTS-12b",0,0,,,,False
 NGTS-13b,"NGTS 13 b, NGTS-13 b, NGTS-13b",0,0,,,,False
 NGTS-24b,"NGTS 24 b, NGTS-24 b, NGTS-24b",0,0,,,,False
 PH2b,"PH2 b, PH2b",0,0,,,,False
-Qatar-1b,"Qatar 1 b, Qatar-1 b, Qatar-1b",4,9,2026-06-00,Transit Depth Variability and Observational Effects in the Hot Jupiter Qatar-1b,2026ASTCS..1100136K,True
+Qatar-1b,"Qatar 1 b, Qatar-1 b, Qatar-1b",4,9,2026-06-00,Investigating Transit Depth Variability in the Hot Jupiters TrES-2 b and Qatar-1 b Using Ground-Based Photometry,2026ASTCS..1100126R,True
 Qatar-2b,"Qatar 2 b, Qatar-2 b, Qatar-2b",0,1,,,,False
 Qatar-3b,"Qatar 3 b, Qatar-3 b, Qatar-3b",0,0,,,,False
 Qatar-4b,"Qatar 4 b, Qatar-4 b, Qatar-4b",2,4,2026-06-00,"Ephemeris Refinement for Qatar-4 b, HAT-P-18 b, and CoRoT-1 b with Small Telescope and TESS Observations",2026JAVSO..54...39H,True
@@ -409,7 +409,7 @@ TOI-262b,"TOI 262 b, TOI-262 b, TOI-262b",0,0,,,,False
 TOI-269b,"TOI 269 b, TOI-269 b, TOI-269b",0,0,,,,False
 TOI-270b,"TOI 270 b, TOI-270 b, TOI-270b",0,4,,,,False
 TOI-270c,"TOI 270 c, TOI-270 c, TOI-270c",0,1,,,,False
-TOI-270d,"TOI 270 d, TOI-270 d, TOI-270d",21,51,2026-09-00,Beyond gas dwarfs and water worlds: hybrid envelopes among the M-dwarf sub-Neptunes characterised with JWST,2026arXiv260934635P,True
+TOI-270d,"TOI 270 d, TOI-270 d, TOI-270d",22,52,2026-10-00,Ammonia-Hydrogen Phase Equilibria in Planetary Envelopes from First-Principles-Based Machine-Learning Molecular Dynamics,2026arXiv261027136G,True
 TOI-277b,"TOI 277 b, TOI-277 b, TOI-277b",0,0,,,,False
 TOI-411c,"TOI 411 c, TOI-411 c, TOI-411c",0,0,,,,False
 TOI-421b,"TOI 421 b, TOI-421 b, TOI-421b",4,10,2026-09-00,Beyond the mass-radius plane: integrated radiative-convective and interior structure simulations of the exoplanet continuum,2026MNRAS.551g1489N,True
@@ -469,7 +469,7 @@ TOI-1136e,"TOI 1136 e, TOI-1136 e, TOI-1136e",0,0,,,,False
 TOI-1136f,"TOI 1136 f, TOI-1136 f, TOI-1136f",0,0,,,,False
 TOI-1181b,"TOI 1181 b, TOI-1181 b, TOI-1181b",0,1,,,,False
 TOI-1201b,"TOI 1201 b, TOI-1201 b, TOI-1201b",0,0,,,,False
-TOI-1231b,"TOI 1231 b, TOI-1231 b, TOI-1231b",2,2,2026-07-00,Impact of Clouds on the Atmosphere─Mantle Interface of Sub-Neptunes,2026ApJ..1005L..63M,True
+TOI-1231b,"TOI 1231 b, TOI-1231 b, TOI-1231b",2,2,2026-07-00,Transmission Spectrum of the Benchmark Temperate Exo-Neptune TOI-1231 b,2026ApJ..1005L..52S,True
 TOI-1246b,"TOI 1246 b, TOI-1246 b, TOI-1246b",0,0,,,,False
 TOI-1246d,"TOI 1246 d, TOI-1246 d, TOI-1246d",0,0,,,,False
 TOI-1259Ab,"TOI 1259Ab, TOI-1259Ab",2,2,2026-04-00,TOI-1259Ab: A warm Jupiter orbiting a K-dwarf white-dwarf binary on a low-obliquity orbit,2026A&A...708A.272V,True
@@ -564,7 +564,7 @@ TOI-3693b,"TOI 3693 b, TOI-3693 b, TOI-3693b",0,0,,,,False
 TOI-3714b,"TOI 3714 b, TOI-3714 b, TOI-3714b",2,3,2026-09-00,New and Updated Rossiter-McLaughlin Measurements for Three Hot Jupiter-Hosting M Dwarfs,2026arXiv260903031W,True
 TOI-3785b,"TOI 3785 b, TOI-3785 b, TOI-3785b",0,0,,,,False
 TOI-3819b,"TOI 3819 b, TOI-3819 b, TOI-3819b",0,0,,,,False
-TOI-3884b,"TOI 3884 b, TOI-3884 b, TOI-3884b",2,9,2026-06-00,A Panchromatic JWST Spectrum of a Giant Starspot on the Fully Convective M Dwarf TOI-3884,2026ApJ..1003L..45M,True
+TOI-3884b,"TOI 3884 b, TOI-3884 b, TOI-3884b",2,9,2026-06-00,An Empirical Panchromatic Spectrum of a Giant Starspot on the M-dwarf TOI-3884 with JWST,2026ASTCS..1160039M,True
 TOI-3912b,"TOI 3912 b, TOI-3912 b, TOI-3912b",0,0,,,,False
 TOI-3976Ab,"TOI 3976Ab, TOI-3976Ab",0,0,,,,False
 TOI-4010b,"TOI 4010 b, TOI-4010 b, TOI-4010b",0,2,,,,False
@@ -586,15 +586,15 @@ TOI-4791b,"TOI 4791 b, TOI-4791 b, TOI-4791b",0,0,,,,False
 TOI-5678b,"TOI 5678 b, TOI-5678 b, TOI-5678b",0,3,,,,False
 TOI-5704b,"TOI 5704 b, TOI-5704 b, TOI-5704b",0,0,,,,False
 TOI-5803b,"TOI 5803 b, TOI-5803 b, TOI-5803b",0,0,,,,False
-TRAPPIST-1b,"TRAPPIST 1 b, TRAPPIST-1 b, TRAPPIST-1b",14,56,2026-09-00,Detecting atmospheres in the presence of stellar contamination: an empirically calibrated framework applied to four JWST/NIRSpec PRISM transits of TRAPPIST-1c,2026arXiv260937722R,True
+TRAPPIST-1b,"TRAPPIST 1 b, TRAPPIST-1 b, TRAPPIST-1b",14,56,2026-09-00,Radial velocity detection of the TRAPPIST-1 planetary system with SPIRou and NIRPS,2026arXiv260903006L,True
 TRAPPIST-1c,"TRAPPIST 1 c, TRAPPIST-1 c, TRAPPIST-1c",6,34,2026-09-00,Detecting atmospheres in the presence of stellar contamination: an empirically calibrated framework applied to four JWST/NIRSpec PRISM transits of TRAPPIST-1c,2026arXiv260937722R,True
 TRAPPIST-1d,"TRAPPIST 1 d, TRAPPIST-1 d, TRAPPIST-1d",3,11,2026-06-00,Coupled Photochemical─Climate Modeling of Plausible Tenuous Outgassed Atmospheres on the TRAPPIST-1 Planets,2026PSJ.....7..150G,True
 TRAPPIST-1e,"TRAPPIST 1 e, TRAPPIST-1 e, TRAPPIST-1e",21,86,2026-09-00,Calculating potential cumulative carbon fixed and evolutionary stage for Earthlike planets in our solar neighborhood,2026IJAsB..25...14D,True
 TRAPPIST-1f,"TRAPPIST 1 f, TRAPPIST-1 f, TRAPPIST-1f",8,22,2026-10-00,Atmospheric Reconnaissance of TRAPPIST-1 f with JWST NIRISS SOSS: No Evidence for the Transit Light Source Effect,2026AJ....172..200L,True
 TRAPPIST-1g,"TRAPPIST 1 g, TRAPPIST-1 g, TRAPPIST-1g",0,4,,,,False
 TRAPPIST-1h,"TRAPPIST 1 h, TRAPPIST-1 h, TRAPPIST-1h",2,8,2026-10-00,On-sky performance and prospects of near-infrared CMOS detectors in exoplanet detection: first year of SPIRIT,2026arXiv261019902J,True
-TrES-1b,"TrES 1 b, TrES-1 b, TrES-1b",91,268,2026-10-00,A Comprehensive Interpretation of the LZ High-Energy Recoil Event: A Minimal $U(1)_B$ Dark Sector and Its Experimental Tests,2026arXiv261014188D,True
-TrES-2b,"TrES 2 b, TrES-2 b, TrES-2b",47,132,2026-10-00,A first look at the protoplanet WISPIT 2 b with VLTI/GRAVITY+,2026arXiv261021629G,True
+TrES-1b,"TrES 1 b, TrES-1 b, TrES-1b",92,269,2026-10-00,Euclid Quick Data Release (Q1). The shape of cluster haloes revealed by intracluster light,2026arXiv261029683E,True
+TrES-2b,"TrES 2 b, TrES-2 b, TrES-2b",49,134,2026-10-00,Semiclassical Cosmological Constant in Anti-de Sitter and de Sitter Spacetimes,2026arXiv261009436M,True
 TrES-3b,"TrES 3 b, TrES-3 b, TrES-3b",29,87,2026-09-00,GRB 260922A: Swift/UVOT Upper Limits,2026GCN.45700....1S,True
 TrES-4b,"TrES 4 b, TrES-4 b, TrES-4b",22,64,2026-10-00,GRB 261005B: Swift/UVOT Upper Limits,2026GCN.45819....1B,True
 TrES-5b,"TrES 5 b, TrES-5 b, TrES-5b",17,54,2026-09-00,The CRIMSON survey I: super-stellar SiO in the directly imaged companion TWA 5 B from high-resolution M-band spectroscopy,2026MNRAS.551g1050P,True
@@ -612,7 +612,7 @@ WASP-8b,"WASP 8 b, WASP-8 b, WASP-8b",1,1,2026-02-00,Determining a Modern Value 
 WASP-10b,"WASP 10 b, WASP-10 b, WASP-10b",0,2,,,,False
 WASP-11b,"WASP 11 b, WASP-11 b, WASP-11b",2,3,2026-06-00,Investigation of Transit Timing and an Optical Transmission Spectrum of the Hot Jupiter WASP-11 b,2026AJ....171..334A,True
 WASP-12b,"WASP 12 b, WASP-12 b, WASP-12b",20,51,2026-10-00,The Mysterious Inspiral of WASP-12 b: Why Obliquity Tides Cannot Drive Orbital Decay,2026ApJ..1009L..43L,True
-WASP-13b,"WASP 13 b, WASP-13 b, WASP-13b",2,2,2026-10-00,The GAPS programme at TNG LXXXII. The first atmospheric investigation of the gas giant WASP-13b at high resolution with GIARPS,2026arXiv261012677S,True
+WASP-13b,"WASP 13 b, WASP-13 b, WASP-13b",2,2,2026-10-00,The GAPS programme at TNG LXXXII. The first atmospheric investigation of the gas giant WASP-13 b at high resolution with GIARPS<SUB></SUB>,2026MNRAS.tmp.1783S,True
 WASP-14b,"WASP 14 b, WASP-14 b, WASP-14b",0,1,,,,False
 WASP-15b,"WASP 15 b, WASP-15 b, WASP-15b",0,1,,,,False
 WASP-16b,"WASP 16 b, WASP-16 b, WASP-16b",0,0,,,,False
@@ -636,7 +636,7 @@ WASP-35b,"WASP 35 b, WASP-35 b, WASP-35b",0,2,,,,False
 WASP-36b,"WASP 36 b, WASP-36 b, WASP-36b",0,0,,,,False
 WASP-37b,"WASP 37 b, WASP-37 b, WASP-37b",0,0,,,,False
 WASP-38b,"WASP 38 b, WASP-38 b, WASP-38b",0,0,,,,False
-WASP-39b,"WASP 39 b, WASP-39 b, WASP-39b",31,102,2026-09-00,"A Missing Latent, Not a Missing Simulator: Radius-Augmented Inference for Real JWST Retrieval",2026arXiv261002245C,True
+WASP-39b,"WASP 39 b, WASP-39 b, WASP-39b",31,102,2026-09-00,Calibration of an Analog-to-Digital Conversion Nonlinearity in JWST/NIRISS,2026PASP..138i4506D,True
 WASP-41b,"WASP 41 b, WASP-41 b, WASP-41b",0,0,,,,False
 WASP-42b,"WASP 42 b, WASP-42 b, WASP-42b",0,0,,,,False
 WASP-43b,"WASP 43 b, WASP-43 b, WASP-43b",5,34,2026-10-00,WASP-43b TESS Phase Curve Mapping: Evidence for a Hot Interior,2026AJ....172..216L,True
@@ -664,14 +664,14 @@ WASP-65b,"WASP 65 b, WASP-65 b, WASP-65b",0,0,,,,False
 WASP-66b,"WASP 66 b, WASP-66 b, WASP-66b",0,0,,,,False
 WASP-67b,"WASP 67 b, WASP-67 b, WASP-67b",0,0,,,,False
 WASP-68b,"WASP 68 b, WASP-68 b, WASP-68b",0,0,,,,False
-WASP-69b,"WASP 69 b, WASP-69 b, WASP-69b",12,43,2026-09-00,Toward a unified framework for helium observations and interpretation of atmospheric escape,2026A&A...713A.337C,True
+WASP-69b,"WASP 69 b, WASP-69 b, WASP-69b",12,43,2026-09-00,Chemical Tracers for 3D Atmospheric Asymmetries on WASP-69 b,2026ApJ..1008..245B,True
 WASP-70Ab,"WASP 70Ab, WASP-70Ab",0,0,,,,False
 WASP-71b,"WASP 71 b, WASP-71 b, WASP-71b",0,0,,,,False
 WASP-72b,"WASP 72 b, WASP-72 b, WASP-72b",0,0,,,,False
 WASP-73b,"WASP 73 b, WASP-73 b, WASP-73b",0,0,,,,False
 WASP-74b,"WASP 74 b, WASP-74 b, WASP-74b",0,0,,,,False
 WASP-75b,"WASP 75 b, WASP-75 b, WASP-75b",0,0,,,,False
-WASP-76b,"WASP 76 b, WASP-76 b, WASP-76b",9,38,2026-10-00,Identifying deformed exoplanets with JWST and Ariel: A target selection metric for phase curve observations,2026arXiv261022338R,True
+WASP-76b,"WASP 76 b, WASP-76 b, WASP-76b",9,38,2026-10-00,Detection of escaping magnesium in the upper atmosphere of WASP-76b,2026arXiv261009128R,True
 WASP-77Ab,"WASP 77Ab, WASP-77Ab",0,6,,,,False
 WASP-78b,"WASP 78 b, WASP-78 b, WASP-78b",0,1,,,,False
 WASP-79b,"WASP 79 b, WASP-79 b, WASP-79b",1,3,2026-01-00,PLATOSpec: a precise spectrograph in support of space missions,2026MNRAS.545f1972K,True
@@ -769,7 +769,7 @@ WASP-192b,"WASP 192 b, WASP-192 b, WASP-192b",0,0,,,,False
 Wolf503b,"Wolf503 b, Wolf503b",0,0,,,,False
 XO-1b,"XO 1 b, XO-1 b, XO-1b",0,1,,,,False
 XO-2Nb,"XO 2Nb, XO-2Nb",0,1,,,,False
-XO-3b,"XO 3 b, XO-3 b, XO-3b",5,8,2026-06-00,The Near-ultraviolet Transit of XO-3 b,2026AJ....171..370C,True
+XO-3b,"XO 3 b, XO-3 b, XO-3b",5,8,2026-06-00,The Near-UV Transit of XO-3 b,2026ASTCS..1100120C,True
 XO-4b,"XO 4 b, XO-4 b, XO-4b",0,0,,,,False
 XO-5b,"XO 5 b, XO-5 b, XO-5b",0,0,,,,False
 XO-6b,"XO 6 b, XO-6 b, XO-6b",0,1,,,,False
