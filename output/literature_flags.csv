@@ -2,602 +2,602 @@ name,matched_alias,papers_last_12m,papers_last_36m,last_paper_date,latest_title,
 55Cnce,55Cnce,0,1,,,,False
 AUMicb,AUMicb,0,0,,,,False
 AUMicc,AUMicc,0,0,,,,False
-CoRoT-1b,CoRoT-1b,0,0,,,,False
-CoRoT-2b,CoRoT-2b,0,0,,,,False
-CoRoT-3b,CoRoT-3b,0,0,,,,False
+CoRoT-1b,"CoRoT 1 b, CoRoT-1 b, CoRoT-1b",2,3,2026-06-00,"Ephemeris Refinement for Qatar-4 b, HAT-P-18 b, and CoRoT-1 b with Small Telescope and TESS Observations",2026JAVSO..54...39H,True
+CoRoT-2b,"CoRoT 2 b, CoRoT-2 b, CoRoT-2b",4,10,2026-09-00,Unraveling the Mystery of the Peculiar and Young Hot Jupiter CoRoT-2 b. II. Phase-resolved Emission Spectroscopy with Very Large Telescope/CRIRES+ and Gemini South/IGRINS,2026AJ....172..145K,True
+CoRoT-3b,"CoRoT 3 b, CoRoT-3 b, CoRoT-3b",0,2,,,,False
 CoRoT-5b,CoRoT-5b,0,0,,,,False
-CoRoT-10b,CoRoT-10b,0,0,,,,False
-CoRoT-11b,CoRoT-11b,0,0,,,,False
-CoRoT-19b,CoRoT-19b,0,0,,,,False
-CoRoT-36b,CoRoT-36b,0,0,,,,False
+CoRoT-10b,"CoRoT 10 b, CoRoT-10 b, CoRoT-10b",0,2,,,,False
+CoRoT-11b,"CoRoT 11 b, CoRoT-11 b, CoRoT-11b",0,0,,,,False
+CoRoT-19b,"CoRoT 19 b, CoRoT-19 b, CoRoT-19b",0,0,,,,False
+CoRoT-36b,"CoRoT 36 b, CoRoT-36 b, CoRoT-36b",0,0,,,,False
 DSTucAb,DSTucAb,0,0,,,,False
-EPIC211945201b,EPIC211945201b,0,0,,,,False
-EPIC246851721b,EPIC246851721b,0,0,,,,False
-G9-40b,G9-40b,0,0,,,,False
-GJ357b,GJ357b,0,0,,,,False
-GJ367b,GJ367b,0,0,,,,False
+EPIC211945201b,"EPIC211945201 b, EPIC211945201b",0,0,,,,False
+EPIC246851721b,"EPIC246851721 b, EPIC246851721b",0,0,,,,False
+G9-40b,"G9 40 b, G9-40 b, G9-40b",0,0,,,,False
+GJ357b,"GJ357 b, GJ357b",0,0,,,,False
+GJ367b,"GJ367 b, GJ367b",0,0,,,,False
 GJ436b,GJ436b,0,0,,,,False
-GJ486b,GJ486b,0,0,,,,False
+GJ486b,"GJ486 b, GJ486b",0,0,,,,False
 GJ1132b,GJ1132b,0,0,,,,False
-GJ1214b,GJ1214b,0,0,,,,False
-GJ1252b,GJ1252b,0,0,,,,False
-GJ3090b,GJ3090b,0,0,,,,False
-GJ3470b,GJ3470b,0,0,,,,False
-GJ3473b,GJ3473b,0,0,,,,False
-GJ3929b,GJ3929b,0,0,,,,False
-GJ9827b,GJ9827b,0,0,,,,False
-GJ9827c,GJ9827c,0,0,,,,False
-GJ9827d,GJ9827d,0,0,,,,False
-GPX-1b,GPX-1b,0,0,,,,False
-Gaia-1b,Gaia-1b,0,0,,,,False
-Gaia-2b,Gaia-2b,0,0,,,,False
-HAT-P-1b,HAT-P-1b,0,0,,,,False
-HAT-P-2b,HAT-P-2b,0,0,,,,False
-HAT-P-3b,HAT-P-3b,0,0,,,,False
-HAT-P-4b,HAT-P-4b,0,0,,,,False
-HAT-P-5b,HAT-P-5b,0,0,,,,False
-HAT-P-6b,HAT-P-6b,0,0,,,,False
-HAT-P-7b,HAT-P-7b,0,0,,,,False
-HAT-P-8b,HAT-P-8b,0,0,,,,False
-HAT-P-9b,HAT-P-9b,0,0,,,,False
-HAT-P-11b,HAT-P-11b,0,0,,,,False
-HAT-P-12b,HAT-P-12b,0,0,,,,False
-HAT-P-13b,HAT-P-13b,0,0,,,,False
-HAT-P-14b,HAT-P-14b,0,0,,,,False
-HAT-P-15b,HAT-P-15b,0,0,,,,False
-HAT-P-16b,HAT-P-16b,0,0,,,,False
-HAT-P-17b,HAT-P-17b,0,0,,,,False
-HAT-P-18b,HAT-P-18b,0,0,,,,False
-HAT-P-19b,HAT-P-19b,0,0,,,,False
-HAT-P-20b,HAT-P-20b,0,0,,,,False
-HAT-P-21b,HAT-P-21b,0,0,,,,False
-HAT-P-22b,HAT-P-22b,0,0,,,,False
-HAT-P-23b,HAT-P-23b,0,0,,,,False
-HAT-P-24b,HAT-P-24b,0,0,,,,False
-HAT-P-25b,HAT-P-25b,0,0,,,,False
-HAT-P-26b,HAT-P-26b,0,0,,,,False
-HAT-P-27b,HAT-P-27b,0,0,,,,False
-HAT-P-28b,HAT-P-28b,0,0,,,,False
-HAT-P-29b,HAT-P-29b,0,0,,,,False
-HAT-P-30b,HAT-P-30b,0,0,,,,False
-HAT-P-31b,HAT-P-31b,0,0,,,,False
-HAT-P-32b,HAT-P-32b,0,0,,,,False
-HAT-P-33b,HAT-P-33b,0,0,,,,False
-HAT-P-34b,HAT-P-34b,0,0,,,,False
-HAT-P-35b,HAT-P-35b,0,0,,,,False
-HAT-P-36b,HAT-P-36b,0,0,,,,False
-HAT-P-37b,HAT-P-37b,0,0,,,,False
-HAT-P-38b,HAT-P-38b,0,0,,,,False
-HAT-P-39b,HAT-P-39b,0,0,,,,False
-HAT-P-40b,HAT-P-40b,0,0,,,,False
-HAT-P-41b,HAT-P-41b,0,0,,,,False
-HAT-P-42b,HAT-P-42b,0,0,,,,False
-HAT-P-43b,HAT-P-43b,0,0,,,,False
-HAT-P-44b,HAT-P-44b,0,0,,,,False
-HAT-P-45b,HAT-P-45b,0,0,,,,False
-HAT-P-46b,HAT-P-46b,0,0,,,,False
-HAT-P-49b,HAT-P-49b,0,0,,,,False
-HAT-P-50b,HAT-P-50b,0,0,,,,False
-HAT-P-51b,HAT-P-51b,0,0,,,,False
-HAT-P-52b,HAT-P-52b,0,0,,,,False
-HAT-P-53b,HAT-P-53b,0,0,,,,False
-HAT-P-54b,HAT-P-54b,0,0,,,,False
-HAT-P-55b,HAT-P-55b,0,0,,,,False
-HAT-P-56b,HAT-P-56b,0,0,,,,False
-HAT-P-57b,HAT-P-57b,0,0,,,,False
-HAT-P-58b,HAT-P-58b,0,0,,,,False
-HAT-P-59b,HAT-P-59b,0,0,,,,False
-HAT-P-60b,HAT-P-60b,0,0,,,,False
-HAT-P-61b,HAT-P-61b,0,0,,,,False
-HAT-P-62b,HAT-P-62b,0,0,,,,False
-HAT-P-64b,HAT-P-64b,0,0,,,,False
-HAT-P-65b,HAT-P-65b,0,0,,,,False
-HAT-P-66b,HAT-P-66b,0,0,,,,False
-HAT-P-67b,HAT-P-67b,0,0,,,,False
-HAT-P-68b,HAT-P-68b,0,0,,,,False
-HAT-P-69b,HAT-P-69b,0,0,,,,False
-HAT-P-70b,HAT-P-70b,0,0,,,,False
-HATS-1b,HATS-1b,0,0,,,,False
-HATS-2b,HATS-2b,0,0,,,,False
-HATS-3b,HATS-3b,0,0,,,,False
-HATS-4b,HATS-4b,0,0,,,,False
-HATS-5b,HATS-5b,0,0,,,,False
-HATS-6b,HATS-6b,0,0,,,,False
-HATS-7b,HATS-7b,0,0,,,,False
-HATS-9b,HATS-9b,0,0,,,,False
-HATS-10b,HATS-10b,0,0,,,,False
-HATS-11b,HATS-11b,0,0,,,,False
-HATS-13b,HATS-13b,0,0,,,,False
-HATS-17b,HATS-17b,0,0,,,,False
-HATS-18b,HATS-18b,0,0,,,,False
-HATS-22b,HATS-22b,0,0,,,,False
-HATS-23b,HATS-23b,0,0,,,,False
-HATS-24b,HATS-24b,0,0,,,,False
-HATS-25b,HATS-25b,0,0,,,,False
-HATS-26b,HATS-26b,0,0,,,,False
-HATS-27b,HATS-27b,0,0,,,,False
-HATS-29b,HATS-29b,0,0,,,,False
-HATS-30b,HATS-30b,0,0,,,,False
-HATS-31b,HATS-31b,0,0,,,,False
-HATS-33b,HATS-33b,0,0,,,,False
-HATS-34b,HATS-34b,0,0,,,,False
-HATS-35b,HATS-35b,0,0,,,,False
-HATS-37Ab,HATS-37Ab,0,0,,,,False
-HATS-38b,HATS-38b,0,0,,,,False
-HATS-39b,HATS-39b,0,0,,,,False
-HATS-40b,HATS-40b,0,0,,,,False
-HATS-41b,HATS-41b,0,0,,,,False
-HATS-42b,HATS-42b,0,0,,,,False
-HATS-43b,HATS-43b,0,0,,,,False
-HATS-45b,HATS-45b,0,0,,,,False
-HATS-46b,HATS-46b,0,0,,,,False
-HATS-47b,HATS-47b,0,0,,,,False
-HATS-48Ab,HATS-48Ab,0,0,,,,False
-HATS-50b,HATS-50b,0,0,,,,False
-HATS-51b,HATS-51b,0,0,,,,False
-HATS-52b,HATS-52b,0,0,,,,False
-HATS-53b,HATS-53b,0,0,,,,False
-HATS-55b,HATS-55b,0,0,,,,False
-HATS-56b,HATS-56b,0,0,,,,False
-HATS-57b,HATS-57b,0,0,,,,False
-HATS-58Ab,HATS-58Ab,0,0,,,,False
-HATS-60b,HATS-60b,0,0,,,,False
-HATS-61b,HATS-61b,0,0,,,,False
-HATS-62b,HATS-62b,0,0,,,,False
-HATS-64b,HATS-64b,0,0,,,,False
-HATS-65b,HATS-65b,0,0,,,,False
-HATS-67b,HATS-67b,0,0,,,,False
-HATS-68b,HATS-68b,0,0,,,,False
-HATS-70b,HATS-70b,0,0,,,,False
-HATS-72b,HATS-72b,0,0,,,,False
-HD1397b,HD1397b,0,0,,,,False
-HD2685b,HD2685b,0,0,,,,False
-HD3167b,HD3167b,0,0,,,,False
-HD3167c,HD3167c,0,0,,,,False
-HD5278b,HD5278b,0,0,,,,False
-HD15906b,HD15906b,0,0,,,,False
-HD15906c,HD15906c,0,0,,,,False
-HD17156b,HD17156b,0,0,,,,False
-HD21749c,HD21749c,0,0,,,,False
-HD23472c,HD23472c,0,0,,,,False
-HD23472f,HD23472f,0,0,,,,False
-HD28109c,HD28109c,0,0,,,,False
-HD28109d,HD28109d,0,0,,,,False
-HD63433b,HD63433b,0,0,,,,False
-HD63433c,HD63433c,0,0,,,,False
-HD63935b,HD63935b,0,0,,,,False
-HD63935c,HD63935c,0,0,,,,False
-HD73583b,HD73583b,0,0,,,,False
-HD73583c,HD73583c,0,0,,,,False
-HD80606b,HD80606b,0,0,,,,False
-HD86226c,HD86226c,0,0,,,,False
-HD89345b,HD89345b,0,0,,,,False
+GJ1214b,"GJ1214 b, GJ1214b",5,13,2026-06-00,Exploring atmospheric escape from hot-Jupiters and water-rich sub-Neptunes with full-atmosphere models,2026ASTCS..1130204T,True
+GJ1252b,"GJ1252 b, GJ1252b",2,3,2026-05-00,Super-Earth masses and stellar abundances from NIRPS reveal tentative evidence for water-rich formation around M dwarfs,2026A&A...709A.165W,True
+GJ3090b,"GJ3090 b, GJ3090b",0,0,,,,False
+GJ3470b,"GJ3470 b, GJ3470b",1,2,2026-06-00,"Atmospheric diversity of sub-Neptunes from formation with rock, water, and soot",2026arXiv260620464D,True
+GJ3473b,"GJ3473 b, GJ3473b",0,0,,,,False
+GJ3929b,"GJ3929 b, GJ3929b",0,0,,,,False
+GJ9827b,"GJ9827 b, GJ9827b",0,0,,,,False
+GJ9827c,"GJ9827 c, GJ9827c",0,0,,,,False
+GJ9827d,"GJ9827 d, GJ9827d",0,0,,,,False
+GPX-1b,"GPX 1 b, GPX-1 b, GPX-1b",0,1,,,,False
+Gaia-1b,"Gaia 1 b, Gaia-1 b, Gaia-1b",0,0,,,,False
+Gaia-2b,"Gaia 2 b, Gaia-2 b, Gaia-2b",0,1,,,,False
+HAT-P-1b,"HAT P 1 b, HAT-P-1 b, HAT-P-1b",3,6,2026-11-00,"A Clearer View of HAT-P-1 b: JWST NIRSpec G395H Reveals Water, Carbon Dioxide, and Possibly Hydrogen Sulfide",2026AJ....172..275A,True
+HAT-P-2b,"HAT P 2 b, HAT-P-2 b, HAT-P-2b",1,3,2026-09-00,Atmospheric dynamics and variability of periodically irradiated tidally locked planets,2026arXiv260938128B,True
+HAT-P-3b,"HAT P 3 b, HAT-P-3 b, HAT-P-3b",1,1,2026-03-00,"HET/HPF Observations of Helium in Warm, Hot, and Ultrahot Jupiters",2026AJ....171..194O,True
+HAT-P-4b,"HAT P 4 b, HAT-P-4 b, HAT-P-4b",0,0,,,,False
+HAT-P-5b,"HAT P 5 b, HAT-P-5 b, HAT-P-5b",0,0,,,,False
+HAT-P-6b,"HAT P 6 b, HAT-P-6 b, HAT-P-6b",0,0,,,,False
+HAT-P-7b,"HAT P 7 b, HAT-P-7 b, HAT-P-7b",0,6,,,,False
+HAT-P-8b,"HAT P 8 b, HAT-P-8 b, HAT-P-8b",1,1,2026-04-00,The First Dedicated Survey of Atmospheric Escape from Planets Orbiting F Stars,2026AJ....171..257S,True
+HAT-P-9b,"HAT P 9 b, HAT-P-9 b, HAT-P-9b",0,0,,,,False
+HAT-P-11b,"HAT P 11 b, HAT-P-11 b, HAT-P-11b",4,20,2026-10-00,Spatial variability of CH<SUB>4</SUB>-to-CO conversion pathways in irradiated gas giant atmospheres: implications for chemical relaxation and 1D quench schemes,2026MNRAS.tmp.1897Z,True
+HAT-P-12b,"HAT P 12 b, HAT-P-12 b, HAT-P-12b",6,9,2026-08-00,A new window in time: a mid-infrared slit spectroscopy mode for precision time-series astronomy with JWST/MIRI,2026SPIE14145E..3MD,True
+HAT-P-13b,"HAT P 13 b, HAT-P-13 b, HAT-P-13b",0,2,,,,False
+HAT-P-14b,"HAT P 14 b, HAT-P-14 b, HAT-P-14b",0,1,,,,False
+HAT-P-15b,"HAT P 15 b, HAT-P-15 b, HAT-P-15b",0,0,,,,False
+HAT-P-16b,"HAT P 16 b, HAT-P-16 b, HAT-P-16b",2,2,2026-09-00,"VizieR Online Data Catalog: TOI-1458, 1516, 2046 TTVs from ADYU60, T100, TESS (Sonbas+, 2025)",2026yCat..51700341S,True
+HAT-P-17b,"HAT P 17 b, HAT-P-17 b, HAT-P-17b",1,1,2026-03-00,"HET/HPF Observations of Helium in Warm, Hot, and Ultrahot Jupiters",2026AJ....171..194O,True
+HAT-P-18b,"HAT P 18 b, HAT-P-18 b, HAT-P-18b",6,13,2026-11-00,ExoEcho: Exoplanet Ephemerides Change Observations. III. A JWST Survey for Transit Timing Variations of 37 Exoplanets,2026ApJS..287....9W,True
+HAT-P-19b,"HAT P 19 b, HAT-P-19 b, HAT-P-19b",0,2,,,,False
+HAT-P-20b,"HAT P 20 b, HAT-P-20 b, HAT-P-20b",0,3,,,,False
+HAT-P-21b,"HAT P 21 b, HAT-P-21 b, HAT-P-21b",0,0,,,,False
+HAT-P-22b,"HAT P 22 b, HAT-P-22 b, HAT-P-22b",0,0,,,,False
+HAT-P-23b,"HAT P 23 b, HAT-P-23 b, HAT-P-23b",0,5,,,,False
+HAT-P-24b,"HAT P 24 b, HAT-P-24 b, HAT-P-24b",0,0,,,,False
+HAT-P-25b,"HAT P 25 b, HAT-P-25 b, HAT-P-25b",0,1,,,,False
+HAT-P-26b,"HAT P 26 b, HAT-P-26 b, HAT-P-26b",5,15,2026-08-00,"VizieR Online Data Catalog: JWST light curves &amp; transit depths of HAT-P-26b (Gressier+, 2025)",2026yCat..51700292G,True
+HAT-P-27b,"HAT P 27 b, HAT-P-27 b, HAT-P-27b",0,0,,,,False
+HAT-P-28b,"HAT P 28 b, HAT-P-28 b, HAT-P-28b",0,0,,,,False
+HAT-P-29b,"HAT P 29 b, HAT-P-29 b, HAT-P-29b",0,0,,,,False
+HAT-P-30b,"HAT P 30 b, HAT-P-30 b, HAT-P-30b",1,2,2026-03-00,BOWIE-ALIGN: Sub-solar C/O ratio and metallicity atmosphere of the misaligned hot Jupiter HAT-P-30 b,2026MNRAS.546ag143C,True
+HAT-P-31b,"HAT P 31 b, HAT-P-31 b, HAT-P-31b",0,0,,,,False
+HAT-P-32b,"HAT P 32 b, HAT-P-32 b, HAT-P-32b",3,11,2026-10-00,Identifying deformed exoplanets with JWST and Ariel: A target selection metric for phase curve observations,2026arXiv261022338R,True
+HAT-P-33b,"HAT P 33 b, HAT-P-33 b, HAT-P-33b",0,0,,,,False
+HAT-P-34b,"HAT P 34 b, HAT-P-34 b, HAT-P-34b",0,0,,,,False
+HAT-P-35b,"HAT P 35 b, HAT-P-35 b, HAT-P-35b",0,0,,,,False
+HAT-P-36b,"HAT P 36 b, HAT-P-36 b, HAT-P-36b",1,1,2026-02-00,IDAstro: Collaborative Research and Outreach,2026AAS...24743123H,True
+HAT-P-37b,"HAT P 37 b, HAT-P-37 b, HAT-P-37b",3,3,2026-02-00,IDAstro: Collaborative Research and Outreach,2026AAS...24743123H,True
+HAT-P-38b,"HAT P 38 b, HAT-P-38 b, HAT-P-38b",0,0,,,,False
+HAT-P-39b,"HAT P 39 b, HAT-P-39 b, HAT-P-39b",0,0,,,,False
+HAT-P-40b,"HAT P 40 b, HAT-P-40 b, HAT-P-40b",0,0,,,,False
+HAT-P-41b,"HAT P 41 b, HAT-P-41 b, HAT-P-41b",0,1,,,,False
+HAT-P-42b,"HAT P 42 b, HAT-P-42 b, HAT-P-42b",0,0,,,,False
+HAT-P-43b,"HAT P 43 b, HAT-P-43 b, HAT-P-43b",0,0,,,,False
+HAT-P-44b,"HAT P 44 b, HAT-P-44 b, HAT-P-44b",1,1,2026-04-00,LRG-BEASTS: detection of sodium and evidence for water absorption in the hot Saturn HAT-P-44b,2026MNRAS.547ag384C,True
+HAT-P-45b,"HAT P 45 b, HAT-P-45 b, HAT-P-45b",0,0,,,,False
+HAT-P-46b,"HAT P 46 b, HAT-P-46 b, HAT-P-46b",0,0,,,,False
+HAT-P-49b,"HAT P 49 b, HAT-P-49 b, HAT-P-49b",1,1,2026-03-00,"Aligned, Misaligned, and Polar Orbits of Hot Jupiters: Measuring Spin-orbit Angles via Doppler Tomography with HARPS-N",2026AJ....171..139B,True
+HAT-P-50b,"HAT P 50 b, HAT-P-50 b, HAT-P-50b",0,1,,,,False
+HAT-P-51b,"HAT P 51 b, HAT-P-51 b, HAT-P-51b",0,3,,,,False
+HAT-P-52b,"HAT P 52 b, HAT-P-52 b, HAT-P-52b",0,0,,,,False
+HAT-P-53b,"HAT P 53 b, HAT-P-53 b, HAT-P-53b",0,1,,,,False
+HAT-P-54b,"HAT P 54 b, HAT-P-54 b, HAT-P-54b",1,4,2026-02-00,Refining The Ephemerides of 6 Hot Jupiters Through Citizen Science: Results from a Course-Based Undergraduate Research Experience,2026AAS...24720801H,True
+HAT-P-55b,"HAT P 55 b, HAT-P-55 b, HAT-P-55b",0,3,,,,False
+HAT-P-56b,"HAT P 56 b, HAT-P-56 b, HAT-P-56b",0,0,,,,False
+HAT-P-57b,"HAT P 57 b, HAT-P-57 b, HAT-P-57b",2,3,2026-09-00,"Cross-correlation transmission spectroscopy of ultra-hot Jupiters WASP-189b, HAT-P-57b, KELT-17b, and KELT-21b with GIANO-B",2026A&A...713A..66M,True
+HAT-P-58b,"HAT P 58 b, HAT-P-58 b, HAT-P-58b",0,0,,,,False
+HAT-P-59b,"HAT P 59 b, HAT-P-59 b, HAT-P-59b",0,0,,,,False
+HAT-P-60b,"HAT P 60 b, HAT-P-60 b, HAT-P-60b",0,0,,,,False
+HAT-P-61b,"HAT P 61 b, HAT-P-61 b, HAT-P-61b",0,0,,,,False
+HAT-P-62b,"HAT P 62 b, HAT-P-62 b, HAT-P-62b",0,0,,,,False
+HAT-P-64b,"HAT P 64 b, HAT-P-64 b, HAT-P-64b",0,0,,,,False
+HAT-P-65b,"HAT P 65 b, HAT-P-65 b, HAT-P-65b",0,2,,,,False
+HAT-P-66b,"HAT P 66 b, HAT-P-66 b, HAT-P-66b",0,0,,,,False
+HAT-P-67b,"HAT P 67 b, HAT-P-67 b, HAT-P-67b",2,10,2026-10-00,A Headwind-like Helium Outflow from TOI-3884b,2026arXiv261031492N,True
+HAT-P-68b,"HAT P 68 b, HAT-P-68 b, HAT-P-68b",0,0,,,,False
+HAT-P-69b,"HAT P 69 b, HAT-P-69 b, HAT-P-69b",0,0,,,,False
+HAT-P-70b,"HAT P 70 b, HAT-P-70 b, HAT-P-70b",3,4,2026-07-00,HAT-P-70b through the Eyes of MAROON-X: Constraining Elemental Abundances of Metals and Insights on Atmosphere Dynamics,2026AJ....172....9S,True
+HATS-1b,"HATS 1 b, HATS-1 b, HATS-1b",0,0,,,,False
+HATS-2b,"HATS 2 b, HATS-2 b, HATS-2b",0,0,,,,False
+HATS-3b,"HATS 3 b, HATS-3 b, HATS-3b",0,0,,,,False
+HATS-4b,"HATS 4 b, HATS-4 b, HATS-4b",0,0,,,,False
+HATS-5b,"HATS 5 b, HATS-5 b, HATS-5b",0,0,,,,False
+HATS-6b,"HATS 6 b, HATS-6 b, HATS-6b",2,5,2026-11-00,ExoEcho: Exoplanet Ephemerides Change Observations. III. A JWST Survey for Transit Timing Variations of 37 Exoplanets,2026ApJS..287....9W,True
+HATS-7b,"HATS 7 b, HATS-7 b, HATS-7b",0,0,,,,False
+HATS-9b,"HATS 9 b, HATS-9 b, HATS-9b",0,0,,,,False
+HATS-10b,"HATS 10 b, HATS-10 b, HATS-10b",0,0,,,,False
+HATS-11b,"HATS 11 b, HATS-11 b, HATS-11b",0,0,,,,False
+HATS-13b,"HATS 13 b, HATS-13 b, HATS-13b",0,0,,,,False
+HATS-17b,"HATS 17 b, HATS-17 b, HATS-17b",0,0,,,,False
+HATS-18b,"HATS 18 b, HATS-18 b, HATS-18b",0,2,,,,False
+HATS-22b,"HATS 22 b, HATS-22 b, HATS-22b",0,0,,,,False
+HATS-23b,"HATS 23 b, HATS-23 b, HATS-23b",0,0,,,,False
+HATS-24b,"HATS 24 b, HATS-24 b, HATS-24b",0,0,,,,False
+HATS-25b,"HATS 25 b, HATS-25 b, HATS-25b",0,0,,,,False
+HATS-26b,"HATS 26 b, HATS-26 b, HATS-26b",0,0,,,,False
+HATS-27b,"HATS 27 b, HATS-27 b, HATS-27b",0,0,,,,False
+HATS-29b,"HATS 29 b, HATS-29 b, HATS-29b",0,0,,,,False
+HATS-30b,"HATS 30 b, HATS-30 b, HATS-30b",0,0,,,,False
+HATS-31b,"HATS 31 b, HATS-31 b, HATS-31b",0,0,,,,False
+HATS-33b,"HATS 33 b, HATS-33 b, HATS-33b",0,0,,,,False
+HATS-34b,"HATS 34 b, HATS-34 b, HATS-34b",0,0,,,,False
+HATS-35b,"HATS 35 b, HATS-35 b, HATS-35b",0,0,,,,False
+HATS-37Ab,"HATS 37Ab, HATS-37Ab",0,0,,,,False
+HATS-38b,"HATS 38 b, HATS-38 b, HATS-38b",0,2,,,,False
+HATS-39b,"HATS 39 b, HATS-39 b, HATS-39b",0,0,,,,False
+HATS-40b,"HATS 40 b, HATS-40 b, HATS-40b",0,0,,,,False
+HATS-41b,"HATS 41 b, HATS-41 b, HATS-41b",0,0,,,,False
+HATS-42b,"HATS 42 b, HATS-42 b, HATS-42b",1,1,2026-02-00,Accelerating exoplanet climate modelling: A machine learning approach to complement 3D general circulation model grid simulations,2026A&A...706A.157P,True
+HATS-43b,"HATS 43 b, HATS-43 b, HATS-43b",0,0,,,,False
+HATS-45b,"HATS 45 b, HATS-45 b, HATS-45b",0,0,,,,False
+HATS-46b,"HATS 46 b, HATS-46 b, HATS-46b",0,0,,,,False
+HATS-47b,"HATS 47 b, HATS-47 b, HATS-47b",0,0,,,,False
+HATS-48Ab,"HATS 48Ab, HATS-48Ab",0,0,,,,False
+HATS-50b,"HATS 50 b, HATS-50 b, HATS-50b",0,0,,,,False
+HATS-51b,"HATS 51 b, HATS-51 b, HATS-51b",0,0,,,,False
+HATS-52b,"HATS 52 b, HATS-52 b, HATS-52b",0,0,,,,False
+HATS-53b,"HATS 53 b, HATS-53 b, HATS-53b",0,0,,,,False
+HATS-55b,"HATS 55 b, HATS-55 b, HATS-55b",0,0,,,,False
+HATS-56b,"HATS 56 b, HATS-56 b, HATS-56b",0,0,,,,False
+HATS-57b,"HATS 57 b, HATS-57 b, HATS-57b",0,0,,,,False
+HATS-58Ab,"HATS 58Ab, HATS-58Ab",0,0,,,,False
+HATS-60b,"HATS 60 b, HATS-60 b, HATS-60b",0,0,,,,False
+HATS-61b,"HATS 61 b, HATS-61 b, HATS-61b",0,0,,,,False
+HATS-62b,"HATS 62 b, HATS-62 b, HATS-62b",0,0,,,,False
+HATS-64b,"HATS 64 b, HATS-64 b, HATS-64b",0,0,,,,False
+HATS-65b,"HATS 65 b, HATS-65 b, HATS-65b",0,0,,,,False
+HATS-67b,"HATS 67 b, HATS-67 b, HATS-67b",0,0,,,,False
+HATS-68b,"HATS 68 b, HATS-68 b, HATS-68b",0,0,,,,False
+HATS-70b,"HATS 70 b, HATS-70 b, HATS-70b",0,0,,,,False
+HATS-72b,"HATS 72 b, HATS-72 b, HATS-72b",0,0,,,,False
+HD1397b,"HD1397 b, HD1397b",0,0,,,,False
+HD2685b,"HD2685 b, HD2685b",0,0,,,,False
+HD3167b,"HD3167 b, HD3167b",1,2,2026-06-00,Coupled Orbital and Interior Structure Evolution of Lava Planets,2026ApJ..1003..190H,True
+HD3167c,"HD3167 c, HD3167c",0,0,,,,False
+HD5278b,"HD5278 b, HD5278b",0,0,,,,False
+HD15906b,"HD15906 b, HD15906b",0,0,,,,False
+HD15906c,"HD15906 c, HD15906c",0,0,,,,False
+HD17156b,"HD17156 b, HD17156b",0,0,,,,False
+HD21749c,"HD21749 c, HD21749c",0,0,,,,False
+HD23472c,"HD23472 c, HD23472c",0,0,,,,False
+HD23472f,"HD23472 f, HD23472f",0,0,,,,False
+HD28109c,"HD28109 c, HD28109c",0,0,,,,False
+HD28109d,"HD28109 d, HD28109d",0,0,,,,False
+HD63433b,"HD63433 b, HD63433b",1,2,2026-06-00,Searching for TTVs and Analyzing the Effects of Star Spots in Young Transiting Systems,2026csss.confE.359L,True
+HD63433c,"HD63433 c, HD63433c",0,2,,,,False
+HD63935b,"HD63935 b, HD63935b",0,0,,,,False
+HD63935c,"HD63935 c, HD63935c",0,0,,,,False
+HD73583b,"HD73583 b, HD73583b",0,0,,,,False
+HD73583c,"HD73583 c, HD73583c",0,0,,,,False
+HD80606b,"HD80606 b, HD80606b",4,4,2026-10-00,Eclipse Timing of the Eccentric Planet HD 80606 b with JWST: Constraints on a Second Planet and Other Dynamical Effects,2026AJ....172..225B,True
+HD86226c,"HD86226 c, HD86226c",0,1,,,,False
+HD89345b,"HD89345 b, HD89345b",0,0,,,,False
 HD93963Ac,HD93963Ac,0,0,,,,False
-HD97658b,HD97658b,0,0,,,,False
-HD106315c,HD106315c,0,0,,,,False
-HD108236b,HD108236b,0,0,,,,False
-HD108236c,HD108236c,0,0,,,,False
-HD108236d,HD108236d,0,0,,,,False
-HD108236e,HD108236e,0,0,,,,False
-HD109833b,HD109833b,0,0,,,,False
-HD109833c,HD109833c,0,0,,,,False
-HD110082b,HD110082b,0,0,,,,False
-HD110113b,HD110113b,0,0,,,,False
-HD136352c,HD136352c,0,0,,,,False
-HD149026b,HD149026b,0,0,,,,False
-HD152843b,HD152843b,0,0,,,,False
-HD152843c,HD152843c,0,0,,,,False
-HD183579b,HD183579b,0,0,,,,False
-HD189733b,HD189733b,0,0,,,,False
-HD191939b,HD191939b,0,0,,,,False
-HD191939c,HD191939c,0,0,,,,False
-HD191939d,HD191939d,0,0,,,,False
-HD202772Ab,HD202772Ab,0,0,,,,False
-HD207496b,HD207496b,0,0,,,,False
-HD209458b,HD209458b,0,0,,,,False
-HD219134b,HD219134b,0,0,,,,False
-HD219666b,HD219666b,0,0,,,,False
-HD221416b,HD221416b,0,0,,,,False
-HD235088b,HD235088b,0,0,,,,False
-HD260655b,HD260655b,0,0,,,,False
-HD260655c,HD260655c,0,0,,,,False
-HD332231b,HD332231b,0,0,,,,False
-HIP65Ab,HIP65Ab,0,0,,,,False
-HIP41378e,HIP41378e,0,0,,,,False
-HIP41378f,HIP41378f,0,0,,,,False
-HIP67522b,HIP67522b,0,0,,,,False
-HIP94235b,HIP94235b,0,0,,,,False
-HIP113103b,HIP113103b,0,0,,,,False
-HIP113103c,HIP113103c,0,0,,,,False
-HIP116454b,HIP116454b,0,0,,,,False
-HR858b,HR858b,0,0,,,,False
-K2-3b,K2-3b,0,0,,,,False
-K2-3c,K2-3c,0,0,,,,False
-K2-18b,K2-18b,0,0,,,,False
-K2-19b,K2-19b,0,0,,,,False
-K2-19c,K2-19c,0,0,,,,False
+HD97658b,"HD97658 b, HD97658b",0,0,,,,False
+HD106315c,"HD106315 c, HD106315c",0,0,,,,False
+HD108236b,"HD108236 b, HD108236b",0,0,,,,False
+HD108236c,"HD108236 c, HD108236c",0,0,,,,False
+HD108236d,"HD108236 d, HD108236d",0,0,,,,False
+HD108236e,"HD108236 e, HD108236e",0,0,,,,False
+HD109833b,"HD109833 b, HD109833b",0,0,,,,False
+HD109833c,"HD109833 c, HD109833c",0,0,,,,False
+HD110082b,"HD110082 b, HD110082b",0,0,,,,False
+HD110113b,"HD110113 b, HD110113b",0,0,,,,False
+HD136352c,"HD136352 c, HD136352c",0,0,,,,False
+HD149026b,"HD149026 b, HD149026b",3,6,2026-06-00,Exploring atmospheric escape from hot-Jupiters and water-rich sub-Neptunes with full-atmosphere models,2026ASTCS..1130204T,True
+HD152843b,"HD152843 b, HD152843b",0,1,,,,False
+HD152843c,"HD152843 c, HD152843c",0,0,,,,False
+HD183579b,"HD183579 b, HD183579b",0,0,,,,False
+HD189733b,"HD189733 b, HD189733b",18,54,2026-10-00,Spatial variability of CH<SUB>4</SUB>-to-CO conversion pathways in irradiated gas giant atmospheres: implications for chemical relaxation and 1D quench schemes,2026MNRAS.tmp.1897Z,True
+HD191939b,"HD191939 b, HD191939b",0,0,,,,False
+HD191939c,"HD191939 c, HD191939c",0,0,,,,False
+HD191939d,"HD191939 d, HD191939d",0,0,,,,False
+HD202772Ab,HD202772Ab,1,1,2025-12-00,Detailed spectroscopic and photometric analysis of the remarkable planet-hosting wide binary system HD 202772A/B,2025MNRAS.544.3994J,True
+HD207496b,"HD207496 b, HD207496b",1,3,2026-04-00,Core-Powered Mass-Loss of the Primary Atmospheres of Mini-Neptunes: Influence of Water Content in the Planet Interior and Evolution of the Host Star,2026SoSyR..60...23E,True
+HD209458b,"HD209458 b, HD209458b",15,52,2026-10-00,Spatial variability of CH<SUB>4</SUB>-to-CO conversion pathways in irradiated gas giant atmospheres: implications for chemical relaxation and 1D quench schemes,2026MNRAS.tmp.1897Z,True
+HD219134b,"HD219134 b, HD219134b",0,1,,,,False
+HD219666b,"HD219666 b, HD219666b",0,0,,,,False
+HD221416b,"HD221416 b, HD221416b",0,0,,,,False
+HD235088b,"HD235088 b, HD235088b",0,0,,,,False
+HD260655b,"HD260655 b, HD260655b",0,0,,,,False
+HD260655c,"HD260655 c, HD260655c",0,0,,,,False
+HD332231b,"HD332231 b, HD332231b",0,0,,,,False
+HIP65Ab,HIP65Ab,0,1,,,,False
+HIP41378e,"HIP41378 e, HIP41378e",0,0,,,,False
+HIP41378f,"HIP41378 f, HIP41378f",0,0,,,,False
+HIP67522b,"HIP67522 b, HIP67522b",0,0,,,,False
+HIP94235b,"HIP94235 b, HIP94235b",0,3,,,,False
+HIP113103b,"HIP113103 b, HIP113103b",0,0,,,,False
+HIP113103c,"HIP113103 c, HIP113103c",0,0,,,,False
+HIP116454b,"HIP116454 b, HIP116454b",0,0,,,,False
+HR858b,"HR858 b, HR858b",0,0,,,,False
+K2-3b,"K2 3 b, K2-3 b, K2-3b",1,1,2026-09-00,Uncovering temperate worlds: an updated look at the K2-3 system with ESPRESSO,2026arXiv260917792S,True
+K2-3c,"K2 3 c, K2-3 c, K2-3c",1,1,2026-09-00,Uncovering temperate worlds: an updated look at the K2-3 system with ESPRESSO,2026arXiv260917792S,True
+K2-18b,"K2 18 b, K2-18 b, K2-18b",56,132,2026-11-00,Sea ice as an origin of life location for hycean and ocean worlds,2026MNRAS.553g1974B,True
+K2-19b,"K2 19 b, K2-19 b, K2-19b",1,2,2026-01-00,A Decade of Transit-timing Measurements Confirm Resonance in the K2-19 System,2026AJ....171...46E,True
+K2-19c,"K2 19 c, K2-19 c, K2-19c",0,0,,,,False
 K2-21c,K2-21c,0,0,,,,False
 K2-24b,K2-24b,0,0,,,,False
-K2-24c,K2-24c,0,0,,,,False
-K2-25b,K2-25b,0,0,,,,False
-K2-29b,K2-29b,0,0,,,,False
-K2-30b,K2-30b,0,0,,,,False
-K2-31b,K2-31b,0,0,,,,False
-K2-32b,K2-32b,0,0,,,,False
-K2-32c,K2-32c,0,0,,,,False
-K2-32d,K2-32d,0,0,,,,False
-K2-33b,K2-33b,0,0,,,,False
-K2-34b,K2-34b,0,0,,,,False
-K2-36c,K2-36c,0,0,,,,False
-K2-39b,K2-39b,0,0,,,,False
-K2-52b,K2-52b,0,0,,,,False
-K2-55b,K2-55b,0,0,,,,False
+K2-24c,"K2 24 c, K2-24 c, K2-24c",0,0,,,,False
+K2-25b,"K2 25 b, K2-25 b, K2-25b",0,6,,,,False
+K2-29b,"K2 29 b, K2-29 b, K2-29b",0,0,,,,False
+K2-30b,"K2 30 b, K2-30 b, K2-30b",0,0,,,,False
+K2-31b,"K2 31 b, K2-31 b, K2-31b",0,0,,,,False
+K2-32b,"K2 32 b, K2-32 b, K2-32b",0,0,,,,False
+K2-32c,"K2 32 c, K2-32 c, K2-32c",0,0,,,,False
+K2-32d,"K2 32 d, K2-32 d, K2-32d",0,0,,,,False
+K2-33b,"K2 33 b, K2-33 b, K2-33b",0,2,,,,False
+K2-34b,"K2 34 b, K2-34 b, K2-34b",0,0,,,,False
+K2-36c,"K2 36 c, K2-36 c, K2-36c",0,0,,,,False
+K2-39b,"K2 39 b, K2-39 b, K2-39b",0,0,,,,False
+K2-52b,"K2 52 b, K2-52 b, K2-52b",0,0,,,,False
+K2-55b,"K2 55 b, K2-55 b, K2-55b",0,0,,,,False
 K2-79b,K2-79b,0,0,,,,False
 K2-87b,K2-87b,0,0,,,,False
 K2-107b,K2-107b,0,0,,,,False
 K2-113b,K2-113b,0,0,,,,False
 K2-115b,K2-115b,0,0,,,,False
 K2-116b,K2-116b,0,0,,,,False
-K2-121b,K2-121b,0,0,,,,False
-K2-129b,K2-129b,0,0,,,,False
-K2-132b,K2-132b,0,0,,,,False
-K2-136c,K2-136c,0,0,,,,False
-K2-138f,K2-138f,0,0,,,,False
-K2-138g,K2-138g,0,0,,,,False
-K2-139b,K2-139b,0,0,,,,False
-K2-140b,K2-140b,0,0,,,,False
-K2-141b,K2-141b,0,0,,,,False
-K2-141c,K2-141c,0,0,,,,False
-K2-155b,K2-155b,0,0,,,,False
-K2-155c,K2-155c,0,0,,,,False
-K2-174b,K2-174b,0,0,,,,False
-K2-198b,K2-198b,0,0,,,,False
-K2-198d,K2-198d,0,0,,,,False
-K2-199c,K2-199c,0,0,,,,False
-K2-212b,K2-212b,0,0,,,,False
-K2-232b,K2-232b,0,0,,,,False
-K2-233d,K2-233d,0,0,,,,False
-K2-237b,K2-237b,0,0,,,,False
-K2-238b,K2-238b,0,0,,,,False
-K2-239b,K2-239b,0,0,,,,False
-K2-239c,K2-239c,0,0,,,,False
-K2-240b,K2-240b,0,0,,,,False
-K2-260b,K2-260b,0,0,,,,False
-K2-261b,K2-261b,0,0,,,,False
-K2-266b,K2-266b,0,0,,,,False
-K2-266d,K2-266d,0,0,,,,False
-K2-280b,K2-280b,0,0,,,,False
-K2-284b,K2-284b,0,0,,,,False
-K2-285c,K2-285c,0,0,,,,False
-K2-287b,K2-287b,0,0,,,,False
-K2-289b,K2-289b,0,0,,,,False
-K2-295b,K2-295b,0,0,,,,False
-K2-321b,K2-321b,0,0,,,,False
-K2-329b,K2-329b,0,0,,,,False
-K2-333b,K2-333b,0,0,,,,False
-K2-334b,K2-334b,0,0,,,,False
-K2-344b,K2-344b,0,0,,,,False
-K2-348b,K2-348b,0,0,,,,False
-K2-353b,K2-353b,0,0,,,,False
-K2-370b,K2-370b,0,0,,,,False
-K2-403b,K2-403b,0,0,,,,False
-K2-405b,K2-405b,0,0,,,,False
-K2-406b,K2-406b,0,0,,,,False
-K2-415b,K2-415b,0,0,,,,False
-K2-417b,K2-417b,0,0,,,,False
-KELT-1b,KELT-1b,0,0,,,,False
-KELT-2Ab,KELT-2Ab,0,0,,,,False
-KELT-3b,KELT-3b,0,0,,,,False
-KELT-4Ab,KELT-4Ab,0,0,,,,False
-KELT-6b,KELT-6b,0,0,,,,False
-KELT-7b,KELT-7b,0,0,,,,False
-KELT-8b,KELT-8b,0,0,,,,False
-KELT-9b,KELT-9b,0,0,,,,False
-KELT-10b,KELT-10b,0,0,,,,False
-KELT-11b,KELT-11b,0,0,,,,False
-KELT-12b,KELT-12b,0,0,,,,False
-KELT-14b,KELT-14b,0,0,,,,False
-KELT-15b,KELT-15b,0,0,,,,False
-KELT-16b,KELT-16b,0,0,,,,False
-KELT-17b,KELT-17b,0,0,,,,False
-KELT-18b,KELT-18b,0,0,,,,False
-KELT-19Ab,KELT-19Ab,0,0,,,,False
-KELT-20b,KELT-20b,0,0,,,,False
-KELT-21b,KELT-21b,0,0,,,,False
-KELT-23Ab,KELT-23Ab,0,0,,,,False
-KELT-24b,KELT-24b,0,0,,,,False
-KOI-12b,KOI-12b,0,0,,,,False
-KOI-13b,KOI-13b,0,0,,,,False
-KOI-94c,KOI-94c,0,0,,,,False
-KOI-94d,KOI-94d,0,0,,,,False
-KOI-94e,KOI-94e,0,0,,,,False
-KPS-1b,KPS-1b,0,0,,,,False
-Kepler-5b,Kepler-5b,0,0,,,,False
-Kepler-6b,Kepler-6b,0,0,,,,False
-Kepler-7b,Kepler-7b,0,0,,,,False
-Kepler-12b,Kepler-12b,0,0,,,,False
-Kepler-14b,Kepler-14b,0,0,,,,False
-Kepler-16b,Kepler-16b,0,0,,,,False
-Kepler-17b,Kepler-17b,0,0,,,,False
-Kepler-18c,Kepler-18c,0,0,,,,False
-Kepler-18d,Kepler-18d,0,0,,,,False
-Kepler-41b,Kepler-41b,0,0,,,,False
-Kepler-63b,Kepler-63b,0,0,,,,False
-Kepler-76b,Kepler-76b,0,0,,,,False
-Kepler-91b,Kepler-91b,0,0,,,,False
-Kepler-105b,Kepler-105b,0,0,,,,False
-Kepler-138b,Kepler-138b,0,0,,,,False
-Kepler-396c,Kepler-396c,0,0,,,,False
-Kepler-411c,Kepler-411c,0,0,,,,False
-Kepler-422b,Kepler-422b,0,0,,,,False
-Kepler-435b,Kepler-435b,0,0,,,,False
-Kepler-444b,Kepler-444b,0,0,,,,False
-Kepler-444c,Kepler-444c,0,0,,,,False
-Kepler-444e,Kepler-444e,0,0,,,,False
-Kepler-447b,Kepler-447b,0,0,,,,False
-Kepler-854b,Kepler-854b,0,0,,,,False
-Kepler-1656b,Kepler-1656b,0,0,,,,False
-Kepler-1658b,Kepler-1658b,0,0,,,,False
-L98-59b,L98-59b,0,0,,,,False
-L98-59c,L98-59c,0,0,,,,False
-L98-59d,L98-59d,0,0,,,,False
-LHS475b,LHS475b,0,0,,,,False
-LHS1140b,LHS1140b,0,0,,,,False
-LHS1140c,LHS1140c,0,0,,,,False
-LHS1478b,LHS1478b,0,0,,,,False
-LHS1678b,LHS1678b,0,0,,,,False
-LHS1678c,LHS1678c,0,0,,,,False
-LHS3844b,LHS3844b,0,0,,,,False
-LP714-47b,LP714-47b,0,0,,,,False
-LP791-18b,LP791-18b,0,0,,,,False
-LP791-18c,LP791-18c,0,0,,,,False
-LP791-18d,LP791-18d,0,0,,,,False
-LTT1445Ab,LTT1445Ab,0,0,,,,False
+K2-121b,"K2 121 b, K2-121 b, K2-121b",0,0,,,,False
+K2-129b,"K2 129 b, K2-129 b, K2-129b",0,0,,,,False
+K2-132b,"K2 132 b, K2-132 b, K2-132b",0,0,,,,False
+K2-136c,"K2 136 c, K2-136 c, K2-136c",0,0,,,,False
+K2-138f,"K2 138 f, K2-138 f, K2-138f",0,0,,,,False
+K2-138g,"K2 138 g, K2-138 g, K2-138g",0,0,,,,False
+K2-139b,"K2 139 b, K2-139 b, K2-139b",0,2,,,,False
+K2-140b,"K2 140 b, K2-140 b, K2-140b",0,0,,,,False
+K2-141b,"K2 141 b, K2-141 b, K2-141b",5,10,2026-09-00,Revealing the Shiny Nature of Lava Worlds: Small Planet Phase Curves with TESS,2026arXiv260926874C,True
+K2-141c,"K2 141 c, K2-141 c, K2-141c",0,0,,,,False
+K2-155b,"K2 155 b, K2-155 b, K2-155b",0,0,,,,False
+K2-155c,"K2 155 c, K2-155 c, K2-155c",0,0,,,,False
+K2-174b,"K2 174 b, K2-174 b, K2-174b",0,0,,,,False
+K2-198b,"K2 198 b, K2-198 b, K2-198b",0,1,,,,False
+K2-198d,"K2 198 d, K2-198 d, K2-198d",0,1,,,,False
+K2-199c,"K2 199 c, K2-199 c, K2-199c",0,0,,,,False
+K2-212b,"K2 212 b, K2-212 b, K2-212b",0,0,,,,False
+K2-232b,"K2 232 b, K2-232 b, K2-232b",0,0,,,,False
+K2-233d,"K2 233 d, K2-233 d, K2-233d",1,1,2026-10-00,The GAPS Programme at TNG. LXXX. Characterisation of the 400 Myr old multi-planet system K2-233,2026arXiv261009954F,True
+K2-237b,"K2 237 b, K2-237 b, K2-237b",0,2,,,,False
+K2-238b,"K2 238 b, K2-238 b, K2-238b",0,0,,,,False
+K2-239b,"K2 239 b, K2-239 b, K2-239b",0,0,,,,False
+K2-239c,"K2 239 c, K2-239 c, K2-239c",0,0,,,,False
+K2-240b,"K2 240 b, K2-240 b, K2-240b",0,0,,,,False
+K2-260b,"K2 260 b, K2-260 b, K2-260b",0,0,,,,False
+K2-261b,"K2 261 b, K2-261 b, K2-261b",0,0,,,,False
+K2-266b,"K2 266 b, K2-266 b, K2-266b",0,0,,,,False
+K2-266d,"K2 266 d, K2-266 d, K2-266d",0,1,,,,False
+K2-280b,"K2 280 b, K2-280 b, K2-280b",0,0,,,,False
+K2-284b,"K2 284 b, K2-284 b, K2-284b",0,1,,,,False
+K2-285c,"K2 285 c, K2-285 c, K2-285c",0,0,,,,False
+K2-287b,"K2 287 b, K2-287 b, K2-287b",0,0,,,,False
+K2-289b,"K2 289 b, K2-289 b, K2-289b",0,0,,,,False
+K2-295b,"K2 295 b, K2-295 b, K2-295b",0,0,,,,False
+K2-321b,"K2 321 b, K2-321 b, K2-321b",0,0,,,,False
+K2-329b,"K2 329 b, K2-329 b, K2-329b",1,3,2026-05-00,"VizieR Online Data Catalog: RV &amp; light curves of 8 gas giant systems (Espinoza-Retamal+, 2025)",2026yCat..51700070E,True
+K2-333b,"K2 333 b, K2-333 b, K2-333b",0,0,,,,False
+K2-334b,"K2 334 b, K2-334 b, K2-334b",0,0,,,,False
+K2-344b,"K2 344 b, K2-344 b, K2-344b",0,0,,,,False
+K2-348b,"K2 348 b, K2-348 b, K2-348b",0,1,,,,False
+K2-353b,"K2 353 b, K2-353 b, K2-353b",0,0,,,,False
+K2-370b,"K2 370 b, K2-370 b, K2-370b",0,1,,,,False
+K2-403b,"K2 403 b, K2-403 b, K2-403b",0,0,,,,False
+K2-405b,"K2 405 b, K2-405 b, K2-405b",0,0,,,,False
+K2-406b,"K2 406 b, K2-406 b, K2-406b",0,0,,,,False
+K2-415b,"K2 415 b, K2-415 b, K2-415b",0,0,,,,False
+K2-417b,"K2 417 b, K2-417 b, K2-417b",0,0,,,,False
+KELT-1b,"KELT 1 b, KELT-1 b, KELT-1b",0,3,,,,False
+KELT-2Ab,"KELT 2Ab, KELT-2Ab",1,1,2026-10-00,Emission spectroscopy of KELT-2A b with Gemini-North/IGRINS-2: hints of a stellar C/O ratio and sub-stellar metallicity,2026arXiv261019377H,True
+KELT-3b,"KELT 3 b, KELT-3 b, KELT-3b",0,0,,,,False
+KELT-4Ab,"KELT 4Ab, KELT-4Ab",0,0,,,,False
+KELT-6b,"KELT 6 b, KELT-6 b, KELT-6b",0,0,,,,False
+KELT-7b,"KELT 7 b, KELT-7 b, KELT-7b",2,6,2026-07-00,Mitigating Charge Migration in JWST NIRISS Reveals That KELT-7 b is a Metal-enriched Ultra-hot Jupiter Orbiting a Young Metal-rich Star,2026arXiv260706708S,True
+KELT-8b,"KELT 8 b, KELT-8 b, KELT-8b",0,4,,,,False
+KELT-9b,"KELT 9 b, KELT-9 b, KELT-9b",10,33,2026-10-00,The atomic C/O ratio of KELT-9b,2026A&A...714A.378P,True
+KELT-10b,"KELT 10 b, KELT-10 b, KELT-10b",0,0,,,,False
+KELT-11b,"KELT 11 b, KELT-11 b, KELT-11b",2,3,2025-12-00,Bridging the Atmospheric Circulations of Hot and Warm Giant Exoplanets,2025ApJ...995....9S,True
+KELT-12b,"KELT 12 b, KELT-12 b, KELT-12b",0,0,,,,False
+KELT-14b,"KELT 14 b, KELT-14 b, KELT-14b",0,1,,,,False
+KELT-15b,"KELT 15 b, KELT-15 b, KELT-15b",0,1,,,,False
+KELT-16b,"KELT 16 b, KELT-16 b, KELT-16b",0,1,,,,False
+KELT-17b,"KELT 17 b, KELT-17 b, KELT-17b",1,1,2026-09-00,"Cross-correlation transmission spectroscopy of ultra-hot Jupiters WASP-189b, HAT-P-57b, KELT-17b, and KELT-21b with GIANO-B",2026A&A...713A..66M,True
+KELT-18b,"KELT 18 b, KELT-18 b, KELT-18b",1,5,2026-10-00,High-resolution transmission spectroscopy of KELT-18b Metastable helium detection at 1083 nm,2026arXiv261017220C,True
+KELT-19Ab,"KELT 19Ab, KELT-19Ab",0,2,,,,False
+KELT-20b,"KELT 20 b, KELT-20 b, KELT-20b",10,22,2026-10-00,The GAPS programme at TNG: LXXVIII. Phase-resolved detection of multiple atomic species in the atmosphere of KELT-20b/MASCARA-2b,2026A&A...714A.371B,True
+KELT-21b,"KELT 21 b, KELT-21 b, KELT-21b",1,1,2026-09-00,"Cross-correlation transmission spectroscopy of ultra-hot Jupiters WASP-189b, HAT-P-57b, KELT-17b, and KELT-21b with GIANO-B",2026A&A...713A..66M,True
+KELT-23Ab,"KELT 23Ab, KELT-23Ab",0,0,,,,False
+KELT-24b,"KELT 24 b, KELT-24 b, KELT-24b",0,2,,,,False
+KOI-12b,"KOI 12 b, KOI-12 b, KOI-12b",0,0,,,,False
+KOI-13b,"KOI 13 b, KOI-13 b, KOI-13b",0,1,,,,False
+KOI-94c,"KOI 94 c, KOI-94 c, KOI-94c",0,0,,,,False
+KOI-94d,"KOI 94 d, KOI-94 d, KOI-94d",0,0,,,,False
+KOI-94e,"KOI 94 e, KOI-94 e, KOI-94e",0,0,,,,False
+KPS-1b,"KPS 1 b, KPS-1 b, KPS-1b",0,0,,,,False
+Kepler-5b,"Kepler 5 b, Kepler-5 b, Kepler-5b",0,1,,,,False
+Kepler-6b,"Kepler 6 b, Kepler-6 b, Kepler-6b",0,0,,,,False
+Kepler-7b,"Kepler 7 b, Kepler-7 b, Kepler-7b",0,3,,,,False
+Kepler-12b,"Kepler 12 b, Kepler-12 b, Kepler-12b",0,0,,,,False
+Kepler-14b,"Kepler 14 b, Kepler-14 b, Kepler-14b",0,0,,,,False
+Kepler-16b,"Kepler 16 b, Kepler-16 b, Kepler-16b",1,5,2026-06-00,Resonant Hamiltonian dynamics in the CR3BP: Bistability and stochastic resonance in binary planetary systems,2026A&A...710A.186C,True
+Kepler-17b,"Kepler 17 b, Kepler-17 b, Kepler-17b",0,1,,,,False
+Kepler-18c,"Kepler 18 c, Kepler-18 c, Kepler-18c",0,1,,,,False
+Kepler-18d,"Kepler 18 d, Kepler-18 d, Kepler-18d",0,0,,,,False
+Kepler-41b,"Kepler 41 b, Kepler-41 b, Kepler-41b",0,1,,,,False
+Kepler-63b,"Kepler 63 b, Kepler-63 b, Kepler-63b",0,0,,,,False
+Kepler-76b,"Kepler 76 b, Kepler-76 b, Kepler-76b",0,0,,,,False
+Kepler-91b,"Kepler 91 b, Kepler-91 b, Kepler-91b",1,2,2026-02-00,Calculating Instellation of Exoplanets by Extended Sources using ExoHype,2026AAS...24711404C,True
+Kepler-105b,"Kepler 105 b, Kepler-105 b, Kepler-105b",0,1,,,,False
+Kepler-138b,"Kepler 138 b, Kepler-138 b, Kepler-138b",0,0,,,,False
+Kepler-396c,"Kepler 396 c, Kepler-396 c, Kepler-396c",0,0,,,,False
+Kepler-411c,"Kepler 411 c, Kepler-411 c, Kepler-411c",0,0,,,,False
+Kepler-422b,"Kepler 422 b, Kepler-422 b, Kepler-422b",0,0,,,,False
+Kepler-435b,"Kepler 435 b, Kepler-435 b, Kepler-435b",0,0,,,,False
+Kepler-444b,"Kepler 444 b, Kepler-444 b, Kepler-444b",0,0,,,,False
+Kepler-444c,"Kepler 444 c, Kepler-444 c, Kepler-444c",0,0,,,,False
+Kepler-444e,"Kepler 444 e, Kepler-444 e, Kepler-444e",0,0,,,,False
+Kepler-447b,"Kepler 447 b, Kepler-447 b, Kepler-447b",0,0,,,,False
+Kepler-854b,"Kepler 854 b, Kepler-854 b, Kepler-854b",0,0,,,,False
+Kepler-1656b,"Kepler 1656 b, Kepler-1656 b, Kepler-1656b",0,3,,,,False
+Kepler-1658b,"Kepler 1658 b, Kepler-1658 b, Kepler-1658b",1,6,2025-12-00,Orbital Decay Candidates Reconsidered: WASP-4 b Is Not Decaying and Kepler-1658 b Is Not a Planet,2025PSJ.....6..300W,True
+L98-59b,"L98 59 b, L98-59 b, L98-59b",1,3,2026-06-00,Volcanism and Atmospheres of Habitable Exoplanets,2026ASTCS..1160058M,True
+L98-59c,"L98 59 c, L98-59 c, L98-59c",0,0,,,,False
+L98-59d,"L98 59 d, L98-59 d, L98-59d",0,2,,,,False
+LHS475b,"LHS475 b, LHS475b",0,0,,,,False
+LHS1140b,"LHS1140 b, LHS1140b",0,9,,,,False
+LHS1140c,"LHS1140 c, LHS1140c",0,0,,,,False
+LHS1478b,"LHS1478 b, LHS1478b",0,1,,,,False
+LHS1678b,"LHS1678 b, LHS1678b",0,1,,,,False
+LHS1678c,"LHS1678 c, LHS1678c",0,0,,,,False
+LHS3844b,"LHS3844 b, LHS3844b",0,3,,,,False
+LP714-47b,"LP714 47 b, LP714-47 b, LP714-47b",0,0,,,,False
+LP791-18b,"LP791 18 b, LP791-18 b, LP791-18b",1,1,2026-01-00,Impact of Surface Pressure on Nitrogen-Dominated USP Super-Earths Atmospheres,2026IAUS..393...53C,True
+LP791-18c,"LP791 18 c, LP791-18 c, LP791-18c",0,2,,,,False
+LP791-18d,"LP791 18 d, LP791-18 d, LP791-18d",0,0,,,,False
+LTT1445Ab,LTT1445Ab,0,3,,,,False
 LTT1445Ac,LTT1445Ac,0,0,,,,False
-LTT3780b,LTT3780b,0,0,,,,False
-LTT3780c,LTT3780c,0,0,,,,False
-LTT9779b,LTT9779b,0,0,,,,False
-MASCARA-4b,MASCARA-4b,0,0,,,,False
-MASCARA-1b,MASCARA-1b,0,0,,,,False
-NGTS-1b,NGTS-1b,0,0,,,,False
-NGTS-2b,NGTS-2b,0,0,,,,False
-NGTS-5b,NGTS-5b,0,0,,,,False
-NGTS-6b,NGTS-6b,0,0,,,,False
-NGTS-8b,NGTS-8b,0,0,,,,False
-NGTS-9b,NGTS-9b,0,0,,,,False
-NGTS-10b,NGTS-10b,0,0,,,,False
-NGTS-11b,NGTS-11b,0,0,,,,False
-NGTS-12b,NGTS-12b,0,0,,,,False
-NGTS-13b,NGTS-13b,0,0,,,,False
-NGTS-24b,NGTS-24b,0,0,,,,False
-PH2b,PH2b,0,0,,,,False
-Qatar-1b,Qatar-1b,0,0,,,,False
-Qatar-2b,Qatar-2b,0,0,,,,False
-Qatar-3b,Qatar-3b,0,0,,,,False
-Qatar-4b,Qatar-4b,0,0,,,,False
-Qatar-5b,Qatar-5b,0,0,,,,False
-Qatar-6b,Qatar-6b,0,0,,,,False
-Qatar-7b,Qatar-7b,0,0,,,,False
-Qatar-8b,Qatar-8b,0,0,,,,False
-Qatar-9b,Qatar-9b,0,0,,,,False
-Qatar-10b,Qatar-10b,0,0,,,,False
-TIC237913194b,TIC237913194b,0,0,,,,False
-TIC257060897b,TIC257060897b,0,0,,,,False
-TOI-122b,TOI-122b,0,0,,,,False
-TOI-125b,TOI-125b,0,0,,,,False
-TOI-125c,TOI-125c,0,0,,,,False
-TOI-139b,TOI-139b,0,0,,,,False
-TOI-150.01,TOI-150.01,0,0,,,,False
-TOI-157b,TOI-157b,0,0,,,,False
-TOI-163b,TOI-163b,0,0,,,,False
-TOI-169b,TOI-169b,0,0,,,,False
-TOI-172b,TOI-172b,0,0,,,,False
-TOI-178d,TOI-178d,0,0,,,,False
-TOI-178e,TOI-178e,0,0,,,,False
-TOI-178g,TOI-178g,0,0,,,,False
-TOI-181b,TOI-181b,0,0,,,,False
-TOI-198b,TOI-198b,0,0,,,,False
-TOI-201b,TOI-201b,0,0,,,,False
-TOI-206b,TOI-206b,0,0,,,,False
-TOI-216.01,TOI-216.01,0,0,,,,False
-TOI-216.02,TOI-216.02,0,0,,,,False
-TOI-237b,TOI-237b,0,0,,,,False
-TOI-244b,TOI-244b,0,0,,,,False
-TOI-251b,TOI-251b,0,0,,,,False
-TOI-257b,TOI-257b,0,0,,,,False
-TOI-262b,TOI-262b,0,0,,,,False
-TOI-269b,TOI-269b,0,0,,,,False
-TOI-270b,TOI-270b,0,0,,,,False
-TOI-270c,TOI-270c,0,0,,,,False
-TOI-270d,TOI-270d,0,0,,,,False
-TOI-277b,TOI-277b,0,0,,,,False
-TOI-411c,TOI-411c,0,0,,,,False
-TOI-421b,TOI-421b,0,0,,,,False
-TOI-421c,TOI-421c,0,0,,,,False
-TOI-431b,TOI-431b,0,0,,,,False
-TOI-431d,TOI-431d,0,0,,,,False
-TOI-444b,TOI-444b,0,0,,,,False
-TOI-451b,TOI-451b,0,0,,,,False
-TOI-451c,TOI-451c,0,0,,,,False
-TOI-451d,TOI-451d,0,0,,,,False
-TOI-470b,TOI-470b,0,0,,,,False
-TOI-481b,TOI-481b,0,0,,,,False
-TOI-500b,TOI-500b,0,0,,,,False
-TOI-530b,TOI-530b,0,0,,,,False
-TOI-532b,TOI-532b,0,0,,,,False
-TOI-540b,TOI-540b,0,0,,,,False
-TOI-544b,TOI-544b,0,0,,,,False
-TOI-559b,TOI-559b,0,0,,,,False
-TOI-561b,TOI-561b,0,0,,,,False
-TOI-561c,TOI-561c,0,0,,,,False
-TOI-564b,TOI-564b,0,0,,,,False
-TOI-615b,TOI-615b,0,0,,,,False
-TOI-620b,TOI-620b,0,0,,,,False
-TOI-622b,TOI-622b,0,0,,,,False
-TOI-628b,TOI-628b,0,0,,,,False
-TOI-640b,TOI-640b,0,0,,,,False
-TOI-672b,TOI-672b,0,0,,,,False
-TOI-674b,TOI-674b,0,0,,,,False
-TOI-677b,TOI-677b,0,0,,,,False
-TOI-700b,TOI-700b,0,0,,,,False
-TOI-700c,TOI-700c,0,0,,,,False
-TOI-712b,TOI-712b,0,0,,,,False
-TOI-712c,TOI-712c,0,0,,,,False
-TOI-776b,TOI-776b,0,0,,,,False
-TOI-776c,TOI-776c,0,0,,,,False
-TOI-778b,TOI-778b,0,0,,,,False
-TOI-824b,TOI-824b,0,0,,,,False
-TOI-833b,TOI-833b,0,0,,,,False
-TOI-836b,TOI-836b,0,0,,,,False
-TOI-836c,TOI-836c,0,0,,,,False
-TOI-837b,TOI-837b,0,0,,,,False
-TOI-892b,TOI-892b,0,0,,,,False
-TOI-905b,TOI-905b,0,0,,,,False
-TOI-913b,TOI-913b,0,0,,,,False
-TOI-942b,TOI-942b,0,0,,,,False
-TOI-942c,TOI-942c,0,0,,,,False
-TOI-954b,TOI-954b,0,0,,,,False
-TOI-969b,TOI-969b,0,0,,,,False
-TOI-1064c,TOI-1064c,0,0,,,,False
-TOI-1107b,TOI-1107b,0,0,,,,False
-TOI-1130b,TOI-1130b,0,0,,,,False
-TOI-1130c,TOI-1130c,0,0,,,,False
-TOI-1136b,TOI-1136b,0,0,,,,False
-TOI-1136c,TOI-1136c,0,0,,,,False
-TOI-1136d,TOI-1136d,0,0,,,,False
-TOI-1136e,TOI-1136e,0,0,,,,False
-TOI-1136f,TOI-1136f,0,0,,,,False
-TOI-1181b,TOI-1181b,0,0,,,,False
-TOI-1201b,TOI-1201b,0,0,,,,False
-TOI-1231b,TOI-1231b,0,0,,,,False
-TOI-1246b,TOI-1246b,0,0,,,,False
-TOI-1246d,TOI-1246d,0,0,,,,False
-TOI-1259Ab,TOI-1259Ab,0,0,,,,False
-TOI-1260b,TOI-1260b,0,0,,,,False
-TOI-1260d,TOI-1260d,0,0,,,,False
-TOI-1266c,TOI-1266c,0,0,,,,False
-TOI-1268b,TOI-1268b,0,0,,,,False
-TOI-1272b,TOI-1272b,0,0,,,,False
-TOI-1288b,TOI-1288b,0,0,,,,False
-TOI-1296b,TOI-1296b,0,0,,,,False
-TOI-1298b,TOI-1298b,0,0,,,,False
-TOI-1333b,TOI-1333b,0,0,,,,False
-TOI-1338b,TOI-1338b,0,0,,,,False
-TOI-1411b,TOI-1411b,0,0,,,,False
-TOI-1416b,TOI-1416b,0,0,,,,False
-TOI-1422b,TOI-1422b,0,0,,,,False
-TOI-1431b,TOI-1431b,0,0,,,,False
-TOI-1442b,TOI-1442b,0,0,,,,False
-TOI-1452b,TOI-1452b,0,0,,,,False
-TOI-1468b,TOI-1468b,0,0,,,,False
-TOI-1468c,TOI-1468c,0,0,,,,False
-TOI-1470b,TOI-1470b,0,0,,,,False
-TOI-1470c,TOI-1470c,0,0,,,,False
-TOI-1478b,TOI-1478b,0,0,,,,False
-TOI-1516b,TOI-1516b,0,0,,,,False
-TOI-1518b,TOI-1518b,0,0,,,,False
-TOI-1601b,TOI-1601b,0,0,,,,False
-TOI-1670c,TOI-1670c,0,0,,,,False
-TOI-1680b,TOI-1680b,0,0,,,,False
-TOI-1685b,TOI-1685b,0,0,,,,False
-TOI-1693b,TOI-1693b,0,0,,,,False
-TOI-1694b,TOI-1694b,0,0,,,,False
-TOI-1710b,TOI-1710b,0,0,,,,False
-TOI-1728b,TOI-1728b,0,0,,,,False
-TOI-1759b,TOI-1759b,0,0,,,,False
-TOI-1789b,TOI-1789b,0,0,,,,False
-TOI-1807b,TOI-1807b,0,0,,,,False
-TOI-1811b,TOI-1811b,0,0,,,,False
-TOI-1820b,TOI-1820b,0,0,,,,False
-TOI-1842b,TOI-1842b,0,0,,,,False
-TOI-1859b,TOI-1859b,0,0,,,,False
-TOI-1860b,TOI-1860b,0,0,,,,False
-TOI-1899b,TOI-1899b,0,0,,,,False
-TOI-1937Ab,TOI-1937Ab,0,0,,,,False
-TOI-2000c,TOI-2000c,0,0,,,,False
-TOI-2018b,TOI-2018b,0,0,,,,False
-TOI-2025b,TOI-2025b,0,0,,,,False
-TOI-2046b,TOI-2046b,0,0,,,,False
-TOI-2048b,TOI-2048b,0,0,,,,False
-TOI-2076b,TOI-2076b,0,0,,,,False
-TOI-2076c,TOI-2076c,0,0,,,,False
-TOI-2076d,TOI-2076d,0,0,,,,False
-TOI-2081b,TOI-2081b,0,0,,,,False
-TOI-2109b,TOI-2109b,0,0,,,,False
-TOI-2136b,TOI-2136b,0,0,,,,False
-TOI-2145b,TOI-2145b,0,0,,,,False
-TOI-2152Ab,TOI-2152Ab,0,0,,,,False
-TOI-2154b,TOI-2154b,0,0,,,,False
-TOI-2158b,TOI-2158b,0,0,,,,False
-TOI-2194b,TOI-2194b,0,0,,,,False
-TOI-2207b,TOI-2207b,0,0,,,,False
-TOI-2236b,TOI-2236b,0,0,,,,False
-TOI-2260b,TOI-2260b,0,0,,,,False
-TOI-2338b,TOI-2338b,0,0,,,,False
-TOI-2364b,TOI-2364b,0,0,,,,False
-TOI-2411b,TOI-2411b,0,0,,,,False
-TOI-2421b,TOI-2421b,0,0,,,,False
-TOI-2427b,TOI-2427b,0,0,,,,False
-TOI-2443b,TOI-2443b,0,0,,,,False
-TOI-2445b,TOI-2445b,0,0,,,,False
-TOI-2459b,TOI-2459b,0,0,,,,False
-TOI-2497b,TOI-2497b,0,0,,,,False
-TOI-2498b,TOI-2498b,0,0,,,,False
-TOI-2567b,TOI-2567b,0,0,,,,False
-TOI-2570b,TOI-2570b,0,0,,,,False
-TOI-2583Ab,TOI-2583Ab,0,0,,,,False
-TOI-2587Ab,TOI-2587Ab,0,0,,,,False
-TOI-2641b,TOI-2641b,0,0,,,,False
-TOI-2803Ab,TOI-2803Ab,0,0,,,,False
-TOI-2818b,TOI-2818b,0,0,,,,False
-TOI-2842b,TOI-2842b,0,0,,,,False
-TOI-2977b,TOI-2977b,0,0,,,,False
-TOI-3023b,TOI-3023b,0,0,,,,False
-TOI-3082b,TOI-3082b,0,0,,,,False
-TOI-3235b,TOI-3235b,0,0,,,,False
-TOI-3331Ab,TOI-3331Ab,0,0,,,,False
-TOI-3362b,TOI-3362b,0,0,,,,False
-TOI-3364b,TOI-3364b,0,0,,,,False
-TOI-3629b,TOI-3629b,0,0,,,,False
-TOI-3688Ab,TOI-3688Ab,0,0,,,,False
-TOI-3693b,TOI-3693b,0,0,,,,False
-TOI-3714b,TOI-3714b,0,0,,,,False
-TOI-3785b,TOI-3785b,0,0,,,,False
-TOI-3819b,TOI-3819b,0,0,,,,False
-TOI-3884b,TOI-3884b,0,0,,,,False
-TOI-3912b,TOI-3912b,0,0,,,,False
-TOI-3976Ab,TOI-3976Ab,0,0,,,,False
-TOI-4010b,TOI-4010b,0,0,,,,False
-TOI-4010c,TOI-4010c,0,0,,,,False
-TOI-4010d,TOI-4010d,0,0,,,,False
-TOI-4087b,TOI-4087b,0,0,,,,False
-TOI-4137b,TOI-4137b,0,0,,,,False
-TOI-4145Ab,TOI-4145Ab,0,0,,,,False
-TOI-4308b,TOI-4308b,0,0,,,,False
-TOI-4342b,TOI-4342b,0,0,,,,False
+LTT3780b,"LTT3780 b, LTT3780b",0,0,,,,False
+LTT3780c,"LTT3780 c, LTT3780c",0,1,,,,False
+LTT9779b,"LTT9779 b, LTT9779b",2,6,2026-07-00,Glossy Silicate Clouds on the Scorched Dayside of LTT9779b,2026ApJ..1005L..79S,True
+MASCARA-4b,"MASCARA 4 b, MASCARA-4 b, MASCARA-4b",0,0,,,,False
+MASCARA-1b,"MASCARA 1 b, MASCARA-1 b, MASCARA-1b",3,8,2026-08-00,Atmospheric Characterization of Six Ultrahot Jupiters from K-band High-resolution Spectroscopy,2026AJ....172..119F,True
+NGTS-1b,"NGTS 1 b, NGTS-1 b, NGTS-1b",1,1,2026-02-00,Accelerating exoplanet climate modelling: A machine learning approach to complement 3D general circulation model grid simulations,2026A&A...706A.157P,True
+NGTS-2b,"NGTS 2 b, NGTS-2 b, NGTS-2b",1,1,2026-06-00,BOWIE-ALIGN: exploring degeneracies in the muted transmission spectrum of the aligned hot Jupiter NGTS-2b with NIRSpec/G395H,2026MNRAS.548ag528F,True
+NGTS-5b,"NGTS 5 b, NGTS-5 b, NGTS-5b",2,2,2026-03-00,Evidence for stellar contamination and water absorption in NGTS-5b's transmission spectra with GTC/OSIRIS,2026A&A...707A.315W,True
+NGTS-6b,"NGTS 6 b, NGTS-6 b, NGTS-6b",0,0,,,,False
+NGTS-8b,"NGTS 8 b, NGTS-8 b, NGTS-8b",0,0,,,,False
+NGTS-9b,"NGTS 9 b, NGTS-9 b, NGTS-9b",0,2,,,,False
+NGTS-10b,"NGTS 10 b, NGTS-10 b, NGTS-10b",0,2,,,,False
+NGTS-11b,"NGTS 11 b, NGTS-11 b, NGTS-11b",0,2,,,,False
+NGTS-12b,"NGTS 12 b, NGTS-12 b, NGTS-12b",0,0,,,,False
+NGTS-13b,"NGTS 13 b, NGTS-13 b, NGTS-13b",0,0,,,,False
+NGTS-24b,"NGTS 24 b, NGTS-24 b, NGTS-24b",0,0,,,,False
+PH2b,"PH2 b, PH2b",0,0,,,,False
+Qatar-1b,"Qatar 1 b, Qatar-1 b, Qatar-1b",3,9,2026-06-00,Transit Depth Variability and Observational Effects in the Hot Jupiter Qatar-1b,2026ASTCS..1100136K,True
+Qatar-2b,"Qatar 2 b, Qatar-2 b, Qatar-2b",0,1,,,,False
+Qatar-3b,"Qatar 3 b, Qatar-3 b, Qatar-3b",0,0,,,,False
+Qatar-4b,"Qatar 4 b, Qatar-4 b, Qatar-4b",2,4,2026-06-00,"Ephemeris Refinement for Qatar-4 b, HAT-P-18 b, and CoRoT-1 b with Small Telescope and TESS Observations",2026JAVSO..54...39H,True
+Qatar-5b,"Qatar 5 b, Qatar-5 b, Qatar-5b",0,0,,,,False
+Qatar-6b,"Qatar 6 b, Qatar-6 b, Qatar-6b",0,0,,,,False
+Qatar-7b,"Qatar 7 b, Qatar-7 b, Qatar-7b",0,0,,,,False
+Qatar-8b,"Qatar 8 b, Qatar-8 b, Qatar-8b",0,1,,,,False
+Qatar-9b,"Qatar 9 b, Qatar-9 b, Qatar-9b",0,0,,,,False
+Qatar-10b,"Qatar 10 b, Qatar-10 b, Qatar-10b",0,0,,,,False
+TIC237913194b,"TIC237913194 b, TIC237913194b",0,0,,,,False
+TIC257060897b,"TIC257060897 b, TIC257060897b",0,0,,,,False
+TOI-122b,"TOI 122 b, TOI-122 b, TOI-122b",0,0,,,,False
+TOI-125b,"TOI 125 b, TOI-125 b, TOI-125b",1,1,2026-09-00,JWST NIRSpec G395H Transmission Spectra of Two Similar Sub-Neptunes in the TOI-125 System,2026arXiv260935607C,True
+TOI-125c,"TOI 125 c, TOI-125 c, TOI-125c",1,1,2026-09-00,JWST NIRSpec G395H Transmission Spectra of Two Similar Sub-Neptunes in the TOI-125 System,2026arXiv260935607C,True
+TOI-139b,"TOI 139 b, TOI-139 b, TOI-139b",0,0,,,,False
+TOI-150.01,"TOI 150.01, TOI-150.01",0,0,,,,False
+TOI-157b,"TOI 157 b, TOI-157 b, TOI-157b",0,0,,,,False
+TOI-163b,"TOI 163 b, TOI-163 b, TOI-163b",0,0,,,,False
+TOI-169b,"TOI 169 b, TOI-169 b, TOI-169b",0,0,,,,False
+TOI-172b,"TOI 172 b, TOI-172 b, TOI-172b",0,0,,,,False
+TOI-178d,"TOI 178 d, TOI-178 d, TOI-178d",0,0,,,,False
+TOI-178e,"TOI 178 e, TOI-178 e, TOI-178e",1,1,2026-03-00,Particle dynamics in TOI-178 planetary system,2026EPJST.234.7739B,True
+TOI-178g,"TOI 178 g, TOI-178 g, TOI-178g",1,1,2026-03-00,Particle dynamics in TOI-178 planetary system,2026EPJST.234.7739B,True
+TOI-181b,"TOI 181 b, TOI-181 b, TOI-181b",1,1,2026-07-00,POSEIDON I: The Dynamical Origins of Transiting Neptunes,2026AJ....172...57E,True
+TOI-198b,"TOI 198 b, TOI-198 b, TOI-198b",0,0,,,,False
+TOI-201b,"TOI 201 b, TOI-201 b, TOI-201b",2,3,2026-10-00,Constraining the Planetary Obliquity Distribution of Warm Jupiters,2026AJ....172..224L,True
+TOI-206b,"TOI 206 b, TOI-206 b, TOI-206b",0,0,,,,False
+TOI-216.01,"TOI 216.01, TOI-216.01",0,0,,,,False
+TOI-216.02,"TOI 216.02, TOI-216.02",0,0,,,,False
+TOI-237b,"TOI 237 b, TOI-237 b, TOI-237b",1,1,2026-06-00,Hidden Gems in TESS: SHERLOCK finds two new rocky planets around nearby M dwarfs,2026MNRAS.549ag710T,True
+TOI-244b,"TOI 244 b, TOI-244 b, TOI-244b",0,1,,,,False
+TOI-251b,"TOI 251 b, TOI-251 b, TOI-251b",0,1,,,,False
+TOI-257b,"TOI 257 b, TOI-257 b, TOI-257b",0,0,,,,False
+TOI-262b,"TOI 262 b, TOI-262 b, TOI-262b",0,0,,,,False
+TOI-269b,"TOI 269 b, TOI-269 b, TOI-269b",0,0,,,,False
+TOI-270b,"TOI 270 b, TOI-270 b, TOI-270b",1,5,2026-11-00,Structural composition and atmospheric analysis of two planetary systems : TOI-270 and TOI-776,2026MNRAS.tmp.1929D,True
+TOI-270c,"TOI 270 c, TOI-270 c, TOI-270c",1,2,2026-11-00,Structural composition and atmospheric analysis of two planetary systems : TOI-270 and TOI-776,2026MNRAS.tmp.1929D,True
+TOI-270d,"TOI 270 d, TOI-270 d, TOI-270d",21,52,2026-10-00,Ammonia-Hydrogen Phase Equilibria in Planetary Envelopes from First-Principles-Based Machine-Learning Molecular Dynamics,2026arXiv261027136G,True
+TOI-277b,"TOI 277 b, TOI-277 b, TOI-277b",0,0,,,,False
+TOI-411c,"TOI 411 c, TOI-411 c, TOI-411c",0,0,,,,False
+TOI-421b,"TOI 421 b, TOI-421 b, TOI-421b",4,10,2026-09-00,Beyond the mass-radius plane: integrated radiative-convective and interior structure simulations of the exoplanet continuum,2026MNRAS.551g1489N,True
+TOI-421c,"TOI 421 c, TOI-421 c, TOI-421c",0,2,,,,False
+TOI-431b,"TOI 431 b, TOI-431 b, TOI-431b",4,8,2026-11-00,JWST MIRI Reveals a Potential Atmosphere on the Ultrahot Rocky Planet TOI-431b,2026AJ....172..262S,True
+TOI-431d,"TOI 431 d, TOI-431 d, TOI-431d",0,2,,,,False
+TOI-444b,"TOI 444 b, TOI-444 b, TOI-444b",0,0,,,,False
+TOI-451b,"TOI 451 b, TOI-451 b, TOI-451b",1,1,2026-02-00,Mass estimates of the young TOI-451 transiting planets: multidimensional Gaussian Process on stellar spectroscopic and photometric signals,2026MNRAS.546ag087B,True
+TOI-451c,"TOI 451 c, TOI-451 c, TOI-451c",2,2,2026-08-00,Probing the Atmospheres of Young Long-period Sub-Neptune Progenitors with ELT/ANDES,2026AJ....172...90D,True
+TOI-451d,"TOI 451 d, TOI-451 d, TOI-451d",0,0,,,,False
+TOI-470b,"TOI 470 b, TOI-470 b, TOI-470b",0,0,,,,False
+TOI-481b,"TOI 481 b, TOI-481 b, TOI-481b",1,1,2026-08-00,A Multi-instrument Generalized Lomb─Scargle Periodogram Implementation,2026RNAAS..10..241M,True
+TOI-500b,"TOI 500 b, TOI-500 b, TOI-500b",0,0,,,,False
+TOI-530b,"TOI 530 b, TOI-530 b, TOI-530b",0,0,,,,False
+TOI-532b,"TOI 532 b, TOI-532 b, TOI-532b",0,0,,,,False
+TOI-540b,"TOI 540 b, TOI-540 b, TOI-540b",1,1,2025-12-00,A Radio Search for Star-Planet Interaction in TOI-540 and SPECULOOS-3,2025arXiv251216852O,True
+TOI-544b,"TOI 544 b, TOI-544 b, TOI-544b",0,1,,,,False
+TOI-559b,"TOI 559 b, TOI-559 b, TOI-559b",0,0,,,,False
+TOI-561b,"TOI 561 b, TOI-561 b, TOI-561b",6,12,2026-10-00,A Highly Reflective Atmosphere on the Lava World TOI-561b Revealed by JWST/NIRSpec Phase Curves,2026AJ....172..239B,True
+TOI-561c,"TOI 561 c, TOI-561 c, TOI-561c",0,1,,,,False
+TOI-564b,"TOI 564 b, TOI-564 b, TOI-564b",0,0,,,,False
+TOI-615b,"TOI 615 b, TOI-615 b, TOI-615b",0,0,,,,False
+TOI-620b,"TOI 620 b, TOI-620 b, TOI-620b",0,0,,,,False
+TOI-622b,"TOI 622 b, TOI-622 b, TOI-622b",0,1,,,,False
+TOI-628b,"TOI 628 b, TOI-628 b, TOI-628b",0,0,,,,False
+TOI-640b,"TOI 640 b, TOI-640 b, TOI-640b",1,1,2026-02-00,Line by Line: an atomic characterization of the atmospheres of hot giant exoplanets TOI 1288b and TOI 640b.,2026AAS...24711407M,True
+TOI-672b,"TOI 672 b, TOI-672 b, TOI-672b",1,1,2026-04-00,Confirmation of the hot super-Neptune TOI-672 b with NIRPS and HARPS: Insights into the Neptunian desert around M dwarfs,2026A&A...709A..23O,True
+TOI-674b,"TOI 674 b, TOI-674 b, TOI-674b",0,1,,,,False
+TOI-677b,"TOI 677 b, TOI-677 b, TOI-677b",0,3,,,,False
+TOI-700b,"TOI 700 b, TOI-700 b, TOI-700b",0,0,,,,False
+TOI-700c,"TOI 700 c, TOI-700 c, TOI-700c",0,2,,,,False
+TOI-712b,"TOI 712 b, TOI-712 b, TOI-712b",0,0,,,,False
+TOI-712c,"TOI 712 c, TOI-712 c, TOI-712c",0,0,,,,False
+TOI-776b,"TOI 776 b, TOI-776 b, TOI-776b",2,9,2026-11-00,Structural composition and atmospheric analysis of two planetary systems : TOI-270 and TOI-776,2026MNRAS.tmp.1929D,True
+TOI-776c,"TOI 776 c, TOI-776 c, TOI-776c",4,10,2026-11-00,Structural composition and atmospheric analysis of two planetary systems : TOI-270 and TOI-776,2026MNRAS.tmp.1929D,True
+TOI-778b,"TOI 778 b, TOI-778 b, TOI-778b",0,0,,,,False
+TOI-824b,"TOI 824 b, TOI-824 b, TOI-824b",1,1,2026-06-00,Is the hot Neptune desert populated by exposed giant planet interiors? Revealing the first thermal emission spectra of hot and dense sub-Neptunes,2026ASTCS..1140003R,True
+TOI-833b,"TOI 833 b, TOI-833 b, TOI-833b",0,0,,,,False
+TOI-836b,"TOI 836 b, TOI-836 b, TOI-836b",0,2,,,,False
+TOI-836c,"TOI 836 c, TOI-836 c, TOI-836c",0,2,,,,False
+TOI-837b,"TOI 837 b, TOI-837 b, TOI-837b",1,3,2026-06-00,The 35 Myr old infant planet TOI-837 b has a mildly misaligned orbit,2026A&A...710L..38M,True
+TOI-892b,"TOI 892 b, TOI-892 b, TOI-892b",0,0,,,,False
+TOI-905b,"TOI 905 b, TOI-905 b, TOI-905b",0,0,,,,False
+TOI-913b,"TOI 913 b, TOI-913 b, TOI-913b",0,0,,,,False
+TOI-942b,"TOI 942 b, TOI-942 b, TOI-942b",0,0,,,,False
+TOI-942c,"TOI 942 c, TOI-942 c, TOI-942c",0,1,,,,False
+TOI-954b,"TOI 954 b, TOI-954 b, TOI-954b",0,0,,,,False
+TOI-969b,"TOI 969 b, TOI-969 b, TOI-969b",0,1,,,,False
+TOI-1064c,"TOI 1064 c, TOI-1064 c, TOI-1064c",0,0,,,,False
+TOI-1107b,"TOI 1107 b, TOI-1107 b, TOI-1107b",0,0,,,,False
+TOI-1130b,"TOI 1130 b, TOI-1130 b, TOI-1130b",1,2,2026-05-00,JWST Unveils a High Mean Molecular Weight Atmosphere for Mini-Neptune TOI-1130 b: Evidence for Formation Beyond the Water Ice Line,2026ApJ..1002L..32B,True
+TOI-1130c,"TOI 1130 c, TOI-1130 c, TOI-1130c",0,2,,,,False
+TOI-1136b,"TOI 1136 b, TOI-1136 b, TOI-1136b",0,0,,,,False
+TOI-1136c,"TOI 1136 c, TOI-1136 c, TOI-1136c",0,0,,,,False
+TOI-1136d,"TOI 1136 d, TOI-1136 d, TOI-1136d",0,1,,,,False
+TOI-1136e,"TOI 1136 e, TOI-1136 e, TOI-1136e",0,0,,,,False
+TOI-1136f,"TOI 1136 f, TOI-1136 f, TOI-1136f",0,0,,,,False
+TOI-1181b,"TOI 1181 b, TOI-1181 b, TOI-1181b",0,1,,,,False
+TOI-1201b,"TOI 1201 b, TOI-1201 b, TOI-1201b",0,0,,,,False
+TOI-1231b,"TOI 1231 b, TOI-1231 b, TOI-1231b",2,2,2026-07-00,Transmission Spectrum of the Benchmark Temperate Exo-Neptune TOI-1231 b,2026ApJ..1005L..52S,True
+TOI-1246b,"TOI 1246 b, TOI-1246 b, TOI-1246b",0,0,,,,False
+TOI-1246d,"TOI 1246 d, TOI-1246 d, TOI-1246d",0,0,,,,False
+TOI-1259Ab,"TOI 1259Ab, TOI-1259Ab",2,2,2026-04-00,TOI-1259Ab: A warm Jupiter orbiting a K-dwarf white-dwarf binary on a low-obliquity orbit,2026A&A...708A.272V,True
+TOI-1260b,"TOI 1260 b, TOI-1260 b, TOI-1260b",0,0,,,,False
+TOI-1260d,"TOI 1260 d, TOI-1260 d, TOI-1260d",0,0,,,,False
+TOI-1266c,"TOI 1266 c, TOI-1266 c, TOI-1266c",0,5,,,,False
+TOI-1268b,"TOI 1268 b, TOI-1268 b, TOI-1268b",1,5,2026-02-00,Activity of the Star TOI-1268 and Mass Loss by the Atmosphere of Its Exoplanet,2026AstL...52...82S,True
+TOI-1272b,"TOI 1272 b, TOI-1272 b, TOI-1272b",1,2,2026-08-00,The GAPS programme at TNG: LXXIV. A reanalysis of the planetary systems TOI-1272 and TOI-1694 with HARPS-N and retraction of the planetary interpretation of TOI-1272 c,2026A&A...712A.147M,True
+TOI-1288b,"TOI 1288 b, TOI-1288 b, TOI-1288b",1,1,2026-02-00,Line by Line: an atomic characterization of the atmospheres of hot giant exoplanets TOI 1288b and TOI 640b.,2026AAS...24711407M,True
+TOI-1296b,"TOI 1296 b, TOI-1296 b, TOI-1296b",0,0,,,,False
+TOI-1298b,"TOI 1298 b, TOI-1298 b, TOI-1298b",0,0,,,,False
+TOI-1333b,"TOI 1333 b, TOI-1333 b, TOI-1333b",0,0,,,,False
+TOI-1338b,"TOI 1338 b, TOI-1338 b, TOI-1338b",0,3,,,,False
+TOI-1411b,"TOI 1411 b, TOI-1411 b, TOI-1411b",0,0,,,,False
+TOI-1416b,"TOI 1416 b, TOI-1416 b, TOI-1416b",0,0,,,,False
+TOI-1422b,"TOI 1422 b, TOI-1422 b, TOI-1422b",1,2,2026-01-00,A 34.6-d transiting sub-Neptune in the TOI-1422 planetary system,2026MNRAS.545f2030N,True
+TOI-1431b,"TOI 1431 b, TOI-1431 b, TOI-1431b",2,5,2026-05-00,Confirmation of Fe I on MASCARA-5 b's Dayside Observed With EXPRES,2026AJ....171..322S,True
+TOI-1442b,"TOI 1442 b, TOI-1442 b, TOI-1442b",0,0,,,,False
+TOI-1452b,"TOI 1452 b, TOI-1452 b, TOI-1452b",0,3,,,,False
+TOI-1468b,"TOI 1468 b, TOI-1468 b, TOI-1468b",0,4,,,,False
+TOI-1468c,"TOI 1468 c, TOI-1468 c, TOI-1468c",0,2,,,,False
+TOI-1470b,"TOI 1470 b, TOI-1470 b, TOI-1470b",0,0,,,,False
+TOI-1470c,"TOI 1470 c, TOI-1470 c, TOI-1470c",0,0,,,,False
+TOI-1478b,"TOI 1478 b, TOI-1478 b, TOI-1478b",0,0,,,,False
+TOI-1516b,"TOI 1516 b, TOI-1516 b, TOI-1516b",2,2,2026-09-00,"VizieR Online Data Catalog: TOI-1458, 1516, 2046 TTVs from ADYU60, T100, TESS (Sonbas+, 2025)",2026yCat..51700341S,True
+TOI-1518b,"TOI 1518 b, TOI-1518 b, TOI-1518b",3,10,2026-08-00,Atmospheric Characterization of Six Ultrahot Jupiters from K-band High-resolution Spectroscopy,2026AJ....172..119F,True
+TOI-1601b,"TOI 1601 b, TOI-1601 b, TOI-1601b",0,0,,,,False
+TOI-1670c,"TOI 1670 c, TOI-1670 c, TOI-1670c",1,3,2026-10-00,Constraining the Planetary Obliquity Distribution of Warm Jupiters,2026AJ....172..224L,True
+TOI-1680b,"TOI 1680 b, TOI-1680 b, TOI-1680b",0,0,,,,False
+TOI-1685b,"TOI 1685 b, TOI-1685 b, TOI-1685b",4,11,2026-06-00,Two rocky planets through NIRSpec's eyes: what we learned from phase curves,2026ASTCS..1160090X,True
+TOI-1693b,"TOI 1693 b, TOI-1693 b, TOI-1693b",0,0,,,,False
+TOI-1694b,"TOI 1694 b, TOI-1694 b, TOI-1694b",1,2,2026-08-00,The GAPS programme at TNG: LXXIV. A reanalysis of the planetary systems TOI-1272 and TOI-1694 with HARPS-N and retraction of the planetary interpretation of TOI-1272 c,2026A&A...712A.147M,True
+TOI-1710b,"TOI 1710 b, TOI-1710 b, TOI-1710b",2,3,2026-07-00,POSEIDON. II. The Antialigned Orbit of the Warm Neptune TOI-1710 A b,2026ApJ..1005L..15E,True
+TOI-1728b,"TOI 1728 b, TOI-1728 b, TOI-1728b",0,0,,,,False
+TOI-1759b,"TOI 1759 b, TOI-1759 b, TOI-1759b",0,0,,,,False
+TOI-1789b,"TOI 1789 b, TOI-1789 b, TOI-1789b",0,0,,,,False
+TOI-1807b,"TOI 1807 b, TOI-1807 b, TOI-1807b",3,7,2026-10-00,Searching for molecular signatures in 14 transiting exoplanets with SPIRou,2026A&A...714A.261M,True
+TOI-1811b,"TOI 1811 b, TOI-1811 b, TOI-1811b",0,0,,,,False
+TOI-1820b,"TOI 1820 b, TOI-1820 b, TOI-1820b",0,0,,,,False
+TOI-1842b,"TOI 1842 b, TOI-1842 b, TOI-1842b",0,1,,,,False
+TOI-1859b,"TOI 1859 b, TOI-1859 b, TOI-1859b",0,0,,,,False
+TOI-1860b,"TOI 1860 b, TOI-1860 b, TOI-1860b",1,1,2026-01-00,"Spectropolarimetric characterisation of exoplanet host stars in preparation of the Ariel mission: II. The magnetised wind environment of TOI-1860, DS Tuc A, and HD 63433",2026A&A...705A..40B,True
+TOI-1899b,"TOI 1899 b, TOI-1899 b, TOI-1899b",0,2,,,,False
+TOI-1937Ab,"TOI 1937Ab, TOI-1937Ab",0,3,,,,False
+TOI-2000c,"TOI 2000 c, TOI-2000 c, TOI-2000c",0,0,,,,False
+TOI-2018b,"TOI 2018 b, TOI-2018 b, TOI-2018b",0,3,,,,False
+TOI-2025b,"TOI 2025 b, TOI-2025 b, TOI-2025b",0,0,,,,False
+TOI-2046b,"TOI 2046 b, TOI-2046 b, TOI-2046b",2,6,2026-09-00,"VizieR Online Data Catalog: TOI-1458, 1516, 2046 TTVs from ADYU60, T100, TESS (Sonbas+, 2025)",2026yCat..51700341S,True
+TOI-2048b,"TOI 2048 b, TOI-2048 b, TOI-2048b",0,1,,,,False
+TOI-2076b,"TOI 2076 b, TOI-2076 b, TOI-2076b",0,2,,,,False
+TOI-2076c,"TOI 2076 c, TOI-2076 c, TOI-2076c",0,0,,,,False
+TOI-2076d,"TOI 2076 d, TOI-2076 d, TOI-2076d",0,0,,,,False
+TOI-2081b,"TOI 2081 b, TOI-2081 b, TOI-2081b",0,0,,,,False
+TOI-2109b,"TOI 2109 b, TOI-2109 b, TOI-2109b",7,14,2026-09-00,JWST and HST Confirm Transit Timing Variations for the Ultra-Hot Jupiter TOI-2109 b,2026arXiv260926894G,True
+TOI-2136b,"TOI 2136 b, TOI-2136 b, TOI-2136b",2,2,2026-10-00,A search for helium in the atmospheres of three sub-Neptunes and a super-Earth around M-dwarfs,2026PASJ...78.1815K,True
+TOI-2145b,"TOI 2145 b, TOI-2145 b, TOI-2145b",0,1,,,,False
+TOI-2152Ab,"TOI 2152Ab, TOI-2152Ab",0,0,,,,False
+TOI-2154b,"TOI 2154 b, TOI-2154 b, TOI-2154b",0,0,,,,False
+TOI-2158b,"TOI 2158 b, TOI-2158 b, TOI-2158b",1,1,2026-10-00,TS23/McDonald and FIES/NOT strike again: Two new warm Jupiter systems and outer companions in a third,2026A&A...714A.496K,True
+TOI-2194b,"TOI 2194 b, TOI-2194 b, TOI-2194b",0,0,,,,False
+TOI-2207b,"TOI 2207 b, TOI-2207 b, TOI-2207b",0,0,,,,False
+TOI-2236b,"TOI 2236 b, TOI-2236 b, TOI-2236b",0,0,,,,False
+TOI-2260b,"TOI 2260 b, TOI-2260 b, TOI-2260b",2,2,2026-09-00,Thermal Evolution of Lava Planets Across System Ages: Predictions for Hell of a Survey,2026arXiv260920155S,True
+TOI-2338b,"TOI 2338 b, TOI-2338 b, TOI-2338b",0,0,,,,False
+TOI-2364b,"TOI 2364 b, TOI-2364 b, TOI-2364b",1,1,2026-04-00,"VizieR Online Data Catalog: TESS &amp; KPF: TOI-2364 light &amp; radial velocity curves (Tamburo+, 2025)",2026yCat..51700034T,True
+TOI-2411b,"TOI 2411 b, TOI-2411 b, TOI-2411b",0,0,,,,False
+TOI-2421b,"TOI 2421 b, TOI-2421 b, TOI-2421b",0,0,,,,False
+TOI-2427b,"TOI 2427 b, TOI-2427 b, TOI-2427b",0,1,,,,False
+TOI-2443b,"TOI 2443 b, TOI-2443 b, TOI-2443b",0,1,,,,False
+TOI-2445b,"TOI 2445 b, TOI-2445 b, TOI-2445b",2,3,2026-06-00,Two rocky planets through NIRSpec's eyes: what we learned from phase curves,2026ASTCS..1160090X,True
+TOI-2459b,"TOI 2459 b, TOI-2459 b, TOI-2459b",0,0,,,,False
+TOI-2497b,"TOI 2497 b, TOI-2497 b, TOI-2497b",0,0,,,,False
+TOI-2498b,"TOI 2498 b, TOI-2498 b, TOI-2498b",0,0,,,,False
+TOI-2567b,"TOI 2567 b, TOI-2567 b, TOI-2567b",0,0,,,,False
+TOI-2570b,"TOI 2570 b, TOI-2570 b, TOI-2570b",0,0,,,,False
+TOI-2583Ab,"TOI 2583Ab, TOI-2583Ab",0,0,,,,False
+TOI-2587Ab,"TOI 2587Ab, TOI-2587Ab",0,0,,,,False
+TOI-2641b,"TOI 2641 b, TOI-2641 b, TOI-2641b",0,0,,,,False
+TOI-2803Ab,"TOI 2803Ab, TOI-2803Ab",0,0,,,,False
+TOI-2818b,"TOI 2818 b, TOI-2818 b, TOI-2818b",0,2,,,,False
+TOI-2842b,"TOI 2842 b, TOI-2842 b, TOI-2842b",0,0,,,,False
+TOI-2977b,"TOI 2977 b, TOI-2977 b, TOI-2977b",0,0,,,,False
+TOI-3023b,"TOI 3023 b, TOI-3023 b, TOI-3023b",0,0,,,,False
+TOI-3082b,"TOI 3082 b, TOI-3082 b, TOI-3082b",0,0,,,,False
+TOI-3235b,"TOI 3235 b, TOI-3235 b, TOI-3235b",1,1,2026-09-00,JWST Transmission Spectroscopy of TOI-3235 b: Challenges in Constraining Giant Planet Atmospheres around M Dwarfs amid Stellar Contamination,2026AJ....172..174K,True
+TOI-3331Ab,"TOI 3331Ab, TOI-3331Ab",0,0,,,,False
+TOI-3362b,"TOI 3362 b, TOI-3362 b, TOI-3362b",0,4,,,,False
+TOI-3364b,"TOI 3364 b, TOI-3364 b, TOI-3364b",0,0,,,,False
+TOI-3629b,"TOI 3629 b, TOI-3629 b, TOI-3629b",0,0,,,,False
+TOI-3688Ab,"TOI 3688Ab, TOI-3688Ab",0,0,,,,False
+TOI-3693b,"TOI 3693 b, TOI-3693 b, TOI-3693b",0,0,,,,False
+TOI-3714b,"TOI 3714 b, TOI-3714 b, TOI-3714b",2,3,2026-09-00,New and Updated Rossiter-McLaughlin Measurements for Three Hot Jupiter-Hosting M Dwarfs,2026arXiv260903031W,True
+TOI-3785b,"TOI 3785 b, TOI-3785 b, TOI-3785b",0,0,,,,False
+TOI-3819b,"TOI 3819 b, TOI-3819 b, TOI-3819b",0,0,,,,False
+TOI-3884b,"TOI 3884 b, TOI-3884 b, TOI-3884b",3,10,2026-10-00,A Headwind-like Helium Outflow from TOI-3884b,2026arXiv261031492N,True
+TOI-3912b,"TOI 3912 b, TOI-3912 b, TOI-3912b",0,0,,,,False
+TOI-3976Ab,"TOI 3976Ab, TOI-3976Ab",0,0,,,,False
+TOI-4010b,"TOI 4010 b, TOI-4010 b, TOI-4010b",0,2,,,,False
+TOI-4010c,"TOI 4010 c, TOI-4010 c, TOI-4010c",0,0,,,,False
+TOI-4010d,"TOI 4010 d, TOI-4010 d, TOI-4010d",0,0,,,,False
+TOI-4087b,"TOI 4087 b, TOI-4087 b, TOI-4087b",0,0,,,,False
+TOI-4137b,"TOI 4137 b, TOI-4137 b, TOI-4137b",0,0,,,,False
+TOI-4145Ab,"TOI 4145Ab, TOI-4145Ab",0,0,,,,False
+TOI-4308b,"TOI 4308 b, TOI-4308 b, TOI-4308b",0,0,,,,False
+TOI-4342b,"TOI 4342 b, TOI-4342 b, TOI-4342b",1,1,2026-04-00,"Densities of small planets around the M dwarfs TOI-4336 A and TOI-4342 with ESPRESSO: Three sub-Neptunes, one super-Earth, and a Neptune-mass candidate",2026A&A...708A..81P,True
 TOI-4342c,"TOI 4342 c, TOI-4342 c, TOI-4342c",1,1,2026-04-00,"Densities of small planets around the M dwarfs TOI-4336 A and TOI-4342 with ESPRESSO: Three sub-Neptunes, one super-Earth, and a Neptune-mass candidate",2026A&A...708A..81P,True
 TOI-4406b,"TOI 4406 b, TOI-4406 b, TOI-4406b",0,0,,,,False
 TOI-4463Ab,"TOI 4463Ab, TOI-4463Ab",0,0,,,,False
 TOI-4479b,"TOI 4479 b, TOI-4479 b, TOI-4479b",1,2,2026-08-00,A Refined Orbital Period for TOI-4479 b from an Extended TESS Baseline,2026RNAAS..10..231Z,True
 TOI-4600b,"TOI 4600 b, TOI-4600 b, TOI-4600b",1,1,2026-04-00,RV and TTV Measurements of Two Transiting Long-Period Giants around TOI-4600,2026arXiv260426426H,True
-TOI-4600c,TOI-4600c,0,0,,,,False
+TOI-4600c,"TOI 4600 c, TOI-4600 c, TOI-4600c",1,1,2026-04-00,RV and TTV Measurements of Two Transiting Long-Period Giants around TOI-4600,2026arXiv260426426H,True
 TOI-4603b,"TOI 4603 b, TOI-4603 b, TOI-4603b",0,1,,,,False
 TOI-4791b,"TOI 4791 b, TOI-4791 b, TOI-4791b",0,0,,,,False
 TOI-5678b,"TOI 5678 b, TOI-5678 b, TOI-5678b",0,3,,,,False
 TOI-5704b,"TOI 5704 b, TOI-5704 b, TOI-5704b",0,0,,,,False
 TOI-5803b,"TOI 5803 b, TOI-5803 b, TOI-5803b",0,0,,,,False
-TRAPPIST-1b,"TRAPPIST 1 b, TRAPPIST-1 b, TRAPPIST-1b",15,56,2026-10-00,Radial velocity detection of the TRAPPIST-1 planetary system with SPIRou and NIRPS,2026A&A...714A.359L,True
+TRAPPIST-1b,"TRAPPIST 1 b, TRAPPIST-1 b, TRAPPIST-1b",14,55,2026-10-00,Radial velocity detection of the TRAPPIST-1 planetary system with SPIRou and NIRPS,2026A&A...714A.359L,True
 TRAPPIST-1c,"TRAPPIST 1 c, TRAPPIST-1 c, TRAPPIST-1c",6,33,2026-09-00,Detecting atmospheres in the presence of stellar contamination: an empirically calibrated framework applied to four JWST/NIRSpec PRISM transits of TRAPPIST-1c,2026arXiv260937722R,True
 TRAPPIST-1d,"TRAPPIST 1 d, TRAPPIST-1 d, TRAPPIST-1d",2,11,2026-06-00,Coupled Photochemical─Climate Modeling of Plausible Tenuous Outgassed Atmospheres on the TRAPPIST-1 Planets,2026PSJ.....7..150G,True
-TRAPPIST-1e,"TRAPPIST 1 e, TRAPPIST-1 e, TRAPPIST-1e",22,87,2026-10-00,Efficient reduction of stellar contamination and noise in planetary transmission spectra using neural networks,2026A&A...714A.453D,True
+TRAPPIST-1e,"TRAPPIST 1 e, TRAPPIST-1 e, TRAPPIST-1e",22,87,2026-11-00,Sea ice as an origin of life location for hycean and ocean worlds,2026MNRAS.553g1974B,True
 TRAPPIST-1f,"TRAPPIST 1 f, TRAPPIST-1 f, TRAPPIST-1f",7,21,2026-10-00,Atmospheric Reconnaissance of TRAPPIST-1 f with JWST NIRISS SOSS: No Evidence for the Transit Light Source Effect,2026AJ....172..200L,True
 TRAPPIST-1g,"TRAPPIST 1 g, TRAPPIST-1 g, TRAPPIST-1g",0,4,,,,False
 TRAPPIST-1h,"TRAPPIST 1 h, TRAPPIST-1 h, TRAPPIST-1h",2,8,2026-10-00,On-sky performance and prospects of near-infrared CMOS detectors in exoplanet detection: first year of SPIRIT,2026arXiv261019902J,True
-TrES-1b,"TrES 1 b, TrES-1 b, TrES-1b",95,270,2026-11-00,"A Clearer View of HAT-P-1 b: JWST NIRSpec G395H Reveals Water, Carbon Dioxide, and Possibly Hydrogen Sulfide",2026AJ....172..275A,True
-TrES-2b,"TrES 2 b, TrES-2 b, TrES-2b",53,138,2026-11-00,The KAGG Survey: KCWI Analysis of Gas around Galaxies at z ≈ 3-5,2026ApJ..1011...60O,True
-TrES-3b,"TrES 3 b, TrES-3 b, TrES-3b",27,86,2026-10-00,Core-Collapse Supernovae from Single and Binary-Stripped Massive Stars - I. Explodability and Nucleosynthesis,2026arXiv261033954P,True
-TrES-4b,"TrES 4 b, TrES-4 b, TrES-4b",23,64,2026-12-00,Optical stealth and spectroscopic sensitivity of minimally deformed Schwarzschild black holes sourced by scalar-vector fields,2026PDU....5402491A,True
-TrES-5b,"TrES 5 b, TrES-5 b, TrES-5b",16,54,2026-09-00,The CRIMSON survey I: super-stellar SiO in the directly imaged companion TWA 5 B from high-resolution M-band spectroscopy,2026MNRAS.551g1050P,True
+TrES-1b,"TrES 1 b, TrES-1 b, TrES-1b",91,265,2026-11-00,Astrometric planet search around southern ultracool dwarfs: V. Discovery of the exoplanet candidate PALTA-1 b,2026A&A...715A.139S,True
+TrES-2b,"TrES 2 b, TrES-2 b, TrES-2b",54,139,2026-12-00,Kerr-Bertotti-Robinson black holes surrounded by a cloud of strings,2026AnPhy.49570736A,True
+TrES-3b,"TrES 3 b, TrES-3 b, TrES-3b",26,85,2026-10-00,Core-Collapse Supernovae from Single and Binary-Stripped Massive Stars - I. Explodability and Nucleosynthesis,2026arXiv261033954P,True
+TrES-4b,"TrES 4 b, TrES-4 b, TrES-4b",20,61,2026-12-00,Optical stealth and spectroscopic sensitivity of minimally deformed Schwarzschild black holes sourced by scalar-vector fields,2026PDU....5402491A,True
+TrES-5b,"TrES 5 b, TrES-5 b, TrES-5b",16,54,2026-11-00,General-relativistic neutrino-radiation hydrodynamics of crust ejection in magnetar giant flares,2026arXiv261107022P,True
 V1298Taub,V1298Taub,2,2,2026-10-00,The GAPS Programme at TNG LXXXI. The puzzle of the HeI absorption signal in the atmosphere of V1298 Tau b with GIARPS@TNG,2026arXiv261032815G,True
 V1298Tauc,V1298Tauc,0,0,,,,False
 V1298Taud,V1298Taud,0,0,,,,False
@@ -611,14 +611,14 @@ WASP-7b,"WASP 7 b, WASP-7 b, WASP-7b",0,0,,,,False
 WASP-8b,"WASP 8 b, WASP-8 b, WASP-8b",1,1,2026-02-00,Determining a Modern Value of the Orbital Period of WASP-8b Using TESS Data,2026AAS...24720806B,True
 WASP-10b,"WASP 10 b, WASP-10 b, WASP-10b",0,2,,,,False
 WASP-11b,"WASP 11 b, WASP-11 b, WASP-11b",2,3,2026-06-00,Investigation of Transit Timing and an Optical Transmission Spectrum of the Hot Jupiter WASP-11 b,2026AJ....171..334A,True
-WASP-12b,"WASP 12 b, WASP-12 b, WASP-12b",19,51,2026-10-00,Tilting WASP-12b Doesn't Solve the Mystery of Its Inspiral,2026nova.pres16321H,True
-WASP-13b,"WASP 13 b, WASP-13 b, WASP-13b",2,2,2026-10-00,The GAPS programme at TNG LXXXII. The first atmospheric investigation of the gas giant WASP-13 b at high resolution with GIARPS<SUB></SUB>,2026MNRAS.tmp.1783S,True
+WASP-12b,"WASP 12 b, WASP-12 b, WASP-12b",19,51,2026-11-00,Prospects for detecting hot-Jupiter tidal decay through transit timing with the mission Earth 2.0,2026arXiv261107427W,True
+WASP-13b,"WASP 13 b, WASP-13 b, WASP-13b",2,2,2026-12-00,The GAPS programme at TNG LXXXII. The first atmospheric investigation of the gas giant WASP-13 b at high resolution with GIARPS,2026MNRAS.553g1927S,True
 WASP-14b,"WASP 14 b, WASP-14 b, WASP-14b",0,1,,,,False
 WASP-15b,"WASP 15 b, WASP-15 b, WASP-15b",0,1,,,,False
 WASP-16b,"WASP 16 b, WASP-16 b, WASP-16b",0,0,,,,False
-WASP-17b,"WASP 17 b, WASP-17 b, WASP-17b",15,41,2026-10-00,Spatial variability of CH<SUB>4</SUB>-to-CO conversion pathways in irradiated gas giant atmospheres: implications for chemical relaxation and 1D quench schemes,2026MNRAS.tmp.1897Z,True
+WASP-17b,"WASP 17 b, WASP-17 b, WASP-17b",13,39,2026-10-00,A spatial map of the atmospheric limb of a hot Jupiter,2026NatAs.tmp..226A,True
 WASP-18b,"WASP 18 b, WASP-18 b, WASP-18b",10,22,2026-08-00,Breaking the brightness barrier: JWST/NIRCam DHS spectroscopy for high-precision time-series observations,2026SPIE14145E..0MD,True
-WASP-19b,"WASP 19 b, WASP-19 b, WASP-19b",6,16,2026-10-00,The effect of the atmospheric C/O ratio on interiors of hot Jupiters,2026MNRAS.552g1694V,True
+WASP-19b,"WASP 19 b, WASP-19 b, WASP-19b",5,15,2026-10-00,The effect of the atmospheric C/O ratio on interiors of hot Jupiters,2026MNRAS.552g1694V,True
 WASP-20b,"WASP 20 b, WASP-20 b, WASP-20b",0,0,,,,False
 WASP-21b,"WASP 21 b, WASP-21 b, WASP-21b",0,0,,,,False
 WASP-22b,"WASP 22 b, WASP-22 b, WASP-22b",0,0,,,,False
@@ -636,10 +636,10 @@ WASP-35b,"WASP 35 b, WASP-35 b, WASP-35b",0,2,,,,False
 WASP-36b,"WASP 36 b, WASP-36 b, WASP-36b",0,0,,,,False
 WASP-37b,"WASP 37 b, WASP-37 b, WASP-37b",0,0,,,,False
 WASP-38b,"WASP 38 b, WASP-38 b, WASP-38b",0,0,,,,False
-WASP-39b,"WASP 39 b, WASP-39 b, WASP-39b",29,102,2026-09-00,Calibration of an Analog-to-Digital Conversion Nonlinearity in JWST/NIRISS,2026PASP..138i4506D,True
+WASP-39b,"WASP 39 b, WASP-39 b, WASP-39b",28,101,2026-09-00,Calibration of an Analog-to-Digital Conversion Nonlinearity in JWST/NIRISS,2026PASP..138i4506D,True
 WASP-41b,"WASP 41 b, WASP-41 b, WASP-41b",0,0,,,,False
 WASP-42b,"WASP 42 b, WASP-42 b, WASP-42b",0,0,,,,False
-WASP-43b,"WASP 43 b, WASP-43 b, WASP-43b",6,34,2026-10-00,"Phase-dependent chemistry of WASP-43 b revealed with a suite of one-, two-, and three-dimensional models",2026A&A...714A..21B,True
+WASP-43b,"WASP 43 b, WASP-43 b, WASP-43b",5,33,2026-10-00,"Phase-dependent chemistry of WASP-43 b revealed with a suite of one-, two-, and three-dimensional models",2026A&A...714A..21B,True
 WASP-44b,"WASP 44 b, WASP-44 b, WASP-44b",0,0,,,,False
 WASP-45b,"WASP 45 b, WASP-45 b, WASP-45b",0,0,,,,False
 WASP-46b,"WASP 46 b, WASP-46 b, WASP-46b",0,2,,,,False
@@ -647,7 +647,7 @@ WASP-47b,"WASP 47 b, WASP-47 b, WASP-47b",1,3,2026-09-00,The Dearth of Nearby Ou
 WASP-48b,"WASP 48 b, WASP-48 b, WASP-48b",0,1,,,,False
 WASP-49b,"WASP 49 b, WASP-49 b, WASP-49b",0,3,,,,False
 WASP-50b,"WASP 50 b, WASP-50 b, WASP-50b",1,2,2026-05-00,High-resolution Spectroscopic Atmospheric Studies of Five Hot Jupiters Across the Edge of the Neptune Desert,2026AJ....171..269J,True
-WASP-52b,"WASP 52 b, WASP-52 b, WASP-52b",5,11,2026-10-00,JWST MEP-A World Under Spotty Starlight: Detection of CO<SUB>2</SUB> and H<SUB>2</SUB>O in the Hot Saturn WASP-52b with JWST NIRSpec G395H,2026AJ....172..234P,True
+WASP-52b,"WASP 52 b, WASP-52 b, WASP-52b",4,10,2026-10-00,JWST MEP-A World Under Spotty Starlight: Detection of CO<SUB>2</SUB> and H<SUB>2</SUB>O in the Hot Saturn WASP-52b with JWST NIRSpec G395H,2026AJ....172..234P,True
 WASP-53b,"WASP 53 b, WASP-53 b, WASP-53b",0,0,,,,False
 WASP-54b,"WASP 54 b, WASP-54 b, WASP-54b",0,0,,,,False
 WASP-55b,"WASP 55 b, WASP-55 b, WASP-55b",1,1,2026-02-00,Searching for Atmospheric Escape with the Magellan Inamori Kyocera Echelle Spectrograph,2026AAS...24711403W,True
@@ -664,18 +664,18 @@ WASP-65b,"WASP 65 b, WASP-65 b, WASP-65b",0,0,,,,False
 WASP-66b,"WASP 66 b, WASP-66 b, WASP-66b",0,0,,,,False
 WASP-67b,"WASP 67 b, WASP-67 b, WASP-67b",0,0,,,,False
 WASP-68b,"WASP 68 b, WASP-68 b, WASP-68b",0,0,,,,False
-WASP-69b,"WASP 69 b, WASP-69 b, WASP-69b",12,43,2026-09-00,Chemical Tracers for 3D Atmospheric Asymmetries on WASP-69 b,2026ApJ..1008..245B,True
+WASP-69b,"WASP 69 b, WASP-69 b, WASP-69b",13,44,2026-11-00,The tale of the three planets: 3D cloud feedback increases the spectral diversity of warm Jupiters,2026A&A...715A..67M,True
 WASP-70Ab,"WASP 70Ab, WASP-70Ab",0,0,,,,False
 WASP-71b,"WASP 71 b, WASP-71 b, WASP-71b",0,0,,,,False
 WASP-72b,"WASP 72 b, WASP-72 b, WASP-72b",0,0,,,,False
 WASP-73b,"WASP 73 b, WASP-73 b, WASP-73b",0,0,,,,False
 WASP-74b,"WASP 74 b, WASP-74 b, WASP-74b",0,0,,,,False
 WASP-75b,"WASP 75 b, WASP-75 b, WASP-75b",0,0,,,,False
-WASP-76b,"WASP 76 b, WASP-76 b, WASP-76b",9,37,2026-10-00,Searching for molecular signatures in 14 transiting exoplanets with SPIRou,2026A&A...714A.261M,True
+WASP-76b,"WASP 76 b, WASP-76 b, WASP-76b",8,36,2026-10-00,Searching for molecular signatures in 14 transiting exoplanets with SPIRou,2026A&A...714A.261M,True
 WASP-77Ab,"WASP 77Ab, WASP-77Ab",0,6,,,,False
 WASP-78b,"WASP 78 b, WASP-78 b, WASP-78b",0,1,,,,False
 WASP-79b,"WASP 79 b, WASP-79 b, WASP-79b",1,1,2026-01-00,PLATOSpec: a precise spectrograph in support of space missions,2026MNRAS.545f1972K,True
-WASP-80b,"WASP 80 b, WASP-80 b, WASP-80b",10,25,2026-10-00,JWST Color Sequence of Transiting Exoplanets and Directly Imaged Substellar Objects,2026AJ....172..237F,True
+WASP-80b,"WASP 80 b, WASP-80 b, WASP-80b",10,25,2026-11-00,The tale of the three planets: 3D cloud feedback increases the spectral diversity of warm Jupiters,2026A&A...715A..67M,True
 WASP-81b,"WASP 81 b, WASP-81 b, WASP-81b",1,1,2026-10-00,A Sample of Thick-Disk Stars Hosting Hot Jupiters,2026arXiv261022254D,True
 WASP-82b,"WASP 82 b, WASP-82 b, WASP-82b",0,0,,,,False
 WASP-83b,"WASP 83 b, WASP-83 b, WASP-83b",0,0,,,,False
@@ -700,7 +700,7 @@ WASP-103b,"WASP 103 b, WASP-103 b, WASP-103b",1,10,2026-04-00,The First Dedicate
 WASP-104b,"WASP 104 b, WASP-104 b, WASP-104b",1,2,2026-02-00,Refining The Ephemerides of 6 Hot Jupiters Through Citizen Science: Results from a Course-Based Undergraduate Research Experience,2026AAS...24720801H,True
 WASP-105b,"WASP 105 b, WASP-105 b, WASP-105b",0,1,,,,False
 WASP-106b,"WASP 106 b, WASP-106 b, WASP-106b",1,5,2026-05-00,"VizieR Online Data Catalog: RV &amp; light curves of 8 gas giant systems (Espinoza-Retamal+, 2025)",2026yCat..51700070E,True
-WASP-107b,"WASP 107 b, WASP-107 b, WASP-107b",24,62,2026-10-00,Interplanetary Dust Ablation Seeds Silicate Clouds in Exoplanet Atmospheres,2026ApJ..1010..202K,True
+WASP-107b,"WASP 107 b, WASP-107 b, WASP-107b",23,60,2026-11-00,The tale of the three planets: 3D cloud feedback increases the spectral diversity of warm Jupiters,2026A&A...715A..67M,True
 WASP-110b,"WASP 110 b, WASP-110 b, WASP-110b",0,0,,,,False
 WASP-113b,"WASP 113 b, WASP-113 b, WASP-113b",0,0,,,,False
 WASP-114b,"WASP 114 b, WASP-114 b, WASP-114b",0,0,,,,False
@@ -712,7 +712,7 @@ WASP-121b,"WASP 121 b, WASP-121 b, WASP-121b",24,66,2026-11-00,ExoEcho: Exoplane
 WASP-123b,"WASP 123 b, WASP-123 b, WASP-123b",0,0,,,,False
 WASP-124b,"WASP 124 b, WASP-124 b, WASP-124b",0,0,,,,False
 WASP-126b,"WASP 126 b, WASP-126 b, WASP-126b",0,1,,,,False
-WASP-127b,"WASP 127 b, WASP-127 b, WASP-127b",5,17,2026-10-00,Searching for molecular signatures in 14 transiting exoplanets with SPIRou,2026A&A...714A.261M,True
+WASP-127b,"WASP 127 b, WASP-127 b, WASP-127b",4,16,2026-10-00,Searching for molecular signatures in 14 transiting exoplanets with SPIRou,2026A&A...714A.261M,True
 WASP-129b,"WASP 129 b, WASP-129 b, WASP-129b",0,0,,,,False
 WASP-130b,"WASP 130 b, WASP-130 b, WASP-130b",1,3,2026-05-00,"VizieR Online Data Catalog: RV &amp; light curves of 8 gas giant systems (Espinoza-Retamal+, 2025)",2026yCat..51700070E,True
 WASP-131b,"WASP 131 b, WASP-131 b, WASP-131b",0,1,,,,False
@@ -756,7 +756,7 @@ WASP-176b,"WASP 176 b, WASP-176 b, WASP-176b",0,0,,,,False
 WASP-177b,"WASP 177 b, WASP-177 b, WASP-177b",1,1,2026-03-00,"HET/HPF Observations of Helium in Warm, Hot, and Ultrahot Jupiters",2026AJ....171..194O,True
 WASP-178b,"WASP 178 b, WASP-178 b, WASP-178b",3,15,2026-10-00,High-resolution Dayside Spectroscopy of the Ultrahot Jupiter WASP-178 b with Gemini South/GHOST,2026AJ....172..194B,True
 WASP-180Ab,"WASP 180Ab, WASP-180Ab",0,0,,,,False
-WASP-181b,WASP-181b,0,0,,,,False
+WASP-181b,"WASP 181 b, WASP-181 b, WASP-181b",0,0,,,,False
 WASP-182b,"WASP 182 b, WASP-182 b, WASP-182b",0,0,,,,False
 WASP-183b,"WASP 183 b, WASP-183 b, WASP-183b",0,0,,,,False
 WASP-184b,"WASP 184 b, WASP-184 b, WASP-184b",0,0,,,,False
@@ -764,12 +764,12 @@ WASP-185b,"WASP 185 b, WASP-185 b, WASP-185b",0,0,,,,False
 WASP-186b,"WASP 186 b, WASP-186 b, WASP-186b",0,0,,,,False
 WASP-187b,"WASP 187 b, WASP-187 b, WASP-187b",0,0,,,,False
 WASP-189b,"WASP 189 b, WASP-189 b, WASP-189b",8,23,2026-09-00,"Cross-correlation transmission spectroscopy of ultra-hot Jupiters WASP-189b, HAT-P-57b, KELT-17b, and KELT-21b with GIANO-B",2026A&A...713A..66M,True
-WASP-190b,WASP-190b,0,0,,,,False
+WASP-190b,"WASP 190 b, WASP-190 b, WASP-190b",0,0,,,,False
 WASP-192b,"WASP 192 b, WASP-192 b, WASP-192b",0,0,,,,False
 Wolf503b,"Wolf503 b, Wolf503b",0,0,,,,False
 XO-1b,"XO 1 b, XO-1 b, XO-1b",0,1,,,,False
 XO-2Nb,"XO 2Nb, XO-2Nb",0,1,,,,False
-XO-3b,"XO 3 b, XO-3 b, XO-3b",5,8,2026-06-00,The Near-UV Transit of XO-3 b,2026ASTCS..1100120C,True
+XO-3b,"XO 3 b, XO-3 b, XO-3b",5,8,2026-06-00,The Near-ultraviolet Transit of XO-3 b,2026AJ....171..370C,True
 XO-4b,"XO 4 b, XO-4 b, XO-4b",0,0,,,,False
 XO-5b,"XO 5 b, XO-5 b, XO-5b",0,0,,,,False
 XO-6b,"XO 6 b, XO-6 b, XO-6b",0,1,,,,False
